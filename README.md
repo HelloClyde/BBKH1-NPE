@@ -1,7 +1,8 @@
 # H1 NPE 引擎移植
 
 将 [noah-npe-engine](https://github.com/HelloClyde/noah-npe-engine) 移植到步步高 H1 / Y100 原生 BDA。
-硬件平台参考 [BBKH1-GBA](https://github.com/HelloClyde/BBKH1-GBA)。这是独立的本地移植项目。
+硬件平台参考 [BBKH1-GBA](https://github.com/HelloClyde/BBKH1-GBA)。这是独立的 H1 移植项目。
+项目仓库：[HelloClyde/BBKH1-NPE](https://github.com/HelloClyde/BBKH1-NPE)。
 
 H1 桌面和应用列表显示名称为 **诺亚舟NPE**；安装文件名为 `H1NPE.bda`。
 
@@ -83,4 +84,4 @@ SDL2 本身不参与 H1 编译。`src/platform/SDL.h` 仅实现本引擎所需�
 ## 来源与许可
 
 见 `NOTICE.md`。NPE 上游目前未授予项目源码开源许可证，此移植没有改变其授权状态。
-安装包不包含游戏资源；当前项目未发布到 GitHub。
+安装包不包含游戏资源。
