@@ -46,7 +46,7 @@ def verify_dependency(repo, revision, parser):
 
 def write_package_file(package, path, name):
     data = path.read_bytes()
-    if path.suffix in ('.md', '.txt'):
+    if path.suffix in ('.md', '.txt') or path.name in ('LICENSE', 'COPYING'):
         data = data.replace(b'\r\n', b'\n')
     info = zipfile.ZipInfo(name, (2026, 10, 11, 0, 0, 0))
     info.compress_type = zipfile.ZIP_DEFLATED

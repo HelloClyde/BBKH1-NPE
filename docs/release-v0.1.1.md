@@ -5,6 +5,7 @@
 - NPE 上游原创源码已由项目所有者按 GPL-2.0-only 授权，根目录含 `LICENSE` 和 `NOTICE.md`。
 - H1 固定 NPE 提交更新为 `7e156527d2d668b666fc203df2aadb929ab83de1`。
 - 安装包新增上游许可证及来源说明，完整源码包包含带许可证的固定依赖。
+- 无扩展名 LICENSE 文件在打包时统一行尾，保证 Windows 检出也能通过许可完整性检查。
 - README 与 NOTICE 更新许可范围；SDK、字体及游戏画面的独立来源保持明确。
 
 此次上游仅更新 LICENSE、NOTICE 和 README，没有修改引擎代码。
