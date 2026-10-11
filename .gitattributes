@@ -1,0 +1,5 @@
+* text=auto eol=lf
+*.png -text
+*.bin -text
+*.bda -text
+*.zip -text
