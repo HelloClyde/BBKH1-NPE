@@ -1,0 +1,6 @@
+[submodule "vendor/h1-sdk"]
+	path = vendor/h1-sdk
+	url = https://github.com/MrDefinition1999/bbk-h1-bda-sdk.git
+[submodule "third_party/noah-npe-engine"]
+	path = third_party/noah-npe-engine
+	url = https://github.com/HelloClyde/noah-npe-engine.git
