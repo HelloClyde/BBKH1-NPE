@@ -53,7 +53,9 @@
   本次长流程有 1 次环形缓冲欠载，不能据此声称声音始终连续或真机流畅。
 - Escape 正常返回桌面，日志以 `APP_END result=0` 结束。
 - 选择器取消会进入游戏显示模式，移植层配对调用窗口开/关以恢复桌面。
-  此取消分支和错误分支目前由 MIPS 服务表测试覆盖，完整固件未重复验收。
+  取消分支已补充完整固件验收：未选择 NPE，点击选择器右上角关闭按钮或按 Escape，
+  都返回原生桌面；返回后可继续翻页。日志为 `SELECT status=0`、`APP_END result=0`。
+  证据见 `docs/evidence/picker-cancel.json`。加载错误分支仍仅由 MIPS 服务表测试覆盖。
 
 报告：`build/firmware/native-verification.json`；复核命令：
 

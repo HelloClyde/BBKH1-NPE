@@ -1,0 +1,35 @@
+{
+  "ok": true,
+  "date": "2026-10-11",
+  "bda_sha256": "b5fc1995f88365665aa38daa5fac18f6e0f6f26372482d79ac6fd9285fffa690",
+  "kernel_sha256": "d05786e442f9aad62a8d0a0cb4f6d786bdc7c2fa353a7a2b152c9ed9f01b40ef",
+  "environment": "H1 V1.41 firmware under QEMU bbkh1; independent writable NAND",
+  "manual_checked": [
+    "Open file picker without selecting NPE; touch top-right close; desktop restored",
+    "Reopen file picker without selecting NPE; Escape; desktop restored",
+    "Swipe restored desktop to another page; native UI responds"
+  ],
+  "log": "docs/evidence/picker-cancel.log",
+  "log_sha256": "6099e9841cbc5d357726d49c9030d38f9297906f785dff6cfc75e6a2bb582815",
+  "log_scope": "Final Escape cancellation run; application truncates log at startup",
+  "screenshots": [
+    {
+      "file": "assets/screenshots/npe-cancel-picker.png",
+      "sha256": "eed0777ade2615bd826523495faba165181734e4c3c97924144a7b91b9a3edeb"
+    },
+    {
+      "file": "assets/screenshots/npe-cancel-touch-desktop.png",
+      "sha256": "1c4b12f31e09797f280916c1cfe5aeb92d8da18a04ec29d467a3fb4237d4c881"
+    },
+    {
+      "file": "assets/screenshots/npe-cancel-key-desktop.png",
+      "sha256": "89157d8d64d0a7c149b06f3db471b7bf302ff1c6eecc40f36c18050b4263786c"
+    },
+    {
+      "file": "assets/screenshots/npe-cancel-desktop-responsive.png",
+      "sha256": "1f8be6514fed3a280160ef0aca21266ff8987b7d1bf10d3fff32957b6cd715f1"
+    }
+  ],
+  "torn_records": 0,
+  "hardware_tested": false
+}

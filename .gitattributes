@@ -3,3 +3,4 @@
 *.bin -text
 *.bda -text
 *.zip -text
+*.log -text
