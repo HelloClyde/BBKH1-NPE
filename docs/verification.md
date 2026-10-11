@@ -3,10 +3,14 @@
 日期：2026-10-11。正式 BDA 与安装 ZIP 由 `tools/build.py` 生成。
 准确的源码版本、编译器、文件大小与 SHA-256 见 `dist/H1NPE.build.json`。
 
-发布流程补齐记录：`docs/release-v0.1.0.md`；Release 的自动门禁记录
-`docs/evidence/release-v0.1.0.json` 固定正式 BDA 与可执行载荷摘要。
+当前发布记录：`docs/release-v0.1.1.md`；Release 的自动门禁记录
+`docs/evidence/release-v0.1.1.json` 固定正式 BDA 与可执行载荷摘要。
 `main` / PR 的 CI 使用公开且不带游戏的 MIPS 取消/坏资源测试，不运行完整固件模拟器。
 安装 ZIP 使用固定时间戳和文本行尾；固定工具链、Pillow 版本下可重复生成。
+
+`v0.1.1` 更新 NPE 子模块到包含 GPL-2.0 许可证的提交；上游只改 LICENSE、NOTICE 和 README。
+正式 BDA 与 `v0.1.0` 逐字节一致，版本、依赖元数据与安装包中的授权说明更新。
+原 `v0.1.0` 发布说明与证据保留当时的提交及授权状态，不替换历史记录。
 
 ## 构建与内存
 

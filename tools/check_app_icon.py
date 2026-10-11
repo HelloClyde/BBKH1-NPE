@@ -47,6 +47,8 @@ def main():
     with zipfile.ZipFile(archive) as package:
         assert package.testzip() is None
         assert package.read('应用/程序/H1NPE.bda') == data
+        assert package.read('NPE/assets/NPE-ENGINE-LICENSE.txt') == (ROOT/'third_party/noah-npe-engine/LICENSE').read_bytes().replace(b'\r\n', b'\n')
+        assert package.read('NPE/assets/NPE-ENGINE-NOTICE.md') == (ROOT/'third_party/noah-npe-engine/NOTICE.md').read_bytes().replace(b'\r\n', b'\n')
     assert archive.with_suffix('.zip.sha256').read_text().split() == [
         hashlib.sha256(archive.read_bytes()).hexdigest(), archive.name]
     work = ROOT/'build/icon-design'

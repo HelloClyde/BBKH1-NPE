@@ -10,8 +10,8 @@ H1 桌面和应用列表显示名称为 **诺亚舟NPE**；安装文件名为 `H
 
 适用于步步高 **H1 / Y100 V1.41 原生 BDA 环境**。
 从 [GitHub Releases](https://github.com/HelloClyde/BBKH1-NPE/releases) 下载
-`BBKH1-NPE-v0.1.0-install.zip`，安装包包含程序和所需字体，游戏文件需自行准备。
-首版为预发布，验证范围见本文下方。
+`BBKH1-NPE-v0.1.1-install.zip`，安装包包含程序和所需字体，游戏文件需自行准备。
+当前版本为预发布，验证范围见本文下方。
 
 解压 `dist/H1NPE-install.zip`，将 `应用` 和 `NPE` 两个文件夹合并到 H1 的 A 盘：
 
@@ -69,7 +69,7 @@ A:\NPE\assets\gbk16-native.bin
 | 开发依赖 | 固定版本与用途 |
 | --- | --- |
 | [H1 BDA SDK](https://github.com/MrDefinition1999/bbk-h1-bda-sdk) | `vendor/h1-sdk`，提交 `067fe072477861dfc8949d7b1a55279fb92d2548`；H1 接口、打包和校验 |
-| [NPE 引擎](https://github.com/HelloClyde/noah-npe-engine) | `third_party/noah-npe-engine`，提交 `942b645ba26693db43c32375f28d53d32d1da099`；C 引擎和原生字体 |
+| [NPE 引擎](https://github.com/HelloClyde/noah-npe-engine) | `third_party/noah-npe-engine`，提交 `7e156527d2d668b666fc203df2aadb929ab83de1`；GPL-2.0 源码及单独记录来源的原生字体 |
 | Windows GNU MIPS 工具链 | GCC 15.2.0；安装器验证归档 SHA256，工具前缀 `mipsel-none-elf-` |
 | Python / Git | Python 3.10+；CI 使用 Python 3.12 和 Windows runner，Git 用于固定依赖和源码打包 |
 | Pillow | 12.3.0，生成 H1 四份图标资源，锁定于 `requirements.txt` |
@@ -136,18 +136,19 @@ CI 不携带游戏和固件，因此不会把 CI 成功描述为完整固件或�
 
 `v*` 标签触发 Release；标签须匹配 `VERSION`。发布复用同一次 CI 的构建产物，
 下载后校验 `SHA256SUMS.txt`，仅发布 job 具有写入权限。
-首版 `v0.1.0` 使用预发布标记，含 BDA、安装 ZIP、完整源码 ZIP、构建/验证信息和 SHA256 清单。
+`v0.1.1` 使用预发布标记，含 BDA、安装 ZIP、完整源码 ZIP、构建/验证信息和 SHA256 清单。
 维护者在干净提交上执行 `python tools/package_release.py` 可生成 `dist/release/`。
 
 ## 感谢
 
 - HelloClyde：NPE 引擎和 BBKH1-GBA 项目，提供引擎实现及 H1 硬件适配参考。
 - MrDefinition1999：H1 BDA SDK、资源格式与原生接口验证资料。
-- Adobe / Noto Sans CJK 字体贡献者：中文 GBK 与菜单字形的字体来源。
+- Noto Sans CJK 字体贡献者：暂停菜单字形的字体来源；游戏内原生字库来源见上游 `FONT-PROVENANCE.txt`。
 
 ## 来源与许可
 
 本仓库 H1 适配层、构建/打包脚本及测试按 GPL-2.0 发布，见 `LICENSE` 和 `NOTICE.md`。
-SDK、字体和素材分别按其来源许可；NPE 上游固定提交缺少源码许可证，此移植没有改变其授权状态。
-因此不能将此仓库的 GPL-2.0 扩展到整个上游 NPE 引擎；需要复用引擎时应确认上游授权。
+NPE 上游的原创引擎、前端、工具和测试源码采用 GPL-2.0-only；许可文本和范围见
+`third_party/noah-npe-engine/LICENSE`、`NOTICE.md`。H1 安装包保留上游的许可证与来源说明。
+SDK、字体和素材仍分别遵循各自来源；GPL 源码授权不扩展到原机字形、游戏截图或其他第三方资源。
 安装包不包含游戏资源。

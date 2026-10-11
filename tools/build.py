@@ -13,7 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SDK = ROOT / 'vendor/h1-sdk'
 UPSTREAM = ROOT / 'third_party/noah-npe-engine'
 SDK_COMMIT = '067fe072477861dfc8949d7b1a55279fb92d2548'
-NPE_COMMIT = '942b645ba26693db43c32375f28d53d32d1da099'
+NPE_COMMIT = '7e156527d2d668b666fc203df2aadb929ab83de1'
 CORE_SOURCES = ['main.c', 'sound_sdl.c', 'npe.c', 'audio.c', 'audio_decode.c',
                 'world.c', 'save.c', 'gbk.c', 'text.c']
 APP_SOURCES = ['src/runtime/entry.S', 'src/runtime/startup.c', 'src/libc/freestanding.c',
@@ -151,6 +151,8 @@ def main():
         write_package_file(package, ROOT/'README.md', 'NPE/README.md')
         write_package_file(package, ROOT/'NOTICE.md', 'NPE/NOTICE.md')
         write_package_file(package, ROOT/'LICENSE', 'NPE/LICENSE.txt')
+        write_package_file(package, UPSTREAM/'LICENSE', 'NPE/assets/NPE-ENGINE-LICENSE.txt')
+        write_package_file(package, UPSTREAM/'NOTICE.md', 'NPE/assets/NPE-ENGINE-NOTICE.md')
         write_package_file(package, ROOT/'assets/README.md', 'NPE/assets/README.md')
         write_package_file(package, ROOT/'docs/verification.md','NPE/verification.md')
         write_package_file(package, ROOT/'assets/licenses/NotoSansCJK-OFL.txt', 'NPE/assets/NotoSansCJK-OFL.txt')
