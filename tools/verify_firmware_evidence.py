@@ -8,8 +8,13 @@ def main():
     work=ROOT/'build/firmware'
     log=(work/'final-run.log').read_bytes().decode('gbk')
     build=json.loads((work/'image-build.json').read_text(encoding='utf-8'))
-    digest=hashlib.sha256((ROOT/'dist/H1NPE.bda').read_bytes()).hexdigest()
+    captured=(work/'files/应用/程序/黑白子.bda').read_bytes()
+    current=(ROOT/'dist/H1NPE.bda').read_bytes()
+    digest=hashlib.sha256(captured).hexdigest()
     assert build['bda_sha256']==digest,'Captured firmware used a different BDA'
+    # Preserve the original evidence identity after a menu-artwork-only update.
+    # This checks executable equivalence, not the updated icon's firmware rendering.
+    assert current[:0x88]==captured[:0x88] and current[0x785c:]==captured[0x785c:], 'Current executable/header differs from firmware evidence'
     assert 'APP_END result=0' in log and 'AUDIO_OPEN_END ready=1' in log
     audio=re.search(r'AUDIO_CLOSE_BEGIN batches=(\d+) submitted=(\d+) nonzero=(\d+) dropped=(\d+) failures=(\d+) underruns=(\d+)',log)
     assert audio
@@ -30,7 +35,8 @@ def main():
     status=json.loads((work/'active-audio.json').read_text())
     assert status['sample_rate']==32000 and status['frames']>0
     report=dict(ok=True,kind='Full H1 V1.41 firmware under QEMU bbkh1',
-        sha256=digest,npe_bytes=3751913,kernel_sha256=build['kernel_sha256'],
+        sha256=digest,current_sha256=hashlib.sha256(current).hexdigest(),
+        current_payload_identical=True,npe_bytes=3751913,kernel_sha256=build['kernel_sha256'],
         manual_checked=['system NPE picker','opening/title/map','physical Back opens menu',
                         'save slot 2','move and reload slot 2','touch pause','touch 1x',
                         'physical P pause','Escape restores desktop'],

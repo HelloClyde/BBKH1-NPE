@@ -10,5 +10,9 @@
 - 暂停菜单和触摸栏字形：Noto Sans CJK SC 子集，SIL OFL 1.1，
   `assets/licenses/NotoSansCJK-OFL.txt`。
 - 游戏内字体按上游 `npe-sdl/assets/FONT-LICENSE.txt` 和 `FONT-PROVENANCE.txt` 保留来源说明。
+- 应用图标：内置 imagegen 生成的学习机插画，设计与提示词见 `assets/README.md`。
+  诺亚舟 NP560+ 外观和 H1 原生图标仅作为主体/风格参考；未直接复制照片或原机图标资源。
+- `assets/screenshots/npe-desktop-icon.png` 为独立 H1 V1.41 固件模拟器的实测帧缓冲，
+  记录见 `docs/evidence/icon-verification.json`；其中原生桌面资源归原权利人。
 
 本地移植不代表取得 NPE 源码的再许可权，也未包含、发布 NPE 游戏或原机固件。

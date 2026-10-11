@@ -11,7 +11,9 @@
 - 上游依赖保持干净并锁定提交；构建目录替换手柄适配器，H1 实体键产生原前端键盘事件。
 - 应用 BSS 包含独立 1 MiB 栈；链接器检查整个静态镜像和栈不超出 H1 的 4 MiB 加载窗口。
   前端启动栈帧约 277 KiB，绘制帧另需约 115 KiB，不能沿用 GBA 项目的 128 KiB 栈。
-- SDK 临时诊断菜单图标用于此初版。
+- 菜单图标使用诺亚舟 NP560+ 学习机元素，设计与资源规格见 `assets/README.md`。
+  `python tools/check_app_icon.py --baseline build/icon-design/baseline/H1NPE.bda`
+  校验四份资源、透明度、打包摘要，并确认这次图标更新没有改变可执行载荷。
 
 ## 实际 MIPS BDA + 模拟服务表
 
@@ -55,9 +57,21 @@
 
 报告：`build/firmware/native-verification.json`；复核命令：
 
+完整游戏流程截图来自图标更新前的 BDA（`330ebf62ee0cbdf9c2e24fb94bc6445196f4d9f4fcf97d80d12d97ae8e99dfeb`）。
+复核保留该原始构建身份，并逐字节比较当前 BDA 的头和可执行载荷；图标显示单独验收。
+
 ```powershell
 python tools/verify_firmware_evidence.py
 ```
+
+## 图标更新验收
+
+正式 BDA：`b5fc1995f88365665aa38daa5fac18f6e0f6f26372482d79ac6fd9285fffa690`。
+四份菜单资源经解包验证尺寸、RGB565 编码、alpha 与补零；安装 ZIP 内 BDA 与构建文件一致。
+图标更新前后 BDA 头和 `0x785C` 起的可执行载荷逐字节相同。
+在新的独立 NAND 中启动 H1 V1.41 固件，原生应用桌面正常显示新版 NPE 图标，
+截图见 `assets/screenshots/npe-desktop-icon.png`，来源与摘要见 `docs/evidence/icon-verification.json`。
+此前完整游戏流程证据保持原构建身份，没有用新摘要替换旧证据。
 
 ## 尚待验证
 

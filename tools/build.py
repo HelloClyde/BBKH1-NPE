@@ -87,7 +87,7 @@ def main():
     run([objcopy, '-O', 'binary', elf, raw])
     sys.path.insert(0, str(SDK))
     from h1_bda.header import HeaderFields, encode_header
-    from h1_bda.resources import PAYLOAD_OFFSET, RESOURCE_OFFSET, RESOURCE_SIZES, build_diagnostic_resources
+    from h1_bda.resources import PAYLOAD_OFFSET, RESOURCE_OFFSET, RESOURCE_SIZES, build_icon_resources
     from h1_bda.validate import validate_bda
     payload = raw.read_bytes()
     length = PAYLOAD_OFFSET + len(payload)
@@ -95,8 +95,9 @@ def main():
     fields = HeaderFields(category=0x48, file_size_minus_4=length+padding-4,
                           payload_offset=PAYLOAD_OFFSET, resource_offset=RESOURCE_OFFSET,
                           resource_sizes=RESOURCE_SIZES)
+    icon = ROOT/'assets/npe-icon.png'
     data = encode_header(fields, title='NPE', build_time='2026-10-11 00:00:00',
-                         description='H1 NPE Engine') + build_diagnostic_resources() + payload + bytes(padding)
+                         description='H1 NPE Engine') + build_icon_resources(icon) + payload + bytes(padding)
     dest = ROOT/'dist'
     dest.mkdir(exist_ok=True)
     name = 'H1NPE-test-storage' if args.test_storage else 'H1NPE-test-new-game' if args.test_new_game else 'H1NPE-debug' if args.debug else 'H1NPE'
@@ -109,7 +110,9 @@ def main():
     metadata = dict(version='0.1.0', sha256=digest, bytes=len(data), sdk_commit=SDK_COMMIT,
                     npe_commit=NPE_COMMIT, compiler=version, entry='0x83c00020',
                     screen='480x240 2x + 32px touch bar', audio='32000Hz S16 mono native PCM',
-                    hardware_tested=False,test_new_game=args.test_new_game,test_storage=args.test_storage)
+                    hardware_tested=False,test_new_game=args.test_new_game,test_storage=args.test_storage,
+                    icon='assets/npe-icon.png', icon_sha256=hashlib.sha256(icon.read_bytes()).hexdigest(),
+                    payload_sha256=hashlib.sha256(data[PAYLOAD_OFFSET:]).hexdigest())
     bda.with_suffix('.build.json').write_text(json.dumps(metadata, indent=2)+'\n')
     with zipfile.ZipFile(dest/(name+'-install.zip'), 'w', zipfile.ZIP_DEFLATED) as package:
         package.write(bda, '应用/程序/'+bda.name)
@@ -117,9 +120,13 @@ def main():
             package.write(UPSTREAM/'npe-sdl/assets'/filename, 'NPE/assets/'+filename)
         package.write(ROOT/'README.md', 'NPE/README.md')
         package.write(ROOT/'NOTICE.md', 'NPE/NOTICE.md')
+        package.write(ROOT/'assets/README.md', 'NPE/assets/README.md')
         package.write(ROOT/'docs/verification.md','NPE/verification.md')
         package.write(ROOT/'assets/licenses/NotoSansCJK-OFL.txt', 'NPE/assets/NotoSansCJK-OFL.txt')
         package.write(ROOT/'assets/licenses/GPL-2.0.txt','NPE/assets/GPL-2.0.txt')
+    archive = dest/(name+'-install.zip')
+    archive.with_suffix('.zip.sha256').write_text(
+        f'{hashlib.sha256(archive.read_bytes()).hexdigest()}  {archive.name}\n', encoding='ascii')
     print(f'PASS {bda}: {len(data)} bytes, SHA256 {digest}')
 
 if __name__ == '__main__': main()

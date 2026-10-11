@@ -45,6 +45,7 @@ python -m pip install Pillow
 $env:H1_GNU_BIN = 'C:\tools\mipsel-none-elf\bin'
 python tools/build.py
 python tools/build.py --debug
+python tools/check_app_icon.py
 ```
 
 MIPS 自动测试需要 `tests/requirements.txt` 中的依赖和自己提供的 NPE：
@@ -67,6 +68,9 @@ SDL2 本身不参与 H1 编译。`src/platform/SDL.h` 仅实现本引擎所需�
 上游前端和音频调度在构建副本中使用 H1 显示、文件、时钟、按键和 PCM 服务。
 源码入口为 `src/app.c`；适配层为 `src/platform/sdl_h1.c`。
 运行错误及加载过程记录在 `A:\NPE\h1npe.log`。
+
+应用图标使用诺亚舟学习机元素和 H1 高光圆角风格，原图与生成提示词见 `assets/README.md`。
+构建会生成 H1 的全部四份菜单图标资源；更新图标不需要在构建时调用图像生成服务。
 
 ## 验证状态
 

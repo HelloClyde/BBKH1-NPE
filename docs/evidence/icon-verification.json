@@ -1,0 +1,45 @@
+{
+  "ok": true,
+  "sha256": "b5fc1995f88365665aa38daa5fac18f6e0f6f26372482d79ac6fd9285fffa690",
+  "icon_sha256": "3aca6f7ff17bbcda409956fe0455670bdd3f3e80f14f6101cbbb9ed7df088ca3",
+  "payload_sha256": "e8b3de90f646091bcf36cf0e08cf6f79afab369aa70e30b6f2eb0b61ce0ed543",
+  "payload_unchanged": true,
+  "resources": [
+    [
+      45,
+      45,
+      24
+    ],
+    [
+      57,
+      57,
+      24
+    ],
+    [
+      49,
+      60,
+      16
+    ],
+    [
+      49,
+      60,
+      16
+    ]
+  ],
+  "install_zip_verified": true,
+  "native": {
+    "firmware": "BBK H1 / Y100 V1.41",
+    "emulator": "QEMU bbkh1",
+    "kernel_sha256": "d05786e442f9aad62a8d0a0cb4f6d786bdc7c2fa353a7a2b152c9ed9f01b40ef",
+    "screenshot": "assets/screenshots/npe-desktop-icon.png",
+    "screenshot_sha256": "a96e317408f9c0a548d6cd04d376325768c9a83ecadf7b7e051fb163943a590b",
+    "frame": [
+      480,
+      272
+    ],
+    "observed": "Native desktop displays NPE icon; transparent perimeter and NPE lettering visible",
+    "game_flow_retested": false,
+    "original_dump_modified": false,
+    "hardware_tested": false
+  }
+}
