@@ -1,0 +1,53 @@
+{
+  "ok": true,
+  "kind": "Full H1 V1.41 firmware under QEMU bbkh1",
+  "sha256": "330ebf62ee0cbdf9c2e24fb94bc6445196f4d9f4fcf97d80d12d97ae8e99dfeb",
+  "current_sha256": "61663b93ff028da42213c3b137c891c4c6577efb3e5cabbbe48b7c4a95e7ba63",
+  "current_payload_identical": true,
+  "current_title": "诺亚舟NPE",
+  "npe_bytes": 3751913,
+  "kernel_sha256": "d05786e442f9aad62a8d0a0cb4f6d786bdc7c2fa353a7a2b152c9ed9f01b40ef",
+  "manual_checked": [
+    "system NPE picker",
+    "opening/title/map",
+    "physical Back opens menu",
+    "save slot 2",
+    "move and reload slot 2",
+    "touch pause",
+    "touch 1x",
+    "physical P pause",
+    "Escape restores desktop"
+  ],
+  "native_save": {
+    "bytes": 2366,
+    "format": "NPESAV22",
+    "map": 1,
+    "x": 43,
+    "y": 2
+  },
+  "audio": {
+    "sample_rate": 32000,
+    "batches": 13409,
+    "submissions": 3,
+    "nonzero_samples": 2107416,
+    "dropped": 0,
+    "failures": 0,
+    "underruns": 1
+  },
+  "screenshots": [
+    "final-opening.png",
+    "final-title.png",
+    "final-map.png",
+    "final-game-menu.png",
+    "final-save-slots.png",
+    "final-saved.png",
+    "final-moved.png",
+    "final-loaded.png",
+    "final-pause-touch.png",
+    "final-1x.png",
+    "final-pause-key.png",
+    "final-exit.png"
+  ],
+  "original_dump_modified": false,
+  "hardware_tested": false
+}

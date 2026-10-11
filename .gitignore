@@ -1,7 +1,11 @@
 /build/
 /dist/
+/.tools/
 __pycache__/
 *.pyc
 *.npe
 *.npes
 *.log
+*.bda
+*.raw
+*.elf

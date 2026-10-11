@@ -23,6 +23,37 @@ APP_SOURCES = ['src/runtime/entry.S', 'src/runtime/startup.c', 'src/libc/freesta
 def run(command, **kwargs):
     return subprocess.run(list(map(str, command)), check=True, **kwargs)
 
+def verify_dependency(repo, revision, parser):
+    if (repo/'.git').exists():
+        actual = run(['git', '-C', repo, 'rev-parse', 'HEAD'], capture_output=True, text=True).stdout.strip()
+        dirty = run(['git', '-C', repo, 'status', '--porcelain'], capture_output=True, text=True).stdout
+        if actual != revision or dirty:
+            parser.error('Dependency revision/cleanliness mismatch: ' + str(repo))
+    else:
+        # Release source ZIPs contain full dependency trees and their hashes.
+        manifest = ROOT/'source-manifest.json'
+        if not manifest.is_file():
+            parser.error('Initialize submodules or use the complete release source ZIP')
+        record = json.loads(manifest.read_text(encoding='utf-8'))
+        relative = repo.relative_to(ROOT).as_posix()
+        if record['dependencies'].get(relative) != revision:
+            parser.error('Source archive dependency revision mismatch')
+        for name, digest in record['files'].items():
+            if name.startswith(relative+'/'):
+                path = (ROOT/name).resolve()
+                if ROOT.resolve() not in path.parents or not path.is_file() or hashlib.sha256(path.read_bytes()).hexdigest() != digest:
+                    parser.error('Source archive dependency hash mismatch: ' + name)
+
+def write_package_file(package, path, name):
+    data = path.read_bytes()
+    if path.suffix in ('.md', '.txt'):
+        data = data.replace(b'\r\n', b'\n')
+    info = zipfile.ZipInfo(name, (2026, 10, 11, 0, 0, 0))
+    info.compress_type = zipfile.ZIP_DEFLATED
+    info.create_system = 3
+    info.external_attr = 0o100644 << 16
+    package.writestr(info, data)
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--toolchain', type=Path, default=os.environ.get('H1_GNU_BIN'))
@@ -39,9 +70,7 @@ def main():
         return path.resolve()
     gcc, objcopy = tool('gcc'), tool('objcopy')
     for repo, revision in [(SDK, SDK_COMMIT), (UPSTREAM, NPE_COMMIT)]:
-        actual = run(['git', '-C', repo, 'rev-parse', 'HEAD'], capture_output=True, text=True).stdout.strip()
-        dirty = run(['git', '-C', repo, 'status', '--porcelain'], capture_output=True, text=True).stdout
-        if actual != revision or dirty: parser.error('Dependency revision/cleanliness mismatch: ' + str(repo))
+        verify_dependency(repo, revision, parser)
     if args.test_new_game and args.test_storage:parser.error('Select one test mode')
     build = ROOT / 'build' / ('test-storage' if args.test_storage else 'test-new-game' if args.test_new_game else 'debug' if args.debug else 'release')
     core = build / 'core'
@@ -108,7 +137,7 @@ def main():
     if not report['ok']: raise RuntimeError(report)
     digest = hashlib.sha256(data).hexdigest()
     bda.with_suffix('.bda.sha256').write_text(f'{digest}  {bda.name}\n', encoding='ascii')
-    metadata = dict(version='0.1.0', title=title, sha256=digest, bytes=len(data), sdk_commit=SDK_COMMIT,
+    metadata = dict(version=(ROOT/'VERSION').read_text().strip(), title=title, sha256=digest, bytes=len(data), sdk_commit=SDK_COMMIT,
                     npe_commit=NPE_COMMIT, compiler=version, entry='0x83c00020',
                     screen='480x240 2x + 32px touch bar', audio='32000Hz S16 mono native PCM',
                     hardware_tested=False,test_new_game=args.test_new_game,test_storage=args.test_storage,
@@ -116,15 +145,16 @@ def main():
                     payload_sha256=hashlib.sha256(data[PAYLOAD_OFFSET:]).hexdigest())
     bda.with_suffix('.build.json').write_text(json.dumps(metadata, indent=2)+'\n')
     with zipfile.ZipFile(dest/(name+'-install.zip'), 'w', zipfile.ZIP_DEFLATED) as package:
-        package.write(bda, '应用/程序/'+bda.name)
+        write_package_file(package, bda, '应用/程序/'+bda.name)
         for filename in ['gbk12-native.bin', 'gbk16-native.bin', 'FONT-LICENSE.txt', 'FONT-PROVENANCE.txt']:
-            package.write(UPSTREAM/'npe-sdl/assets'/filename, 'NPE/assets/'+filename)
-        package.write(ROOT/'README.md', 'NPE/README.md')
-        package.write(ROOT/'NOTICE.md', 'NPE/NOTICE.md')
-        package.write(ROOT/'assets/README.md', 'NPE/assets/README.md')
-        package.write(ROOT/'docs/verification.md','NPE/verification.md')
-        package.write(ROOT/'assets/licenses/NotoSansCJK-OFL.txt', 'NPE/assets/NotoSansCJK-OFL.txt')
-        package.write(ROOT/'assets/licenses/GPL-2.0.txt','NPE/assets/GPL-2.0.txt')
+            write_package_file(package, UPSTREAM/'npe-sdl/assets'/filename, 'NPE/assets/'+filename)
+        write_package_file(package, ROOT/'README.md', 'NPE/README.md')
+        write_package_file(package, ROOT/'NOTICE.md', 'NPE/NOTICE.md')
+        write_package_file(package, ROOT/'LICENSE', 'NPE/LICENSE.txt')
+        write_package_file(package, ROOT/'assets/README.md', 'NPE/assets/README.md')
+        write_package_file(package, ROOT/'docs/verification.md','NPE/verification.md')
+        write_package_file(package, ROOT/'assets/licenses/NotoSansCJK-OFL.txt', 'NPE/assets/NotoSansCJK-OFL.txt')
+        write_package_file(package, ROOT/'assets/licenses/GPL-2.0.txt','NPE/assets/GPL-2.0.txt')
     archive = dest/(name+'-install.zip')
     archive.with_suffix('.zip.sha256').write_text(
         f'{hashlib.sha256(archive.read_bytes()).hexdigest()}  {archive.name}\n', encoding='ascii')

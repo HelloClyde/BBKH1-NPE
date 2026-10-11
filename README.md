@@ -6,7 +6,12 @@
 
 H1 桌面和应用列表显示名称为 **诺亚舟NPE**；安装文件名为 `H1NPE.bda`。
 
-## 安装
+## 快速开始
+
+适用于步步高 **H1 / Y100 V1.41 原生 BDA 环境**。
+从 [GitHub Releases](https://github.com/HelloClyde/BBKH1-NPE/releases) 下载
+`BBKH1-NPE-v0.1.0-install.zip`，安装包包含程序和所需字体，游戏文件需自行准备。
+首版为预发布，验证范围见本文下方。
 
 解压 `dist/H1NPE-install.zip`，将 `应用` 和 `NPE` 两个文件夹合并到 H1 的 A 盘：
 
@@ -20,6 +25,24 @@ A:\NPE\assets\gbk16-native.bin
 启动 `H1NPE.bda` 后通过系统文件选择器选取游戏。取消选择会退出。
 存档保存在所选 NPE 所在目录，使用上游按游戏指纹区分的三个 `.npes` 文件。
 存档通过游戏内菜单手动保存，退出前请先存档；不会在任意剧情或战斗状态下自动存档。
+
+开发者可按下方“构建”命令初始化子模块、安装固定工具链并生成相同目录结构的本地安装包。
+
+## 截图
+
+以下是完整 H1 V1.41 固件在 QEMU `bbkh1` 中的真实帧缓冲，非真机截图。
+游戏画面来自本机《天降风云》测试资源，安装包不包含游戏。
+
+| 地图与触摸操作栏 | 暂停与显示设置 |
+| --- | --- |
+| ![地图与触摸栏](assets/screenshots/npe-gameplay.png) | ![暂停菜单](assets/screenshots/npe-pause.png) |
+
+| 原生桌面图标 | 未选择文件，退出后返回桌面 |
+| --- | --- |
+| ![H1 桌面图标](assets/screenshots/npe-desktop-icon.png) | ![取消选择后返回桌面](assets/screenshots/npe-cancel-key-desktop.png) |
+
+截图保留采集时的 NPE 名称；当前构建显示名称已改为“诺亚舟NPE”。
+构建身份及截图摘要见 [验证记录](docs/verification.md) 和 `docs/evidence/`。
 
 ## 操作
 
@@ -38,28 +61,52 @@ A:\NPE\assets\gbk16-native.bin
 暂停菜单停止游戏时钟和 PCM，继续后恢复；关闭声音仍推进音频服务的剧情回调。
 中文路径直接使用 H1 的 GBK 字节，目录解析避开 GBK 尾字节中的反斜杠。
 
+## 依赖
+
+使用成品需要 H1 / Y100 V1.41、随安装包附带的两个 GBK 字体和自己的 `.npe` 游戏。
+不需要安装 SDL2、PC 运行库、原机固件或开发工具链。
+
+| 开发依赖 | 固定版本与用途 |
+| --- | --- |
+| [H1 BDA SDK](https://github.com/MrDefinition1999/bbk-h1-bda-sdk) | `vendor/h1-sdk`，提交 `067fe072477861dfc8949d7b1a55279fb92d2548`；H1 接口、打包和校验 |
+| [NPE 引擎](https://github.com/HelloClyde/noah-npe-engine) | `third_party/noah-npe-engine`，提交 `942b645ba26693db43c32375f28d53d32d1da099`；C 引擎和原生字体 |
+| Windows GNU MIPS 工具链 | GCC 15.2.0；安装器验证归档 SHA256，工具前缀 `mipsel-none-elf-` |
+| Python / Git | Python 3.10+；CI 使用 Python 3.12 和 Windows runner，Git 用于固定依赖和源码打包 |
+| Pillow | 12.3.0，生成 H1 四份图标资源，锁定于 `requirements.txt` |
+| Unicorn | 2.1.4，仅执行 MIPS 自动测试，锁定于 `tests/requirements.txt` |
+
+图标和位图字体均预生成并随源码收录。普通构建无需 imagegen、系统字体或字体生成服务。
+字体/图标来源与再生说明分别见 `NOTICE.md`、`assets/README.md` 和固定上游字体来源文件。
+
 ## 构建
 
 需要 Python 3.10+、Pillow、Git 和 `mipsel-none-elf-gcc` / `objcopy`。
 
 ```powershell
-git submodule update --init --recursive
-python -m pip install Pillow
-$env:H1_GNU_BIN = 'C:\tools\mipsel-none-elf\bin'
-python tools/build.py
-python tools/build.py --debug
+git clone https://github.com/HelloClyde/BBKH1-NPE.git
+cd BBKH1-NPE
+git submodule update --init
+python -m pip install -r requirements.txt
+python tools/install_toolchain.py
+python tools/build.py --toolchain .tools/toolchain/bin
 python tools/check_app_icon.py
 ```
+
+输出 `dist/H1NPE.bda` 和 `dist/H1NPE-install.zip`。也可通过 `H1_GNU_BIN` 或 `--toolchain`
+指定自己的 MIPS 工具链；复现发布版本使用上面固定的 GCC 15.2.0。
+完整 Release 源码 ZIP 包含两个固定依赖的全部源码及 `source-manifest.json`，解压后
+可直接从安装 Python 依赖这一步开始，构建器验证依赖文件哈希，无需重新拉取子模块。
 
 MIPS 自动测试需要 `tests/requirements.txt` 中的依赖和自己提供的 NPE：
 
 ```powershell
 python -m pip install -r tests/requirements.txt
+python tests/ci_smoke.py
 python tests/mips_smoke.py --game '你的游戏.npe'
 python tests/error_paths.py --game '你的游戏.npe'
-python tools/build.py --test-new-game
+python tools/build.py --toolchain .tools/toolchain/bin --test-new-game
 python tests/mips_smoke.py --game '你的游戏.npe' --bda dist/H1NPE-test-new-game.bda --gameplay
-python tools/build.py --test-storage
+python tools/build.py --toolchain .tools/toolchain/bin --test-storage
 python tests/mips_smoke.py --game '你的游戏.npe' --bda dist/H1NPE-test-storage.bda --storage
 ```
 
@@ -81,7 +128,26 @@ SDL2 本身不参与 H1 编译。`src/platform/SDL.h` 仅实现本引擎所需�
 尚未进行 H1 真机验证；模拟服务和完整固件模拟器的证据分别记录。
 游戏兼容性仍受上游引擎实现范围限制。
 
+## Actions 和发布
+
+`main`、PR 和手动运行构建正式 BDA、检查 GBK 名称/图标/校验和，执行真实 MIPS 的
+选择器取消与坏资源路径测试，检查 BDA/安装 ZIP 重复构建一致，并上传临时 artifact。
+CI 不携带游戏和固件，因此不会把 CI 成功描述为完整固件或真机测试通过。
+
+`v*` 标签触发 Release；标签须匹配 `VERSION`。发布复用同一次 CI 的构建产物，
+下载后校验 `SHA256SUMS.txt`，仅发布 job 具有写入权限。
+首版 `v0.1.0` 使用预发布标记，含 BDA、安装 ZIP、完整源码 ZIP、构建/验证信息和 SHA256 清单。
+维护者在干净提交上执行 `python tools/package_release.py` 可生成 `dist/release/`。
+
+## 感谢
+
+- HelloClyde：NPE 引擎和 BBKH1-GBA 项目，提供引擎实现及 H1 硬件适配参考。
+- MrDefinition1999：H1 BDA SDK、资源格式与原生接口验证资料。
+- Adobe / Noto Sans CJK 字体贡献者：中文 GBK 与菜单字形的字体来源。
+
 ## 来源与许可
 
-见 `NOTICE.md`。NPE 上游目前未授予项目源码开源许可证，此移植没有改变其授权状态。
+本仓库 H1 适配层、构建/打包脚本及测试按 GPL-2.0 发布，见 `LICENSE` 和 `NOTICE.md`。
+SDK、字体和素材分别按其来源许可；NPE 上游固定提交缺少源码许可证，此移植没有改变其授权状态。
+因此不能将此仓库的 GPL-2.0 扩展到整个上游 NPE 引擎；需要复用引擎时应确认上游授权。
 安装包不包含游戏资源。
