@@ -60,7 +60,8 @@
 报告：`build/firmware/native-verification.json`；复核命令：
 
 完整游戏流程截图来自图标更新前的 BDA（`330ebf62ee0cbdf9c2e24fb94bc6445196f4d9f4fcf97d80d12d97ae8e99dfeb`）。
-复核保留该原始构建身份，并逐字节比较当前 BDA 的头和可执行载荷；图标显示单独验收。
+复核保留该原始构建身份，并逐字节比较当前 BDA 的可执行载荷和头部结构；
+头部仅允许显示名称及其校验和变化，图标显示单独验收。
 
 ```powershell
 python tools/verify_firmware_evidence.py
@@ -68,12 +69,17 @@ python tools/verify_firmware_evidence.py
 
 ## 图标更新验收
 
-正式 BDA：`b5fc1995f88365665aa38daa5fac18f6e0f6f26372482d79ac6fd9285fffa690`。
+图标与取消流程测试时的 BDA（显示名称为 NPE）：
+`b5fc1995f88365665aa38daa5fac18f6e0f6f26372482d79ac6fd9285fffa690`。
 四份菜单资源经解包验证尺寸、RGB565 编码、alpha 与补零；安装 ZIP 内 BDA 与构建文件一致。
 图标更新前后 BDA 头和 `0x785C` 起的可执行载荷逐字节相同。
 在新的独立 NAND 中启动 H1 V1.41 固件，原生应用桌面正常显示新版 NPE 图标，
 截图见 `assets/screenshots/npe-desktop-icon.png`，来源与摘要见 `docs/evidence/icon-verification.json`。
 此前完整游戏流程证据保持原构建身份，没有用新摘要替换旧证据。
+
+后续显示名称改为 `诺亚舟NPE`（GBK 编码为 9 字节，含结尾零字节仍在 16 字节名称字段内）。
+校验器解码 BDA 头确认名称与校验和正确，并核对可执行载荷一致；
+此前截图保留原测试名称，当前构建名称和摘要以 `dist/H1NPE.build.json` 为准。
 
 ## 尚待验证
 

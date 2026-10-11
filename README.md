@@ -3,6 +3,8 @@
 将 [noah-npe-engine](https://github.com/HelloClyde/noah-npe-engine) 移植到步步高 H1 / Y100 原生 BDA。
 硬件平台参考 [BBKH1-GBA](https://github.com/HelloClyde/BBKH1-GBA)。这是独立的本地移植项目。
 
+H1 桌面和应用列表显示名称为 **诺亚舟NPE**；安装文件名为 `H1NPE.bda`。
+
 ## 安装
 
 解压 `dist/H1NPE-install.zip`，将 `应用` 和 `NPE` 两个文件夹合并到 H1 的 A 盘：

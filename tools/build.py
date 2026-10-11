@@ -96,7 +96,8 @@ def main():
                           payload_offset=PAYLOAD_OFFSET, resource_offset=RESOURCE_OFFSET,
                           resource_sizes=RESOURCE_SIZES)
     icon = ROOT/'assets/npe-icon.png'
-    data = encode_header(fields, title='NPE', build_time='2026-10-11 00:00:00',
+    title = '诺亚舟NPE'
+    data = encode_header(fields, title=title, build_time='2026-10-11 00:00:00',
                          description='H1 NPE Engine') + build_icon_resources(icon) + payload + bytes(padding)
     dest = ROOT/'dist'
     dest.mkdir(exist_ok=True)
@@ -107,7 +108,7 @@ def main():
     if not report['ok']: raise RuntimeError(report)
     digest = hashlib.sha256(data).hexdigest()
     bda.with_suffix('.bda.sha256').write_text(f'{digest}  {bda.name}\n', encoding='ascii')
-    metadata = dict(version='0.1.0', sha256=digest, bytes=len(data), sdk_commit=SDK_COMMIT,
+    metadata = dict(version='0.1.0', title=title, sha256=digest, bytes=len(data), sdk_commit=SDK_COMMIT,
                     npe_commit=NPE_COMMIT, compiler=version, entry='0x83c00020',
                     screen='480x240 2x + 32px touch bar', audio='32000Hz S16 mono native PCM',
                     hardware_tested=False,test_new_game=args.test_new_game,test_storage=args.test_storage,

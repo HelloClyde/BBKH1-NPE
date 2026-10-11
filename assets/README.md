@@ -22,7 +22,7 @@
 
 `python tools/check_app_icon.py` 复核 BDA、四份资源、透明度、资源尾部、元数据和安装 ZIP，
 输出 `build/icon-design/packed-icons-preview.png`。
-加 `--baseline 旧版.bda` 可逐字节确认头和可执行载荷不变。
+加 `--baseline 旧版.bda` 可逐字节确认可执行载荷不变，头部仅允许名称及其校验和变化。
 
 ## 生成提示词
 

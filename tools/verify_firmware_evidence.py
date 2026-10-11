@@ -1,8 +1,11 @@
 """Check saved full-firmware evidence; does not drive or modify the emulator."""
 from pathlib import Path
-import hashlib,json,re,struct
+import hashlib,json,re,struct,sys
 from PIL import Image
 ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT/'vendor/h1-sdk'))
+from h1_bda.header import decode_header,read_c_string,TITLE_OFFSET,TITLE_SIZE,CHECKSUM_OFFSET
+from h1_bda.validate import validate_bda
 
 def main():
     work=ROOT/'build/firmware'
@@ -12,9 +15,12 @@ def main():
     current=(ROOT/'dist/H1NPE.bda').read_bytes()
     digest=hashlib.sha256(captured).hexdigest()
     assert build['bda_sha256']==digest,'Captured firmware used a different BDA'
-    # Preserve the original evidence identity after a menu-artwork-only update.
-    # This checks executable equivalence, not the updated icon's firmware rendering.
-    assert current[:0x88]==captured[:0x88] and current[0x785c:]==captured[0x785c:], 'Current executable/header differs from firmware evidence'
+    # Preserve evidence identity after menu artwork/title updates. This checks
+    # executable equivalence, not the updated menu's firmware rendering.
+    assert validate_bda(ROOT/'dist/H1NPE.bda')['ok']
+    header,old_header=decode_header(current),decode_header(captured)
+    assert header[:TITLE_OFFSET]==old_header[:TITLE_OFFSET] and header[TITLE_OFFSET+TITLE_SIZE:CHECKSUM_OFFSET]==old_header[TITLE_OFFSET+TITLE_SIZE:CHECKSUM_OFFSET], 'Header differs outside title/checksum'
+    assert current[0x785c:]==captured[0x785c:], 'Executable differs from firmware evidence'
     assert 'APP_END result=0' in log and 'AUDIO_OPEN_END ready=1' in log
     audio=re.search(r'AUDIO_CLOSE_BEGIN batches=(\d+) submitted=(\d+) nonzero=(\d+) dropped=(\d+) failures=(\d+) underruns=(\d+)',log)
     assert audio
@@ -36,7 +42,8 @@ def main():
     assert status['sample_rate']==32000 and status['frames']>0
     report=dict(ok=True,kind='Full H1 V1.41 firmware under QEMU bbkh1',
         sha256=digest,current_sha256=hashlib.sha256(current).hexdigest(),
-        current_payload_identical=True,npe_bytes=3751913,kernel_sha256=build['kernel_sha256'],
+        current_payload_identical=True,current_title=read_c_string(header[TITLE_OFFSET:TITLE_OFFSET+TITLE_SIZE]),
+        npe_bytes=3751913,kernel_sha256=build['kernel_sha256'],
         manual_checked=['system NPE picker','opening/title/map','physical Back opens menu',
                         'save slot 2','move and reload slot 2','touch pause','touch 1x',
                         'physical P pause','Escape restores desktop'],

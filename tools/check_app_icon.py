@@ -13,6 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT/'vendor/h1-sdk'))
 from h1_bda.resources import RESOURCE_OFFSET, PAYLOAD_OFFSET, RESOURCE_SPECS, RESOURCE_SIZES, build_icon_resources
 from h1_bda.validate import validate_bda
+from h1_bda.header import decode_header, read_c_string, TITLE_OFFSET, TITLE_SIZE, CHECKSUM_OFFSET
 
 
 def main():
@@ -27,16 +28,20 @@ def main():
     data = path.read_bytes()
     region = build_icon_resources(icon)
     assert validate_bda(path)['ok']
+    header = decode_header(data)
+    assert read_c_string(header[TITLE_OFFSET:TITLE_OFFSET+TITLE_SIZE]) == '诺亚舟NPE'
     assert data[RESOURCE_OFFSET:PAYLOAD_OFFSET] == region
     digest = hashlib.sha256(data).hexdigest()
     metadata = json.loads(path.with_suffix('.build.json').read_text())
     assert metadata['sha256'] == digest
+    assert metadata['title'] == '诺亚舟NPE'
     assert metadata['icon_sha256'] == hashlib.sha256(icon.read_bytes()).hexdigest()
     assert metadata['payload_sha256'] == hashlib.sha256(data[PAYLOAD_OFFSET:]).hexdigest()
     assert path.with_suffix('.bda.sha256').read_text().split() == [digest, path.name]
     if args.baseline:
         old = args.baseline.read_bytes()
-        assert data[:RESOURCE_OFFSET] == old[:RESOURCE_OFFSET], 'BDA header changed'
+        old_header = decode_header(old)
+        assert header[:TITLE_OFFSET] == old_header[:TITLE_OFFSET] and header[TITLE_OFFSET+TITLE_SIZE:CHECKSUM_OFFSET] == old_header[TITLE_OFFSET+TITLE_SIZE:CHECKSUM_OFFSET], 'Header changed outside title/checksum'
         assert data[PAYLOAD_OFFSET:] == old[PAYLOAD_OFFSET:], 'Executable changed'
     archive = ROOT/'dist/H1NPE-install.zip'
     with zipfile.ZipFile(archive) as package:
