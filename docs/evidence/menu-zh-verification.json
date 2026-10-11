@@ -1,0 +1,38 @@
+{
+  "ok": true,
+  "kind": "Full H1 V1.41 firmware under QEMU bbkh1",
+  "bda_sha256": "4a932b6512c651702422d1048bf11ef4ab19efb7bdefdd5113e172ebf6e258de",
+  "payload_sha256": "76af252cbf6d51f23cb087c09bc15010372539124cb383c14a49a6da2b5c3c4b",
+  "kernel_sha256": "d05786e442f9aad62a8d0a0cb4f6d786bdc7c2fa353a7a2b152c9ed9f01b40ef",
+  "menu_language": "zh-CN",
+  "manual_checked": [
+    "Chinese title and all six menu rows",
+    "all eight Chinese touch buttons",
+    "touch sound OFF/ON",
+    "touch 1x/2x",
+    "continue game",
+    "physical P pause",
+    "return game",
+    "exit program restores desktop"
+  ],
+  "audio": {
+    "sample_rate": 32000,
+    "nonzero_samples": 1475500,
+    "dropped": 0,
+    "failures": 0,
+    "application_ring_underruns": 0,
+    "qemu_output_underruns": 619
+  },
+  "files": {
+    "assets/screenshots/npe-gameplay-zh.png": "0961da3358065fafbdf10510951ec47aff0dde771d6db04b70d870d4fa8095b4",
+    "assets/screenshots/npe-pause-zh.png": "483d8a32b3666b5c17b6cc249a34e52b88d27d13febc8742f71775aeaf197d8a",
+    "assets/screenshots/npe-sound-off-zh.png": "6d6068e1363e55afaa6a04a252ffde15d5bde6ffa94baf67b6190ba9293ba2ff",
+    "assets/screenshots/npe-display-1x-zh.png": "1dbecb973f440d104cdbe46ba4d63d4bca883ce68d29ade519a996c091736f91",
+    "assets/screenshots/npe-resumed-1x-zh.png": "8922dba1e7e965df55854d1a2d55f2aea0c2a0633098dab1f5af8a8dbd610b04",
+    "assets/screenshots/npe-returned-2x-zh.png": "4b29dab2cf9099df9589adc1bb89a5bdafae4ce092598892f32c667c82051c75",
+    "assets/screenshots/npe-exit-desktop-zh.png": "8e2aa3f2372ab0d64b776ec158b9db0f1ecce3980e5c748b4ace6f54de7601f2",
+    "docs/evidence/menu-zh-run.log": "d001c9194c26f78b3956db1c7fb15ec6445f123a055170e0bc5fe62c3b555e02"
+  },
+  "original_dump_modified": false,
+  "hardware_tested": false
+}

@@ -1,5 +1,6 @@
 """Check saved full-firmware evidence; does not drive or modify the emulator."""
 from pathlib import Path
+import argparse
 import hashlib,json,re,struct,sys
 from PIL import Image
 ROOT=Path(__file__).resolve().parents[1]
@@ -8,16 +9,20 @@ from h1_bda.header import decode_header,read_c_string,TITLE_OFFSET,TITLE_SIZE,CH
 from h1_bda.validate import validate_bda
 
 def main():
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--bda',type=Path,default=ROOT/'dist/H1NPE.bda',
+                        help='BDA to compare with historical gameplay evidence (v0.1.0/v0.1.1 payload)')
+    args=parser.parse_args()
     work=ROOT/'build/firmware'
     log=(work/'final-run.log').read_bytes().decode('gbk')
     build=json.loads((work/'image-build.json').read_text(encoding='utf-8'))
     captured=(work/'files/应用/程序/黑白子.bda').read_bytes()
-    current=(ROOT/'dist/H1NPE.bda').read_bytes()
+    current=args.bda.read_bytes()
     digest=hashlib.sha256(captured).hexdigest()
     assert build['bda_sha256']==digest,'Captured firmware used a different BDA'
     # Preserve evidence identity after menu artwork/title updates. This checks
     # executable equivalence, not the updated menu's firmware rendering.
-    assert validate_bda(ROOT/'dist/H1NPE.bda')['ok']
+    assert validate_bda(args.bda)['ok']
     header,old_header=decode_header(current),decode_header(captured)
     assert header[:TITLE_OFFSET]==old_header[:TITLE_OFFSET] and header[TITLE_OFFSET+TITLE_SIZE:CHECKSUM_OFFSET]==old_header[TITLE_OFFSET+TITLE_SIZE:CHECKSUM_OFFSET], 'Header differs outside title/checksum'
     assert current[0x785c:]==captured[0x785c:], 'Executable differs from firmware evidence'

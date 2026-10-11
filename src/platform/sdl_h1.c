@@ -51,9 +51,25 @@ static void rect(volatile uint32_t *out,int x,int y,int w,int h,uint32_t c) {
     for(int r=y;r<y+h && r<272;++r) for(int col=x;col<x+w && col<480;++col)
         if(r>=0 && col>=0) out[r*480+col]=c;
 }
+static unsigned next_codepoint(const char **text) {
+    const unsigned char *s=(const unsigned char *)*text;
+    unsigned ch=*s++,extra=0,min=0;
+    if(ch>=0xc2 && ch<=0xdf) { ch&=0x1f;extra=1;min=0x80; }
+    else if(ch>=0xe0 && ch<=0xef) { ch&=0x0f;extra=2;min=0x800; }
+    else if(ch>=0xf0 && ch<=0xf4) { ch&=7;extra=3;min=0x10000; }
+    else if(ch>=0x80) { ++*text;return '?'; }
+    for(unsigned i=0;i<extra;++i) {
+        if((s[i]&0xc0)!=0x80) { ++*text;return '?'; }
+        ch=(ch<<6)|(s[i]&0x3f);
+    }
+    if(ch<min || ch>0x10ffff || (ch>=0xd800 && ch<=0xdfff)) {
+        ++*text;return '?';
+    }
+    *text=(const char *)(s+extra);return ch;
+}
 static void label(volatile uint32_t *out,const char *s,int x,int y,uint32_t c) {
     while(*s) {
-        unsigned ch=(unsigned char)*s++;
+        unsigned ch=next_codepoint(&s);
         for(unsigned i=0;i<MENU_GLYPH_COUNT;++i) if(menu_glyphs[i].code==ch) {
             for(unsigned r=0;r<21;++r) for(unsigned k=0;k<18;++k)
                 if(menu_glyphs[i].rows[r]&(1u<<k)) rect(out,x+(int)k,y+(int)r,1,1,c);
@@ -65,14 +81,14 @@ static void show(void) {
     volatile uint32_t *out=framebuffer();if(!out) return;
     rect(out,0,0,480,272,0x10202a);
     if(menu_active) {
-        const char *names[6]={"Continue",sound_enabled?"Sound: ON":"Sound: OFF",
-            scale?"Display: 2x":"Display: 1x","Choose another NPE","Exit","Back"};
-        label(out,"NPE - Paused",24,8,0xffffff);
+        const char *names[6]={"继续游戏",sound_enabled?"声音：开":"声音：关",
+            scale?"画面：2倍":"画面：1倍","选择其他NPE","退出程序","返回游戏"};
+        label(out,"诺亚舟NPE - 已暂停",24,8,0xffffff);
         for(int i=0;i<6;++i) {
             rect(out,24,40+i*34,432,30,i==menu_cursor?0x38786c:0x203c45);
             label(out,names[i],40,44+i*34,0xffffff);
         }
-        label(out,"Save progress in the game menu before exit.",24,248,0xbfcfcf);
+        label(out,"退出前请在游戏菜单中保存进度。",24,248,0xbfcfcf);
         return;
     }
     if(display) {
@@ -80,9 +96,10 @@ static void show(void) {
         for(unsigned y=0;y<h;++y) for(unsigned x=0;x<w;++x)
             out[(oy+y)*480+ox+x]=display->pixels[(y/zoom)*240+x/zoom]&0xffffffu;
     }
-    static const char *names[8]={"<",">","UP","DN","OK","TALK","BACK","MENU"};
+    static const char *names[8]={"左","右","上","下","确认","对话","返回","菜单"};
     for(int i=0;i<8;++i) {
-        rect(out,i*60,240,59,32,0x203c45);label(out,names[i],i*60+6,245,0xffffff);
+        rect(out,i*60,240,59,32,0x203c45);
+        label(out,names[i],i*60+(i<4?21:12),245,0xffffff);
     }
 }
 int SDL_PushEvent(SDL_Event *e) {

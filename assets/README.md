@@ -1,4 +1,23 @@
-# NPE 应用图标
+# NPE 应用素材
+
+## 中文菜单字体
+
+暂停菜单和底部触摸栏使用 Noto Sans CJK SC Regular，按 OFL 1.1 分发。
+字体固定于 [noto-cjk 提交 f8d1575](https://github.com/notofonts/noto-cjk/tree/f8d157532fbfaeda587e826d4cd5b21a49186f7c)，
+文件为 `Sans/OTF/SimplifiedChinese/NotoSansCJKsc-Regular.otf`，SHA256：
+`2c76254f6fc379fddfce0a7e84fb5385bb135d3e399294f6eeb6680d0365b74b`。
+许可证见 `licenses/NotoSansCJK-OFL.txt`。
+
+`src/platform/menu_font.h` 是 18 像素字体的 18×21 单色字形子集，保留实际字宽。
+修改中文文案后，使用固定版本 Pillow 和上述字体执行：
+
+```powershell
+python tools/generate_menu_font.py --font 'NotoSansCJKsc-Regular.otf'
+```
+
+生成器核对字体摘要，并收录平台源码中的中文及 ASCII 字符；普通构建只消费已生成的头文件。
+
+## 应用图标
 
 `npe-icon.png` 使用内置 imagegen 工具生成，是构建直接消费的正方形 RGBA 原图。
 主体参考本机 `np560/scripts/web/assets/np560plus-open-cutout.png` 中的诺亚舟 NP560+：

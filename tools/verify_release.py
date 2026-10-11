@@ -28,6 +28,9 @@ def main():
         for name, digest in record['screenshots'].items():
             assert hashlib.sha256((ROOT/name).read_bytes()).hexdigest() == digest, name
         assert not record['hardware_tested']
+        if record.get('menu_language') == 'zh-CN':
+            from verify_chinese_menu_evidence import verify
+            verify()
     print('PASS release version, pinned dependencies and runtime evidence identity')
 
 

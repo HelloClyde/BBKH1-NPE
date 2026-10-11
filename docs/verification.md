@@ -3,8 +3,8 @@
 日期：2026-10-11。正式 BDA 与安装 ZIP 由 `tools/build.py` 生成。
 准确的源码版本、编译器、文件大小与 SHA-256 见 `dist/H1NPE.build.json`。
 
-当前发布记录：`docs/release-v0.1.1.md`；Release 的自动门禁记录
-`docs/evidence/release-v0.1.1.json` 固定正式 BDA 与可执行载荷摘要。
+当前发布记录：`docs/release-v0.1.2.md`；Release 的自动门禁记录
+`docs/evidence/release-v0.1.2.json` 固定正式 BDA 与可执行载荷摘要。
 `main` / PR 的 CI 使用公开且不带游戏的 MIPS 取消/坏资源测试，不运行完整固件模拟器。
 安装 ZIP 使用固定时间戳和文本行尾；固定工具链、Pillow 版本下可重复生成。
 
@@ -21,8 +21,8 @@
 - 应用 BSS 包含独立 1 MiB 栈；链接器检查整个静态镜像和栈不超出 H1 的 4 MiB 加载窗口。
   前端启动栈帧约 277 KiB，绘制帧另需约 115 KiB，不能沿用 GBA 项目的 128 KiB 栈。
 - 菜单图标使用诺亚舟 NP560+ 学习机元素，设计与资源规格见 `assets/README.md`。
-  `python tools/check_app_icon.py --baseline build/icon-design/baseline/H1NPE.bda`
-  校验四份资源、透明度、打包摘要，并确认这次图标更新没有改变可执行载荷。
+  `python tools/check_app_icon.py` 校验四份资源、透明度和打包摘要。
+  早期图标更新经旧基线比较确认载荷不变；v0.1.2 的中文菜单会改变载荷。
 
 ## 实际 MIPS BDA + 模拟服务表
 
@@ -69,11 +69,12 @@
 报告：`build/firmware/native-verification.json`；复核命令：
 
 完整游戏流程截图来自图标更新前的 BDA（`330ebf62ee0cbdf9c2e24fb94bc6445196f4d9f4fcf97d80d12d97ae8e99dfeb`）。
-复核保留该原始构建身份，并逐字节比较当前 BDA 的可执行载荷和头部结构；
+复核保留该原始构建身份；v0.1.0 / v0.1.1 的可执行载荷经逐字节比较与它一致，
 头部仅允许显示名称及其校验和变化，图标显示单独验收。
+v0.1.2 中文菜单载荷已改变，不能套用这项等价证明；新版截图及菜单流程单独验收。
 
 ```powershell
-python tools/verify_firmware_evidence.py
+python tools/verify_firmware_evidence.py --bda 'build/firmware/files/应用/程序/黑白子.bda'
 ```
 
 ## 图标更新验收
@@ -90,9 +91,25 @@ python tools/verify_firmware_evidence.py
 校验器解码 BDA 头确认名称与校验和正确，并核对可执行载荷一致；
 此前截图保留原测试名称，当前构建名称和摘要以 `dist/H1NPE.build.json` 为准。
 
+## v0.1.2 中文菜单验收
+
+暂停菜单、退出提醒和八个触摸按钮改为中文，UTF-8 解码配合固定 Noto Sans CJK SC 位图字形。
+新版正式 BDA 在独立 NAND 上运行完整 H1 V1.41 固件，采集地图、暂停、声音关闭、1倍显示与退出桌面。
+已确认触摸开关声音、切换1倍/2倍、继续/返回游戏，实体 P 暂停及“退出程序”返回桌面。
+README 的地图与暂停截图使用本次正式 BDA；旧版完整游戏、存档与取消流程证据保持原身份。
+
+真实 MIPS 服务表测试重新通过：中文 GBK 路径、第二槽保存、暂停/触摸显示切换、关闭声音后静音 PCM、
+资源释放及取消/坏资源/缺失字体/不支持 PCM/换游戏后取消路径。
+完整固件日志记录 3 次暂停与恢复，退出结果为 0，PCM 1475500 个非零样本、0 丢弃、0 接口失败。
+应用环形缓冲计数为 0 次欠载；QEMU 输出端诊断另记录 619 次欠载，统计层级不同，仍不声称长期音频稳定。
+
+证据为 `docs/evidence/menu-zh-verification.json`、`menu-zh-run.log` 和对应截图。
+`python tools/verify_chinese_menu_evidence.py` 核对正式 BDA 与截图摘要，并逐像素检查中文菜单字形、
+声音与显示状态；发布门禁也执行此检查。无需将固件和游戏放入仓库或 CI。
+
 ## 尚待验证
 
 H1 真机速度、长期运行、完整剧情/战斗兼容、其他 NPE 游戏的动态流程、音频欠载原因。
-声音开关已实现为继续推进音频服务、输出静音；此开关本次未完成独立完整固件验收。
+声音开关已实现为继续推进音频服务、输出静音；静音样本由 MIPS 服务表测试验证，完整固件已确认菜单开关与继续操作。
 问答键盘保留字母、方向、确认、删除与 Shift，数字/符号组合的 H1 实机行为仍待验证。
 本项目没有绕过上游引擎尚未实现的游戏行为。
