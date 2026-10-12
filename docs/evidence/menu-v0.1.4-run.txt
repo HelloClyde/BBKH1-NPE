@@ -18,15 +18,18 @@
 000018 ALLOC_END bytes=579872 raw=0x8292980c
 000019 ALLOC_BEGIN bytes=752488
 000020 ALLOC_END bytes=752488 raw=0x829b7134
-000021 AUDIO_PAUSE batches=21110 underruns=0 failures=0
+000021 AUDIO_PAUSE batches=247 underruns=0 failures=0
 000022 PAUSE_BEGIN
 000023 PAUSE_END
-000024 AUDIO_PAUSE batches=21377 underruns=0 failures=0
+000024 AUDIO_PAUSE batches=19076 underruns=0 failures=0
 000025 PAUSE_BEGIN
 000026 PAUSE_END
-000027 AUDIO_PAUSE batches=21679 underruns=0 failures=0
+000027 AUDIO_PAUSE batches=19343 underruns=0 failures=0
 000028 PAUSE_BEGIN
 000029 PAUSE_END
-000030 AUDIO_CLOSE_BEGIN batches=21679 submitted=3 nonzero=1058252 dropped=0 failures=0 underruns=0
-000031 AUDIO_CLOSE_END descriptors=1
-000032 APP_END result=0
+000030 AUDIO_PAUSE batches=19656 underruns=0 failures=0
+000031 PAUSE_BEGIN
+000032 PAUSE_END
+000033 AUDIO_CLOSE_BEGIN batches=19656 submitted=4 nonzero=1065676 dropped=0 failures=0 underruns=0
+000034 AUDIO_CLOSE_END descriptors=1
+000035 APP_END result=0

@@ -22,6 +22,7 @@ static SDL_AudioSpec audio;
 static int audio_open,audio_paused=1,audio_lock,audio_busy;
 static int pen_button=-1,scale=1,menu_active,menu_cursor,sound_enabled=1;
 static Uint32 menu_started;
+enum { MENU_ITEMS=5, MENU_ROW_STEP=40, MENU_ROW_HEIGHT=34 };
 /* GUI+0x8F4 is the LCD's live scanout buffer. Compose away from it:
  * clearing it before drawing exposes the blank intermediate frame on H1. */
 static uint32_t composed[480*272],published[480*272];
@@ -95,12 +96,12 @@ static void show(void) {
     uint32_t *out=composed;
     rect(out,0,0,480,272,0x10202a);
     if(menu_active) {
-        const char *names[6]={"继续游戏",sound_enabled?"声音：开":"声音：关",
-            scale?"画面：2倍":"画面：1倍","选择其他NPE","退出程序","返回游戏"};
+        const char *names[MENU_ITEMS]={"继续游戏",sound_enabled?"声音：开":"声音：关",
+            scale?"画面：2倍":"画面：1倍","选择其他NPE","退出程序"};
         label(out,"诺亚舟NPE - 已暂停",24,8,0xffffff);
-        for(int i=0;i<6;++i) {
-            rect(out,24,40+i*34,432,30,i==menu_cursor?0x38786c:0x203c45);
-            label(out,names[i],40,44+i*34,0xffffff);
+        for(int i=0;i<MENU_ITEMS;++i) {
+            rect(out,24,40+i*MENU_ROW_STEP,432,MENU_ROW_HEIGHT,i==menu_cursor?0x38786c:0x203c45);
+            label(out,names[i],40,46+i*MENU_ROW_STEP,0xffffff);
         }
         label(out,"退出前请在游戏菜单中保存进度。",24,248,0xbfcfcf);
         publish(live);
@@ -174,12 +175,17 @@ static void transition(unsigned k,int down,Uint32 now) {
     }
     SDL_Keycode sym=map_key(k);
     if(menu_active) {
-        if(sym==SDLK_UP) menu_cursor=(menu_cursor+5)%6;
-        if(sym==SDLK_DOWN) menu_cursor=(menu_cursor+1)%6;
+        if(sym==SDLK_UP) menu_cursor=(menu_cursor+MENU_ITEMS-1)%MENU_ITEMS;
+        if(sym==SDLK_DOWN) menu_cursor=(menu_cursor+1)%MENU_ITEMS;
         if(sym==SDLK_RETURN) menu_action();
         if(sym==SDLK_F4) menu_end();
         if(menu_active) show();
     } else key_event(sym,1,0);
+}
+static int menu_hit(int x,int y) {
+    if(x<24 || x>=456 || y<40) return -1;
+    int row=(y-40)/MENU_ROW_STEP;
+    return row<MENU_ITEMS && (y-40)%MENU_ROW_STEP<MENU_ROW_HEIGHT?row:-1;
 }
 void SDL_PumpEvents(void) {
     audio_pump();Uint32 now=raw_ms();
@@ -193,15 +199,15 @@ void SDL_PumpEvents(void) {
         } else if(code==11) {
             int x,y;pen_button=-1;
             if(h1_touch_position(&x,&y)) {
-                if(menu_active && x>=24 && x<456 && y>=40 && y<244) {
-                    pen_button=8+(y-40)/34;menu_cursor=pen_button-8;show();
+                int row=menu_hit(x,y);
+                if(menu_active && row>=0) {
+                    pen_button=8+row;menu_cursor=row;show();
                 } else if(!menu_active && y>=240) pen_button=x/60;
             }
         } else if(code==8) {
             int x,y;
             if(h1_touch_position(&x,&y)) {
-                if(menu_active && pen_button>=8 && x>=24 && x<456 && y>=40 && y<244 &&
-                    8+(y-40)/34==pen_button) menu_action();
+                if(menu_active && pen_button>=8 && menu_hit(x,y)==pen_button-8) menu_action();
                 else if(!menu_active && pen_button>=0 && pen_button<8 && y>=240 && x/60==pen_button) {
                     if(pen_button==7) menu_begin();else key_event(touch_keys[pen_button],1,0);
                 }

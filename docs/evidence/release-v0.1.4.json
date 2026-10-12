@@ -1,10 +1,10 @@
 {
   "version": "0.1.4",
-  "bda_sha256": "3507c681534168b820149b922027021dcc3ca403f6c576acb581ad5989691cde",
-  "payload_sha256": "cd017bff6c8d046f45e6f1f7073528e3c6510132c1b0b39f5f452ec0b800e1ba",
+  "bda_sha256": "af6bef8003085e2e2e15c251e8d485006a37147796f769fdb5112d68d75ee38f",
+  "payload_sha256": "1b24ea6a1b1ccd1e7ac1a8a3ec2b8cc1f9b172f20d0b012ab4e46c50c149cc38",
   "sdk_commit": "067fe072477861dfc8949d7b1a55279fb92d2548",
   "npe_commit": "567ae64c1ba67c8a55d0c4fbdf874f9ac58471cf",
-  "firmware_menu_bda_sha256": "3507c681534168b820149b922027021dcc3ca403f6c576acb581ad5989691cde",
+  "firmware_menu_bda_sha256": "af6bef8003085e2e2e15c251e8d485006a37147796f769fdb5112d68d75ee38f",
   "menu_language": "zh-CN",
   "menu_evidence": "docs/evidence/menu-v0.1.4-verification.json",
   "render_evidence": "docs/evidence/render-v0.1.4-verification.json",
@@ -12,12 +12,12 @@
   "screenshots": {
     "assets/screenshots/gameplay-v0.1.4.png": "4af9f1b77916bd9a762c2ae2491f2f4dc9dec0c9be2cf94683fd3838fb5279c0",
     "assets/screenshots/moved-v0.1.4.png": "8bcf63505c9da31a6b1e4ce240aeeb8a60e0f50655d96e83bcad477cc71c27cc",
-    "assets/screenshots/pause-v0.1.4.png": "483d8a32b3666b5c17b6cc249a34e52b88d27d13febc8742f71775aeaf197d8a",
-    "assets/screenshots/sound-off-v0.1.4.png": "6d6068e1363e55afaa6a04a252ffde15d5bde6ffa94baf67b6190ba9293ba2ff",
-    "assets/screenshots/display-1x-v0.1.4.png": "1dbecb973f440d104cdbe46ba4d63d4bca883ce68d29ade519a996c091736f91",
+    "assets/screenshots/pause-v0.1.4.png": "e137791ae3063ef1f6393335e81b6f2a15c58f3bbc99f4da22d235ce20b681da",
+    "assets/screenshots/sound-off-v0.1.4.png": "24406054375904538e095aca380e6c01d7dd555c374c00793ba2216d5bf124da",
+    "assets/screenshots/display-1x-v0.1.4.png": "613195a3df96076c76ea0d4284754d202b954960a5b61952a79ae7eb34869810",
     "assets/screenshots/resumed-1x-v0.1.4.png": "90a144c0e486fdd4d5640599a7c3d3fa0a899b4fd3c0c7debe4be1d21d8e69cb",
     "assets/screenshots/returned-2x-v0.1.4.png": "8bcf63505c9da31a6b1e4ce240aeeb8a60e0f50655d96e83bcad477cc71c27cc",
-    "assets/screenshots/exit-desktop-v0.1.4.png": "718089b1f9de52155f6d20b1a1275e1530fc7e5cc213f926fd3f685677483d0b"
+    "assets/screenshots/exit-desktop-v0.1.4.png": "d6556732178ef308e33c219260755f6c2295a88f78674dd7a01482b987e2f2e9"
   },
   "evidence": [
     "docs/evidence/menu-v0.1.4-verification.json",
@@ -27,11 +27,11 @@
     "docs/evidence/runtime-v0.1.4-verification.json"
   ],
   "evidence_sha256": {
-    "docs/evidence/menu-v0.1.4-verification.json": "1f3617ea3d82044ed3f502cd42f5cd17d5d72ada9a7daae3b9c8fcd2c646972a",
-    "docs/evidence/menu-v0.1.4-run.txt": "3749e808bfe766d8ec12b10357166aaed09637dab925743a1554e6b080b04519",
-    "docs/evidence/render-v0.1.4-verification.json": "33ca92b24f4901be23e47efbf8f3e446b607f08241d155114cc2b1e92b9c1bc6",
+    "docs/evidence/menu-v0.1.4-verification.json": "9f505de79414aeab9df670bdfed0f8b4f49caabcc8721d2482a345066854a45b",
+    "docs/evidence/menu-v0.1.4-run.txt": "89d3597a5823c6b7022196abfd529e9700059f6c1ed0cbd6c80d43784f56f40d",
+    "docs/evidence/render-v0.1.4-verification.json": "bd683df891f4499fc11d81d1aa4ca0d10d28cf28dcb2743dd36caae52adfd209",
     "docs/evidence/flicker-v0.1.4-baseline.json": "e4f630a900d5ced08ffde00631be27d725b08e6fbee65f2d6e06346e93deb4c0",
-    "docs/evidence/runtime-v0.1.4-verification.json": "bb33f0abaf1628df44769cf5b49c80ca9c38403ec5e8295b260268597eb3e5a0"
+    "docs/evidence/runtime-v0.1.4-verification.json": "77e1926fb37dda55412e159702160773886be15325aa1c2d0b72114601af096c"
   },
   "hardware_tested": false,
   "hardware_fix_retest_pending": true,

@@ -32,6 +32,7 @@ def verify(record_path=None):
             x += advance
 
     white = (255, 255, 255)
+    layout = record.get('menu_layout', dict(item_count=6, row_step=34, text_y=44))
     captures = record.get('captures', dict(
         pause='assets/screenshots/npe-pause-zh.png',
         sound_off='assets/screenshots/npe-sound-off-zh.png',
@@ -44,15 +45,17 @@ def verify(record_path=None):
         picture = Image.open(ROOT/captures[role]).convert('RGB')
         assert picture.size == (480, 272)
         label(picture, '诺亚舟NPE - 已暂停', 24, 8, white, (16, 32, 42))
-        names = ['继续游戏', '声音：'+sound, '画面：'+zoom+'倍', '选择其他NPE', '退出程序', '返回游戏']
+        names = ['继续游戏', '声音：'+sound, '画面：'+zoom+'倍', '选择其他NPE', '退出程序']
+        if layout['item_count'] == 6: names.append('返回游戏')
+        assert len(names) == layout['item_count']
         for i, name in enumerate(names):
-            label(picture, name, 40, 44+i*34, white, (56, 120, 108) if i == selected else (32, 60, 69))
+            label(picture, name, 40, layout['text_y']+i*layout['row_step'], white, (56, 120, 108) if i == selected else (32, 60, 69))
         label(picture, '退出前请在游戏菜单中保存进度。', 24, 248, (191, 207, 207), (16, 32, 42))
     picture = Image.open(ROOT/captures['gameplay']).convert('RGB')
     for i, name in enumerate(['左', '右', '上', '下', '确认', '对话', '返回', '菜单']):
         label(picture, name, i*60+(21 if i < 4 else 12), 245, white, (32, 60, 69))
     log = (ROOT/captures['log']).read_text(encoding='utf-8')
-    assert log.count('PAUSE_BEGIN') == log.count('PAUSE_END') == 3
+    assert log.count('PAUSE_BEGIN') == log.count('PAUSE_END') == record.get('pause_count', 3)
     assert 'AUDIO_OPEN_END ready=1' in log and 'APP_END result=0' in log
     print('PASS exact firmware BDA, captured Chinese glyphs, sound/display states and clean exit')
 

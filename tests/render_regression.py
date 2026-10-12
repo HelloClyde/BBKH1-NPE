@@ -12,7 +12,7 @@ from pathlib import Path
 from PIL import Image
 from unicorn import UC_HOOK_MEM_WRITE
 from unicorn.mips_const import UC_MIPS_REG_A0, UC_MIPS_REG_A1, UC_MIPS_REG_A2, UC_MIPS_REG_A3, UC_MIPS_REG_SP, UC_MIPS_REG_RA, UC_MIPS_REG_V0
-from h1_machine import Machine, ROOT
+from mips_smoke import NpeMachine, ROOT
 
 WIDTH, HEIGHT = 480, 272
 BYTES = WIDTH*HEIGHT*4
@@ -25,9 +25,9 @@ def image_bytes(path):
     return struct.pack('<130560I', *[(r << 16) | (g << 8) | b for r, g, b in picture.get_flattened_data()])
 
 
-class RenderMachine(Machine):
+class RenderMachine(NpeMachine):
     def __init__(self, bda, link_map):
-        super().__init__(bda, files={})
+        super().__init__(bda, files={}, path=None)
         self.symbols = {name: int(address, 16) for address, name in re.findall(
             r'^\s+(0x[0-9a-fA-F]+)\s+(SDL_\w+)\s*$', link_map.read_text(), re.M)}
         self.video_address = 0x82000000
@@ -78,6 +78,11 @@ class RenderMachine(Machine):
         self.events += [(9, code), (10, code)]
         return self.call('SDL_PumpEvents', expected=expected)
 
+    def touch_at(self, x, y, expected):
+        self.pen = (x, y)
+        self.events += [(11, 0), (8, 0)]
+        return self.call('SDL_PumpEvents', expected=expected)
+
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
@@ -92,7 +97,7 @@ def main():
     assert window and renderer and texture
     source = 0x81100000
     toolbar = image_bytes(ROOT/'assets/screenshots/gameplay-v0.1.3.png')[WIDTH*240*4:]
-    pause = image_bytes(ROOT/'assets/screenshots/pause-v0.1.3.png')
+    pause = image_bytes(ROOT/'assets/screenshots/pause-v0.1.4.png')
     machine.call('SDL_RenderCopy', renderer, texture, 0, 0)
     stores = {}
     for name, color in [('first_frame', BLUE), ('changed_frame', GREEN)]:
@@ -111,6 +116,20 @@ def main():
     expected = bytes(expected)
     _, stores['one_pixel_change_2x'] = machine.call('SDL_RenderPresent', renderer, expected=expected)
     assert stores['one_pixel_change_2x'] == 4
+    machine.key(31, expected=pause)
+    # Five choices wrap at Exit. Back closes the pause UI; gaps do nothing.
+    last = list(struct.unpack('<130560I', pause))
+    for row, before, after in [(0, 0x38786c, 0x203c45), (4, 0x203c45, 0x38786c)]:
+        for y in range(40+row*40, 74+row*40):
+            for x in range(24, 456):
+                i = y*WIDTH+x
+                if last[i] == before: last[i] = after
+    machine.key(37, expected=struct.pack('<130560I', *last))
+    machine.key(27, expected=pause)
+    machine.touch_at(100, 77, expected=pause)
+    machine.touch_at(100, 250, expected=pause)
+    stores['five_menu_choices_and_inert_gaps'] = True
+    machine.key(41, expected=expected)
     machine.key(31, expected=pause)
     _, stores['identical_pause'] = machine.call('SDL_RenderPresent', renderer, expected=pause)
     assert stores['identical_pause'] == 0
@@ -142,6 +161,7 @@ def main():
                   assertions=['only final pixels reach LCD', 'no intermediate background clear',
                               'unchanged game and pause frames make zero LCD writes',
                               'one source pixel changes four 2x LCD pixels', '1x and 2x restoration',
+                              'five-choice wraparound, Back resumes, touch gaps inert',
                               'framebuffer change and window reopen repaint', 'no leaked texture/window'],
                   hardware_tested=False, lcd_scan_timing_simulated=False)
     output = ROOT/'build/verification/render-regression.json'
