@@ -1,0 +1,122 @@
+{
+  "ok": true,
+  "kind": "Full H1 V1.41 firmware under QEMU bbkh1; production BDA",
+  "bda_sha256": "13e94638620ff2dab7e0afeba5125654c226218260a25ed22ec75bc2f3197b08",
+  "npe_commit": "567ae64c1ba67c8a55d0c4fbdf874f9ac58471cf",
+  "kernel_sha256": "d05786e442f9aad62a8d0a0cb4f6d786bdc7c2fa353a7a2b152c9ed9f01b40ef",
+  "setup": {
+    "game_fingerprint": "114861a601117d94",
+    "save_format": "NPESAV22",
+    "fixture_sha256": "ffabbc5231f22ceacf96ef94204fdf761f37833e5e2c44bb17fc9acb34bb5338",
+    "fixture_description": "Native pinned upstream codec; map 9 x4 y20, progress6, seed4, 16 alternating right/left steps; valid map save loaded through native title slot1",
+    "firmware_or_program_injected": false,
+    "game_and_save_not_distributed": true
+  },
+  "capture": {
+    "method": "Read-only HTTP framebuffer polling with physical Confirm key input",
+    "nominal_poll_interval_seconds": 0.015,
+    "elapsed_host_seconds": 9.016000000061467,
+    "timing_basis": "Host wall time between sampled framebuffer changes, not hardware or exact guest delay measurements"
+  },
+  "frames": [
+    {
+      "role": "battle-ready",
+      "file": "assets/screenshots/battle-ready-v0.1.3.png",
+      "sha256": "fac2693b25c0ef6fe5b25b673febde2ae8f0abdc8163c5f12b736057748d6213",
+      "rgba_sha256": "3b8d63784fbbb009405a1aabe435bf28f5f9c14259b8c4b217cd20e6b2b26898",
+      "sample_seconds": 0.016
+    },
+    {
+      "role": "battle-attack",
+      "file": "assets/screenshots/battle-attack-v0.1.3.png",
+      "sha256": "3e39412c421b4a7782be67a6c935aa28fb013e02dd89a4f6a0becf700e749fca",
+      "rgba_sha256": "5cdacb4afaafc19011043244138c2ee805364ebba7a8fb77d6abb06cc857d16f",
+      "sample_seconds": 0.297
+    },
+    {
+      "role": "battle-hit",
+      "file": "assets/screenshots/battle-hit-v0.1.3.png",
+      "sha256": "3e0fb471ee64f30ee5593b2499213a4602a0ca6dc1d21fa9d4150e93bcd7c876",
+      "rgba_sha256": "59befeac05993f98a4b10a34f8631610b5b99882c0f6ff768af5029426f2a32c",
+      "sample_seconds": 0.782
+    },
+    {
+      "role": "battle-damage",
+      "file": "assets/screenshots/battle-damage-v0.1.3.png",
+      "sha256": "4f8083bb6dcce4e73481e20b85414ae957a7a3e6a4ffef4059ddfdc020e76feb",
+      "rgba_sha256": "2f67396bc4d4723f85b7ff630f7a10e2b923fc8b29355f9f3a02ec5552af7921",
+      "sample_seconds": 1.063
+    },
+    {
+      "role": "battle-damage-late",
+      "file": "assets/screenshots/battle-damage-late-v0.1.3.png",
+      "sha256": "b572cabd82e6a964d74f246234f87610814e4bd2fc9df634c164f69af5646efb",
+      "rgba_sha256": "72e09525777df415d4c0c1441d3cd05a8bb07663333a4b83520ce25cb4b3862e",
+      "sample_seconds": 2.547
+    },
+    {
+      "role": "battle-enemy-attack",
+      "file": "assets/screenshots/battle-enemy-attack-v0.1.3.png",
+      "sha256": "4c455e3488c01d245d0331fa7c2aac06af33d338b6f9589e529e857440250ba8",
+      "rgba_sha256": "fe686eacce91fd0e89a255b5643cab2f788a3ba9cc34fe0287b9e06ed118a46b",
+      "sample_seconds": 4.047
+    },
+    {
+      "role": "battle-party-damage",
+      "file": "assets/screenshots/battle-party-damage-v0.1.3.png",
+      "sha256": "e6e4e34b7be6c0f1fde144e9e9f9a124421730bfbcab4b43ac1c0d8de7d2361b",
+      "rgba_sha256": "3fca8a8f9d427459afc2ffbd5d573d7efae37d3b39d4079e1e45d28b7acc503f",
+      "sample_seconds": 4.297
+    },
+    {
+      "role": "battle-party-damage-late",
+      "file": "assets/screenshots/battle-party-damage-late-v0.1.3.png",
+      "sha256": "d544e180c01983c5514ad34584d4f84e7a4f7030a59ede3ff2ccf89a2570face",
+      "rgba_sha256": "bc36386483b5a4174e2d573faab1597cd1a276b342adc038127c1820d3efb1be",
+      "sample_seconds": 5.782
+    },
+    {
+      "role": "battle-round-end",
+      "file": "assets/screenshots/battle-round-end-v0.1.3.png",
+      "sha256": "26619571da5f890b45421d4e0e3cf1e3704b138161b22ea1998a9d54504d7a51",
+      "rgba_sha256": "497adcd5d1e360a35eeb55402aaa664a30192d13068887b9227ecf279f2f5104",
+      "sample_seconds": 7.297
+    }
+  ],
+  "holds": [
+    {
+      "role": "battle-attack",
+      "requested_engine_ms": 200,
+      "observed_host_seconds": 0.485
+    },
+    {
+      "role": "battle-hit",
+      "requested_engine_ms": 100,
+      "observed_host_seconds": 0.281
+    },
+    {
+      "role": "battle-damage",
+      "requested_engine_ms": 600,
+      "observed_host_seconds": 1.484
+    },
+    {
+      "role": "battle-damage-late",
+      "requested_engine_ms": 600,
+      "observed_host_seconds": 1.5
+    }
+  ],
+  "manual_checked": [
+    "slot1 load of valid test map save",
+    "touch direction triggers ordinary encounter",
+    "physical Confirm performs ordinary attacks",
+    "visible attack pose and damage numbers",
+    "enemy response and next command frame",
+    "Escape restores native desktop"
+  ],
+  "log": {
+    "file": "docs/evidence/battle-v0.1.3-run.txt",
+    "sha256": "13bc515cd7aba9db4058b362788c90cbb0908c3d8919598bc561be7d9c82e389"
+  },
+  "hardware_tested": false,
+  "original_dump_modified": false
+}

@@ -1,0 +1,47 @@
+{
+  "version": "0.1.3",
+  "bda_sha256": "13e94638620ff2dab7e0afeba5125654c226218260a25ed22ec75bc2f3197b08",
+  "payload_sha256": "8ec91af9981ea0e8a67210f0379f0c4acef68fc8b240296cb3e355a145d39535",
+  "sdk_commit": "067fe072477861dfc8949d7b1a55279fb92d2548",
+  "npe_commit": "567ae64c1ba67c8a55d0c4fbdf874f9ac58471cf",
+  "firmware_menu_bda_sha256": "13e94638620ff2dab7e0afeba5125654c226218260a25ed22ec75bc2f3197b08",
+  "menu_language": "zh-CN",
+  "menu_evidence": "docs/evidence/menu-v0.1.3-verification.json",
+  "title_validated": "诺亚舟NPE",
+  "screenshots": {
+    "assets/screenshots/gameplay-v0.1.3.png": "4af9f1b77916bd9a762c2ae2491f2f4dc9dec0c9be2cf94683fd3838fb5279c0",
+    "assets/screenshots/pause-v0.1.3.png": "483d8a32b3666b5c17b6cc249a34e52b88d27d13febc8742f71775aeaf197d8a",
+    "assets/screenshots/sound-off-v0.1.3.png": "6d6068e1363e55afaa6a04a252ffde15d5bde6ffa94baf67b6190ba9293ba2ff",
+    "assets/screenshots/display-1x-v0.1.3.png": "1dbecb973f440d104cdbe46ba4d63d4bca883ce68d29ade519a996c091736f91",
+    "assets/screenshots/resumed-1x-v0.1.3.png": "3fa27fbf154cb4bcb80790dfed72ef0b82debb63eb45ce81356d821ca6a8749b",
+    "assets/screenshots/returned-2x-v0.1.3.png": "dfb2c2840294693779aaf65220da9c49268c7ea2b03ab19b0938d738898de472",
+    "assets/screenshots/exit-desktop-v0.1.3.png": "901232c9dda92eba53d33941053b250d200a560a450a40c9b7ac8c04b2c2910d",
+    "assets/screenshots/battle-ready-v0.1.3.png": "fac2693b25c0ef6fe5b25b673febde2ae8f0abdc8163c5f12b736057748d6213",
+    "assets/screenshots/battle-attack-v0.1.3.png": "3e39412c421b4a7782be67a6c935aa28fb013e02dd89a4f6a0becf700e749fca",
+    "assets/screenshots/battle-hit-v0.1.3.png": "3e0fb471ee64f30ee5593b2499213a4602a0ca6dc1d21fa9d4150e93bcd7c876",
+    "assets/screenshots/battle-damage-v0.1.3.png": "4f8083bb6dcce4e73481e20b85414ae957a7a3e6a4ffef4059ddfdc020e76feb",
+    "assets/screenshots/battle-damage-late-v0.1.3.png": "b572cabd82e6a964d74f246234f87610814e4bd2fc9df634c164f69af5646efb",
+    "assets/screenshots/battle-enemy-attack-v0.1.3.png": "4c455e3488c01d245d0331fa7c2aac06af33d338b6f9589e529e857440250ba8",
+    "assets/screenshots/battle-party-damage-v0.1.3.png": "e6e4e34b7be6c0f1fde144e9e9f9a124421730bfbcab4b43ac1c0d8de7d2361b",
+    "assets/screenshots/battle-party-damage-late-v0.1.3.png": "d544e180c01983c5514ad34584d4f84e7a4f7030a59ede3ff2ccf89a2570face",
+    "assets/screenshots/battle-round-end-v0.1.3.png": "26619571da5f890b45421d4e0e3cf1e3704b138161b22ea1998a9d54504d7a51"
+  },
+  "evidence": [
+    "docs/evidence/menu-v0.1.3-verification.json",
+    "docs/evidence/menu-v0.1.3-run.txt",
+    "docs/evidence/battle-v0.1.3-verification.json",
+    "docs/evidence/battle-v0.1.3-run.txt",
+    "docs/evidence/upstream-v0.1.3-compatibility.json"
+  ],
+  "hardware_tested": false,
+  "release_kind": "prerelease",
+  "prior_release": "v0.1.2",
+  "battle_evidence": "docs/evidence/battle-v0.1.3-verification.json",
+  "evidence_sha256": {
+    "docs/evidence/menu-v0.1.3-verification.json": "310a540d09170bdd6f7e1ef152f1715aab107bfa60b9cbd1f226a6d950f5ec9b",
+    "docs/evidence/menu-v0.1.3-run.txt": "79064cd71d690ee834b96545f4232cac9447e038bbfe621f31c3ce4b8200eb31",
+    "docs/evidence/battle-v0.1.3-verification.json": "da7098bc6546578a3853389e1b28bea4f0ff562daf542fbaa38c82fc8fa44e32",
+    "docs/evidence/battle-v0.1.3-run.txt": "13bc515cd7aba9db4058b362788c90cbb0908c3d8919598bc561be7d9c82e389",
+    "docs/evidence/upstream-v0.1.3-compatibility.json": "fdfacc730bee7e6003d27c445b2e308bd31fc8ea78140ed444acc7f0c78689b7"
+  }
+}

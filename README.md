@@ -10,7 +10,7 @@ H1 桌面和应用列表显示名称为 **诺亚舟NPE**；安装文件名为 `H
 
 适用于步步高 **H1 / Y100 V1.41 原生 BDA 环境**。
 从 [GitHub Releases](https://github.com/HelloClyde/BBKH1-NPE/releases) 下载
-`BBKH1-NPE-v0.1.2-install.zip`，安装包包含程序和所需字体，游戏文件需自行准备。
+`BBKH1-NPE-v0.1.3-install.zip`，安装包包含程序和所需字体，游戏文件需自行准备。
 当前版本为预发布，验证范围见本文下方。
 
 解压 `dist/H1NPE-install.zip`，将 `应用` 和 `NPE` 两个文件夹合并到 H1 的 A 盘：
@@ -35,13 +35,18 @@ A:\NPE\assets\gbk16-native.bin
 
 | 地图与触摸操作栏 | 暂停与显示设置 |
 | --- | --- |
-| ![地图与中文触摸栏](assets/screenshots/npe-gameplay-zh.png) | ![中文暂停菜单](assets/screenshots/npe-pause-zh.png) |
+| ![地图与中文触摸栏](assets/screenshots/gameplay-v0.1.3.png) | ![中文暂停菜单](assets/screenshots/pause-v0.1.3.png) |
+
+| 普通攻击姿势 | 伤害数字停留 |
+| --- | --- |
+| ![普通攻击](assets/screenshots/battle-attack-v0.1.3.png) | ![伤害数字](assets/screenshots/battle-damage-v0.1.3.png) |
 
 | 原生桌面图标 | 未选择文件，退出后返回桌面 |
 | --- | --- |
 | ![H1 桌面图标](assets/screenshots/npe-desktop-icon.png) | ![取消选择后返回桌面](assets/screenshots/npe-cancel-key-desktop.png) |
 
-地图与暂停菜单截图来自 v0.1.2 中文菜单构建。桌面与取消截图保留早期采集时的 NPE 名称；
+地图、暂停与战斗截图来自 v0.1.3 正式 BDA；战斗从独立测试存档进入。
+桌面与取消截图保留早期采集时的 NPE 名称；
 当前构建显示名称为“诺亚舟NPE”。
 构建身份及截图摘要见 [验证记录](docs/verification.md) 和 `docs/evidence/`。
 
@@ -72,7 +77,7 @@ A:\NPE\assets\gbk16-native.bin
 | 开发依赖 | 固定版本与用途 |
 | --- | --- |
 | [H1 BDA SDK](https://github.com/MrDefinition1999/bbk-h1-bda-sdk) | `vendor/h1-sdk`，提交 `067fe072477861dfc8949d7b1a55279fb92d2548`；H1 接口、打包和校验 |
-| [NPE 引擎](https://github.com/HelloClyde/noah-npe-engine) | `third_party/noah-npe-engine`，提交 `7e156527d2d668b666fc203df2aadb929ab83de1`；GPL-2.0 源码及单独记录来源的原生字体 |
+| [NPE 引擎](https://github.com/HelloClyde/noah-npe-engine) | `third_party/noah-npe-engine`，上游 v0.1.3，提交 `567ae64c1ba67c8a55d0c4fbdf874f9ac58471cf`；GPL-2.0 源码及单独记录来源的原生字体 |
 | Windows GNU MIPS 工具链 | GCC 15.2.0；安装器验证归档 SHA256，工具前缀 `mipsel-none-elf-` |
 | Python / Git | Python 3.10+；CI 使用 Python 3.12 和 Windows runner，Git 用于固定依赖和源码打包 |
 | Pillow | 12.3.0，生成 H1 四份图标资源，锁定于 `requirements.txt` |
@@ -131,6 +136,9 @@ SDL2 本身不参与 H1 编译。`src/platform/SDL.h` 仅实现本引擎所需�
 尚未进行 H1 真机验证；模拟服务和完整固件模拟器的证据分别记录。
 游戏兼容性仍受上游引擎实现范围限制。
 
+v0.1.3 同步上游战斗显示等待修复，普通攻击姿势不再快速闪过，伤害/中毒数字保留原服务等待单位。
+此次上游未修改存档格式或战斗计算。平安镇郊外的部分出口受剧情进度限制，保持游戏资源中的条件。
+
 ## Actions 和发布
 
 `main`、PR 和手动运行构建正式 BDA、检查 GBK 名称/图标/校验和，执行真实 MIPS 的
@@ -139,7 +147,7 @@ CI 不携带游戏和固件，因此不会把 CI 成功描述为完整固件或�
 
 `v*` 标签触发 Release；标签须匹配 `VERSION`。发布复用同一次 CI 的构建产物，
 下载后校验 `SHA256SUMS.txt`，仅发布 job 具有写入权限。
-`v0.1.2` 使用预发布标记，含 BDA、安装 ZIP、完整源码 ZIP、构建/验证信息和 SHA256 清单。
+`v0.1.3` 使用预发布标记，含 BDA、安装 ZIP、完整源码 ZIP、构建/验证信息和 SHA256 清单。
 维护者在干净提交上执行 `python tools/package_release.py` 可生成 `dist/release/`。
 
 ## 感谢

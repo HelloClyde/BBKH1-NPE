@@ -8,8 +8,12 @@ from PIL import Image
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def verify():
-    record = json.loads((ROOT/'docs/evidence/menu-zh-verification.json').read_text(encoding='utf-8'))
+def verify(record_path=None):
+    if record_path is None:
+        version = (ROOT/'VERSION').read_text().strip()
+        release = json.loads((ROOT/f'docs/evidence/release-v{version}.json').read_text(encoding='utf-8'))
+        record_path = ROOT/release.get('menu_evidence', 'docs/evidence/menu-zh-verification.json')
+    record = json.loads(record_path.read_text(encoding='utf-8'))
     assert record['bda_sha256'] == hashlib.sha256((ROOT/'dist/H1NPE.bda').read_bytes()).hexdigest()
     for name, digest in record['files'].items():
         assert hashlib.sha256((ROOT/name).read_bytes()).hexdigest() == digest, name
@@ -28,20 +32,26 @@ def verify():
             x += advance
 
     white = (255, 255, 255)
-    for filename, sound, zoom, selected in [('npe-pause-zh.png', '开', '2', 0),
-                                           ('npe-sound-off-zh.png', '关', '2', 1),
-                                           ('npe-display-1x-zh.png', '关', '1', 2)]:
-        picture = Image.open(ROOT/'assets/screenshots'/filename).convert('RGB')
+    captures = record.get('captures', dict(
+        pause='assets/screenshots/npe-pause-zh.png',
+        sound_off='assets/screenshots/npe-sound-off-zh.png',
+        display_1x='assets/screenshots/npe-display-1x-zh.png',
+        gameplay='assets/screenshots/npe-gameplay-zh.png',
+        log='docs/evidence/menu-zh-run.log'))
+    for role, sound, zoom, selected in [('pause', '开', '2', 0),
+                                       ('sound_off', '关', '2', 1),
+                                       ('display_1x', '关', '1', 2)]:
+        picture = Image.open(ROOT/captures[role]).convert('RGB')
         assert picture.size == (480, 272)
         label(picture, '诺亚舟NPE - 已暂停', 24, 8, white, (16, 32, 42))
         names = ['继续游戏', '声音：'+sound, '画面：'+zoom+'倍', '选择其他NPE', '退出程序', '返回游戏']
         for i, name in enumerate(names):
             label(picture, name, 40, 44+i*34, white, (56, 120, 108) if i == selected else (32, 60, 69))
         label(picture, '退出前请在游戏菜单中保存进度。', 24, 248, (191, 207, 207), (16, 32, 42))
-    picture = Image.open(ROOT/'assets/screenshots/npe-gameplay-zh.png').convert('RGB')
+    picture = Image.open(ROOT/captures['gameplay']).convert('RGB')
     for i, name in enumerate(['左', '右', '上', '下', '确认', '对话', '返回', '菜单']):
         label(picture, name, i*60+(21 if i < 4 else 12), 245, white, (32, 60, 69))
-    log = (ROOT/'docs/evidence/menu-zh-run.log').read_text()
+    log = (ROOT/captures['log']).read_text(encoding='utf-8')
     assert log.count('PAUSE_BEGIN') == log.count('PAUSE_END') == 3
     assert 'AUDIO_OPEN_END ready=1' in log and 'APP_END result=0' in log
     print('PASS exact firmware BDA, captured Chinese glyphs, sound/display states and clean exit')

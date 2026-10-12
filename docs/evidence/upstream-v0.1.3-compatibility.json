@@ -1,0 +1,50 @@
+{
+  "upstream_commit": "567ae64c1ba67c8a55d0c4fbdf874f9ac58471cf",
+  "kind": "MIPS service-table regression and native host save codec",
+  "mips_gameplay": {
+    "ok": true,
+    "kind": "Actual MIPS BDA with mock firmware services",
+    "seconds": 4.41,
+    "game_bytes": 3751913,
+    "frames": 22,
+    "pcm_submissions": 2,
+    "pcm_nonzero": true,
+    "assertions": [
+      "GBK file path",
+      "NPE parse",
+      "native fonts",
+      "game picture",
+      "input quit",
+      "stack/register preservation",
+      "no leaked allocations/files",
+      "PCM teardown",
+      "physical Back does not quit",
+      "slot 2 saved in GBK directory",
+      "touch display toggle",
+      "pause/resume",
+      "sound OFF emits silence"
+    ],
+    "hardware_tested": false,
+    "gameplay": true
+  },
+  "mips_storage": {
+    "ok": true,
+    "kind": "MIPS storage probe with mock H1 filesystem",
+    "slots_saved": 3,
+    "slots_restored": 3,
+    "corrupt_rejected": true,
+    "failed_load_preserves_world": true,
+    "stdio_element_counts": true
+  },
+  "old_save": {
+    "sha256": "9ca957d21237a226d72d889646ec1ae69d6ee3088637accd2a4df7e529a37e13",
+    "bytes": 2366,
+    "format": "NPESAV22",
+    "source": "v0.1.0 full-firmware slot 2",
+    "loaded_by": "Native host build of the pinned upstream save codec",
+    "map": 1,
+    "x": 43,
+    "y": 2
+  },
+  "hardware_tested": false
+}

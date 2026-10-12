@@ -4,9 +4,9 @@
 采用 GNU GPL version 2，完整文本见根目录 `LICENSE`。
 从 BBKH1-GBA 改编的代码保留 GPL-2.0 来源；此许可不覆盖下列各自授权的第三方内容。
 
-- NPE 引擎：HelloClyde/noah-npe-engine，提交 `7e156527d2d668b666fc203df2aadb929ab83de1`。
+- NPE 引擎：HelloClyde/noah-npe-engine，v0.1.3，提交 `567ae64c1ba67c8a55d0c4fbdf874f9ac58471cf`。
   原创引擎、前端、工具和测试源码按 GPL-2.0-only 授权，文本与范围见上游 `LICENSE`、`NOTICE.md`。
-  H1 构建保持该固定子模块干净；上游本次仅增加许可文件和 README 说明。
+  H1 构建保持该固定子模块干净；本次同步上游战斗显示等待单位修复。
 - H1 运行时、freestanding libc、PCM、按键矩阵、触摸及诊断代码参考/改编自
   HelloClyde/BBKH1-GBA（GPL-2.0），硬件接口在提交
   `e73848f295508d92f45488b354735a35c9722477` 核对。对应许可证见 `assets/licenses/GPL-2.0.txt`。
