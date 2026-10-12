@@ -81,7 +81,7 @@ def main():
         for k in keys:actions.extend([(30,(9,k)),(2,(10,k))])
         actions += [(30,(9,31)),(2,(10,31)), # pause
                     (20,(11,0,100,88)),(2,(8,0,100,88)), # sound OFF
-                    (20,(11,0,100,122)),(2,(8,0,100,122)), # touch 1x
+                    (20,(11,0,100,109)),(2,(8,0,100,109)), # touch 1x
                     (20,(11,0,100,54)),(2,(8,0,100,54)), # continue
                     (30,(9,24))]
     machine=NpeMachine(args.bda,files,path,actions)

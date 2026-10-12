@@ -46,7 +46,8 @@ def verify(record_path=None):
         assert picture.size == (480, 272)
         label(picture, '诺亚舟NPE - 已暂停', 24, 8, white, (16, 32, 42))
         names = ['继续游戏', '声音：'+sound, '画面：'+zoom+'倍', '选择其他NPE', '退出程序']
-        if layout['item_count'] == 6: names.append(layout.get('extra_item', '返回游戏'))
+        if layout['item_count'] >= 6: names.append(layout.get('extra_item', '返回游戏'))
+        if layout['item_count'] == 7: names.append('关于')
         assert len(names) == layout['item_count']
         for i, name in enumerate(names):
             label(picture, name, 40, layout['text_y']+i*layout['row_step'], white, (56, 120, 108) if i == selected else (32, 60, 69))
@@ -54,6 +55,12 @@ def verify(record_path=None):
     picture = Image.open(ROOT/captures['gameplay']).convert('RGB')
     for i, name in enumerate(['左', '右', '上', '下', '确认', '对话', '返回', '菜单']):
         label(picture, name, i*60+(21 if i < 4 else 12), 245, white, (32, 60, 69))
+    if 'about' in captures:
+        picture = Image.open(ROOT/captures['about']).convert('RGB')
+        label(picture, '关于诺亚舟NPE', 24, 8, white, (16, 32, 42))
+        label(picture, '作者：HelloClyde', 40, 76, white, (16, 32, 42))
+        label(picture, '版本：'+record['version'], 40, 112, (191, 207, 207), (16, 32, 42))
+        label(picture, '返回菜单', 40, 207, white, (56, 120, 108))
     log = (ROOT/captures['log']).read_text(encoding='utf-8')
     assert log.count('PAUSE_BEGIN') == log.count('PAUSE_END') == record.get('pause_count', 3)
     assert 'AUDIO_OPEN_END ready=1' in log and 'APP_END result=0' in log

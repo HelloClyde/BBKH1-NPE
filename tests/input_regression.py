@@ -98,7 +98,7 @@ def check_profiles(machine):
     machine.files.pop(second+'.h1keys')
     machine.profile(second)
     assert machine.tap(450, 256) == []
-    assert machine.tap(100, 225) == []  # Touch Settings.
+    assert machine.tap(100, 192) == []  # Touch Settings.
     assert machine.tap(70, 70) == []    # Slot 1.
     assert machine.tap(380, 167) == []  # a, last cell of page 1.
     assert machine.tap(380, 182) == []  # Save and return.
@@ -109,7 +109,7 @@ def check_profiles(machine):
     machine.profile(second)
     assert machine.tap(30, 256) == pair(97)
     # Native aliases navigate the editor too; final partial page is reachable.
-    machine.tap(450, 256);machine.tap(100, 225);machine.tap(70, 70)
+    machine.tap(450, 256);machine.tap(100, 192);machine.tap(70, 70)
     machine.send((9, 28), (10, 28))  # a -> b
     machine.send((9, 26), (10, 26))  # b -> a
     machine.tap(230, 220)  # Next page.
@@ -123,7 +123,7 @@ def check_profiles(machine):
     assert machine.tap(30, 256) == pair(97), 'Failed save changed the live layout'
     machine.reject_write = False
     # Defaults remain a draft until saved; Back discards the edit.
-    machine.tap(450, 256);machine.tap(100, 225);machine.tap(230, 182)
+    machine.tap(450, 256);machine.tap(100, 192);machine.tap(230, 182)
     machine.send((9, 41), (10, 41));machine.send((9, 41), (10, 41))
     assert machine.files[second+'.h1keys'] == saved
     assert machine.tap(30, 256) == pair(97)

@@ -1,0 +1,54 @@
+{
+  "ok": true,
+  "version": "0.1.6",
+  "kind": "Full H1 V1.41 firmware under QEMU bbkh1",
+  "bda_sha256": "9a98238b7eab7acb382986e53e376d110b9a73727ce368cddc57ac257e8141e4",
+  "payload_sha256": "09b8a8c481ae1bb6f0fb6bed034e240dc81de928c0b34ae3daf4eb3362f99166",
+  "kernel_sha256": "d05786e442f9aad62a8d0a0cb4f6d786bdc7c2fa353a7a2b152c9ed9f01b40ef",
+  "menu_language": "zh-CN",
+  "menu_layout": {
+    "item_count": 7,
+    "row_step": 28,
+    "text_y": 42,
+    "extra_item": "触摸按键设置"
+  },
+  "pause_count": 2,
+  "files": {
+    "assets/screenshots/gameplay-v0.1.6.png": "4daf98dc024b2dc2714e6d0d94368fceeb3cb9562bfcc6358aaa66129ec379fc",
+    "assets/screenshots/pause-v0.1.6.png": "82074fc413168fea682c83eb898f38fcad98fbfd0645ec90b9d34ad5164bb1b8",
+    "assets/screenshots/about-v0.1.6.png": "de1e4d999142e690ae4c97d79669c215339baffa71972caa09f5e63a326d7d68",
+    "assets/screenshots/about-text-inert-v0.1.6.png": "de1e4d999142e690ae4c97d79669c215339baffa71972caa09f5e63a326d7d68",
+    "assets/screenshots/about-key-return-v0.1.6.png": "45f40329c345aebfe27cb9468aa597c2c41a76019e899a56c3f44e56cad4e5a8",
+    "assets/screenshots/about-key-open-v0.1.6.png": "de1e4d999142e690ae4c97d79669c215339baffa71972caa09f5e63a326d7d68",
+    "assets/screenshots/about-confirm-return-v0.1.6.png": "45f40329c345aebfe27cb9468aa597c2c41a76019e899a56c3f44e56cad4e5a8",
+    "assets/screenshots/about-touch-return-v0.1.6.png": "45f40329c345aebfe27cb9468aa597c2c41a76019e899a56c3f44e56cad4e5a8",
+    "assets/screenshots/sound-off-v0.1.6.png": "5d3443a7126eb88c8c3911cc0fc9b0475975b7b57de569eeb273112d0372df36",
+    "assets/screenshots/display-1x-v0.1.6.png": "808cddfc85e1ee677f85ce635a5c1e9028126c0ce75c53fe6b2a49ff81b506a8",
+    "assets/screenshots/resumed-v0.1.6.png": "2dfc850883267836c9d91a8147773f547ea6a985e386222ea10e9e8f159cae26",
+    "assets/screenshots/exit-desktop-v0.1.6.png": "7e0c402cb4132bf41b645b8656b1a6027c84373a707d3395da8f8cab7c2b8b14",
+    "docs/evidence/menu-v0.1.6-run.txt": "d4763f0676f155f149ce07cc3dd6434d54ddb7b544e315a44dbd50b0edc8565f"
+  },
+  "captures": {
+    "gameplay": "assets/screenshots/gameplay-v0.1.6.png",
+    "pause": "assets/screenshots/pause-v0.1.6.png",
+    "about": "assets/screenshots/about-v0.1.6.png",
+    "sound_off": "assets/screenshots/sound-off-v0.1.6.png",
+    "display_1x": "assets/screenshots/display-1x-v0.1.6.png",
+    "log": "docs/evidence/menu-v0.1.6-run.txt"
+  },
+  "manual_checked": [
+    "native NPE picker and opening",
+    "seven distinct menu choices",
+    "About author HelloClyde and version 0.1.6",
+    "About text touch inert",
+    "physical Back returns to pause",
+    "physical Confirm returns to pause",
+    "touch button returns to pause",
+    "touch settings opens and cancels",
+    "sound OFF and 1x display",
+    "continue and Exit restores desktop"
+  ],
+  "original_dump_modified": false,
+  "hardware_tested": false,
+  "lcd_scan_timing_simulated": false
+}

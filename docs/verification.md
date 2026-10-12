@@ -3,8 +3,8 @@
 更新日期：2026-10-13；早期验证日期保留在对应记录中。正式 BDA 与安装 ZIP 由 `tools/build.py` 生成。
 准确的源码版本、编译器、文件大小与 SHA-256 见 `dist/H1NPE.build.json`。
 
-当前发布记录：`docs/release-v0.1.5.md`；Release 的自动门禁记录
-`docs/evidence/release-v0.1.5.json` 固定正式 BDA 与可执行载荷摘要。
+当前发布记录：`docs/release-v0.1.6.md`；Release 的自动门禁记录
+`docs/evidence/release-v0.1.6.json` 固定正式 BDA 与可执行载荷摘要。
 `main` / PR 的 CI 使用公开且不带游戏的 MIPS 取消/坏资源测试，不运行完整固件模拟器。
 安装 ZIP 使用固定时间戳和文本行尾；固定工具链、Pillow 版本下可重复生成。
 
@@ -184,6 +184,16 @@ README 的地图与暂停截图更新为本次正式 BDA；旧截图及其摘要
 本次 SDK 和 NPE 依赖没有升级，历史存档/战斗证据保留原身份。
 证据见 `docs/evidence/menu-v0.1.5-verification.json`、`input-v0.1.5-verification.json`、
 `input-v0.1.5-baseline.json` 与 `render-v0.1.5-verification.json`。
+
+## v0.1.6 关于与作者署名
+
+暂停菜单增加“关于”，共七项，字号仍为 18 像素，行间保留触摸间隙。
+关于页显示“作者：HelloClyde”和构建自 `VERSION` 的版本号。
+保持游戏暂停；返回键、确认键和触摸按钮回到暂停菜单。
+针对新的七行菜单检查循环选择、行间/底部误触、关于页文字区误触、三种返回路径和恢复游戏。
+MIPS 回归同时检查关于页面重复呈现零 LCD 写入，既有触摸配置和左右键回归继续运行。
+本版菜单、关于截图和完整固件日志单独记录，不替换 v0.1.5 的历史配置证据。
+证据见 `docs/evidence/release-v0.1.6.json`。
 
 ## 尚待验证
 

@@ -85,7 +85,8 @@ def main():
              '-fno-strict-aliasing', '-ffunction-sections', '-fdata-sections', '-g0',
              '-Wall', '-Wextra', '-Werror=implicit-function-declaration',
              '-Werror=incompatible-pointer-types', '-fstack-usage',
-             f'-DH1_TRACE={int(args.debug)}', f'-DH1_TEST_NEW_GAME={int(args.test_new_game)}', f'-DH1_TEST_STORAGE={int(args.test_storage)}', f'-ffile-prefix-map={ROOT}=h1-npe']
+             f'-DH1_TRACE={int(args.debug)}', f'-DH1_TEST_NEW_GAME={int(args.test_new_game)}', f'-DH1_TEST_STORAGE={int(args.test_storage)}',
+             '-DH1_NPE_VERSION="'+(ROOT/'VERSION').read_text().strip()+'"', f'-ffile-prefix-map={ROOT}=h1-npe']
     flags += [v for folder in [ROOT/'src', ROOT/'src/libc/include', ROOT/'src/platform',
                                SDK/'sdk/include', core] for v in ['-I', str(folder)]]
     inputs = hashlib.sha256()

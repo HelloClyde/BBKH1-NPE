@@ -1,0 +1,23 @@
+{
+  "ok": true,
+  "kind": "Actual MIPS input adapter with mock H1 services",
+  "bda_sha256": "9a98238b7eab7acb382986e53e376d110b9a73727ce368cddc57ac257e8141e4",
+  "assertions": [
+    "both horizontal matrix IDs",
+    "all four directions",
+    "hold/repeat/release",
+    "Confirm and Back identity",
+    "per-game profiles and defaults",
+    "letters/Shift/digits/function keys",
+    "UTF-8 Chinese labels",
+    "invalid/truncated profiles",
+    "on-device edit/save/reload",
+    "Back discards draft",
+    "page navigation and final partial page",
+    "failed save keeps active layout",
+    "fixed Menu button",
+    "touch down/up pairs",
+    "no leaked files"
+  ],
+  "hardware_tested": false
+}

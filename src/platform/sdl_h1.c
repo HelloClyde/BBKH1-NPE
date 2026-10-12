@@ -24,9 +24,9 @@ static int audio_open,audio_paused=1,audio_lock,audio_busy;
 static int pen_button=-1,scale=1,menu_active,menu_cursor,sound_enabled=1;
 static Uint32 menu_started;
 static H1TouchKey touch_keys[H1_TOUCH_SLOTS],draft_keys[H1_TOUCH_SLOTS];
-static int editor,editor_cursor,choice_cursor;
+static int editor,editor_cursor,choice_cursor,about_active;
 static const char *editor_status;
-enum { MENU_ITEMS=6, MENU_ROW_STEP=34, MENU_ROW_HEIGHT=30 };
+enum { MENU_ITEMS=7, MENU_ROW_STEP=28, MENU_ROW_HEIGHT=24 };
 /* GUI+0x8F4 is the LCD's live scanout buffer. Compose away from it:
  * clearing it before drawing exposes the blank intermediate frame on H1. */
 static uint32_t composed[480*272],published[480*272];
@@ -147,14 +147,22 @@ static void show(void) {
     volatile uint32_t *live=framebuffer();if(!live) return;
     uint32_t *out=composed;
     rect(out,0,0,480,272,0x10202a);
+    if(about_active) {
+        label(out,"关于诺亚舟NPE",24,8,0xffffff);
+        label(out,"作者：HelloClyde",40,76,0xffffff);
+        label(out,"版本：" H1_NPE_VERSION,40,112,0xbfcfcf);
+        rect(out,24,200,432,36,0x38786c);
+        label(out,"返回菜单",40,207,0xffffff);
+        publish(live);return;
+    }
     if(editor) { editor_show(out);publish(live);return; }
     if(menu_active) {
         const char *names[MENU_ITEMS]={"继续游戏",sound_enabled?"声音：开":"声音：关",
-            scale?"画面：2倍":"画面：1倍","选择其他NPE","退出程序","触摸按键设置"};
+            scale?"画面：2倍":"画面：1倍","选择其他NPE","退出程序","触摸按键设置","关于"};
         label(out,"诺亚舟NPE - 已暂停",24,8,0xffffff);
         for(int i=0;i<MENU_ITEMS;++i) {
             rect(out,24,40+i*MENU_ROW_STEP,432,MENU_ROW_HEIGHT,i==menu_cursor?0x38786c:0x203c45);
-            label(out,names[i],40,44+i*MENU_ROW_STEP,0xffffff);
+            label(out,names[i],40,42+i*MENU_ROW_STEP,0xffffff);
         }
         label(out,"退出前请在游戏菜单中保存进度。",24,248,0xbfcfcf);
         publish(live);
@@ -192,7 +200,7 @@ static void menu_begin(void) {
 }
 static void menu_end(void) {
     if(!menu_active) return;
-    clock_pause+=raw_ms()-menu_started;menu_active=0;editor=0;
+    clock_pause+=raw_ms()-menu_started;menu_active=0;editor=0;about_active=0;
     if(audio_open && !audio_paused) gba_audio_resume();
     show();h1_diag("PAUSE_END");
 }
@@ -202,6 +210,7 @@ static void menu_action(void) {
     if(menu_cursor==5) {
         memcpy(draft_keys,touch_keys,sizeof touch_keys);editor=1;editor_cursor=0;editor_status=0;show();return;
     }
+    if(menu_cursor==6) { about_active=1;show();return; }
     int action=menu_cursor;menu_end();
     if(action==3 || action==4) {
         h1_npe_choose_again=action==3;SDL_Event e={0};e.type=SDL_QUIT;SDL_PushEvent(&e);
@@ -264,6 +273,10 @@ static void transition(unsigned k,int down,Uint32 now) {
         if(menu_active) menu_end();else menu_begin();return;
     }
     SDL_Keycode sym=map_key(k);
+    if(about_active) {
+        if(sym==SDLK_F4 || sym==SDLK_RETURN) { about_active=0;show(); }
+        return;
+    }
     if(editor) { editor_key(sym);return; }
     if(menu_active) {
         if(sym==SDLK_UP) menu_cursor=(menu_cursor+MENU_ITEMS-1)%MENU_ITEMS;
@@ -291,6 +304,7 @@ static int editor_hit(int x,int y) {
     }
     return -1;
 }
+static int about_hit(int x,int y) { return x>=24 && x<456 && y>=200 && y<236; }
 void SDL_PumpEvents(void) {
     audio_pump();Uint32 now=raw_ms();
     for(unsigned n=0;n<64;++n) {
@@ -305,7 +319,9 @@ void SDL_PumpEvents(void) {
             int x,y;pen_button=-1;
             if(h1_touch_position(&x,&y)) {
                 int row=menu_hit(x,y);
-                if(editor) {
+                if(about_active) {
+                    if(about_hit(x,y)) pen_button=16;
+                } else if(editor) {
                     int hit=editor_hit(x,y);if(hit>=0) pen_button=32+hit;
                 } else if(menu_active && row>=0) {
                     pen_button=8+row;menu_cursor=row;show();
@@ -314,7 +330,9 @@ void SDL_PumpEvents(void) {
         } else if(code==8) {
             int x,y;
             if(h1_touch_position(&x,&y)) {
-                if(editor && pen_button>=32 && editor_hit(x,y)==pen_button-32) {
+                if(about_active) {
+                    if(pen_button==16 && about_hit(x,y)) { about_active=0;show(); }
+                } else if(editor && pen_button>=32 && editor_hit(x,y)==pen_button-32) {
                     int hit=pen_button-32;
                     if(editor==1) { editor_cursor=hit;editor_action(); }
                     else if(hit<H1_TOUCH_CHOICES) { choice_cursor=hit;editor_action(); }
@@ -443,6 +461,6 @@ void h1_npe_reset(void) {
     audio_lock=audio_busy=0;memset(held,0,sizeof held);memset(owners,0,sizeof owners);
     memset(repeat_at,0,sizeof repeat_at);last_scan=0;
     published_valid=0;published_buffer=0;
-    editor=0;editor_status=0;h1_touch_defaults(touch_keys);
+    editor=0;about_active=0;editor_status=0;h1_touch_defaults(touch_keys);
 }
 void h1_npe_load_keys(void) { h1_touch_load(touch_keys); }

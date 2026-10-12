@@ -98,7 +98,7 @@ def main():
     assert window and renderer and texture
     source = 0x81100000
     toolbar = image_bytes(ROOT/'assets/screenshots/gameplay-v0.1.3.png')[WIDTH*240*4:]
-    pause = image_bytes(ROOT/'assets/screenshots/pause-v0.1.5.png')
+    pause = image_bytes(ROOT/'assets/screenshots/pause-v0.1.6.png')
     machine.call('SDL_RenderCopy', renderer, texture, 0, 0)
     stores = {}
     for name, color in [('first_frame', BLUE), ('changed_frame', GREEN)]:
@@ -118,18 +118,38 @@ def main():
     _, stores['one_pixel_change_2x'] = machine.call('SDL_RenderPresent', renderer, expected=expected)
     assert stores['one_pixel_change_2x'] == 4
     machine.key(31, expected=pause)
-    # Six distinct choices wrap at Touch Settings. Back resumes; gaps inert.
+    # Seven distinct choices wrap at About. Back resumes; gaps stay inert.
     last = list(struct.unpack('<130560I', pause))
-    for row, before, after in [(0, 0x38786c, 0x203c45), (5, 0x203c45, 0x38786c)]:
-        for y in range(40+row*34, 70+row*34):
+    for row, before, after in [(0, 0x38786c, 0x203c45), (6, 0x203c45, 0x38786c)]:
+        for y in range(40+row*28, 64+row*28):
             for x in range(24, 456):
                 i = y*WIDTH+x
                 if last[i] == before: last[i] = after
     machine.key(37, expected=struct.pack('<130560I', *last))
+    about = image_bytes(ROOT/'assets/screenshots/about-v0.1.6.png')
+    machine.key(39, expected=about)
+    frozen, _ = machine.call('SDL_GetTicks')
+    _, stores['identical_about'] = machine.call('SDL_RenderPresent', renderer, expected=about)
+    assert stores['identical_about'] == 0
+    assert machine.call('SDL_GetTicks')[0] == frozen, 'About advanced the game clock'
+    machine.key(39, expected=struct.pack('<130560I', *last))
+    machine.key(39, expected=about)
+    machine.key(41, expected=struct.pack('<130560I', *last))
     machine.key(27, expected=pause)
-    machine.touch_at(100, 71, expected=pause)
+    # Touch-down highlights the row; release opens About as a separate state.
+    machine.pen = (100, 220)
+    machine.events.append((11, 0))
+    machine.call('SDL_PumpEvents', expected=struct.pack('<130560I', *last))
+    machine.events.append((8, 0))
+    machine.call('SDL_PumpEvents', expected=about)
+    machine.touch_at(100, 100, expected=about)  # Text isn't a hidden menu item.
+    machine.touch_at(100, 218, expected=struct.pack('<130560I', *last))
+    machine.key(27, expected=pause)
+    machine.touch_at(100, 65, expected=pause)
     machine.touch_at(100, 250, expected=pause)
-    stores['six_distinct_menu_choices_and_inert_gaps'] = True
+    stores['seven_distinct_menu_choices_and_inert_gaps'] = True
+    stores['about_author_keyboard_touch_return'] = True
+    stores['about_freezes_game_clock'] = True
     machine.key(41, expected=expected)
     machine.key(31, expected=pause)
     _, stores['identical_pause'] = machine.call('SDL_RenderPresent', renderer, expected=pause)
@@ -162,7 +182,8 @@ def main():
                   assertions=['only final pixels reach LCD', 'no intermediate background clear',
                               'unchanged game and pause frames make zero LCD writes',
                               'one source pixel changes four 2x LCD pixels', '1x and 2x restoration',
-                              'six distinct choices, Back resumes, touch gaps inert',
+                              'seven distinct choices, Back resumes, touch gaps inert',
+                              'About author/version, keyboard and touch return, inert text',
                               'framebuffer change and window reopen repaint', 'no leaked texture/window'],
                   hardware_tested=False, lcd_scan_timing_simulated=False)
     output = ROOT/'build/verification/render-regression.json'
