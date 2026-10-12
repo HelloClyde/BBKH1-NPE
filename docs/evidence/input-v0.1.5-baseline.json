@@ -1,0 +1,10 @@
+{
+  "ok": true,
+  "kind": "Expected regression failure with unmodified v0.1.4 release MIPS BDA",
+  "bda_sha256": "af6bef8003085e2e2e15c251e8d485006a37147796f769fdb5112d68d75ee38f",
+  "physical_matrix_id": 26,
+  "expected": "SDL_KEYDOWN SDLK_LEFT",
+  "observed": "no SDL event",
+  "test": "tests/input_regression.py check_directions",
+  "hardware_tested": false
+}

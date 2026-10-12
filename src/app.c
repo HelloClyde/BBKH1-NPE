@@ -29,6 +29,7 @@ int h1_app_main(void) {
         h1_npe_reset();int selected=select_npe();h1_diag("SELECT status=%d",selected);
         if(selected<=0) { result=selected<0;break; }
         h1_diag_hex("GAME_PATH",h1_npe_game_path,strlen(h1_npe_game_path));
+        h1_npe_load_keys();
 #if H1_TEST_STORAGE
         extern int h1_storage_probe(void);
         result=h1_storage_probe();

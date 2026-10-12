@@ -1,0 +1,72 @@
+{
+  "ok": true,
+  "kind": "Full H1 V1.41 firmware under QEMU bbkh1",
+  "bda_sha256": "c031a42a1aa3c9f965859eaf8e4fc15d53ffeb4e7acdd759e9955cd2e593dbc3",
+  "payload_sha256": "18e94b7a5e2a41a26a769680d1ac9fc5384869677dbf14d4e4999667e60790dc",
+  "kernel_sha256": "d05786e442f9aad62a8d0a0cb4f6d786bdc7c2fa353a7a2b152c9ed9f01b40ef",
+  "menu_language": "zh-CN",
+  "files": {
+    "assets/screenshots/pause-v0.1.5.png": "b7908e42fc643740d23eec1bbea1a44950e4f3dff596fe66e69149e4f1b55200",
+    "assets/screenshots/sound-off-v0.1.5.png": "f67a469feecf056cc4039c123555ef7655d291bb575b3d3c21f16a427024bb6e",
+    "assets/screenshots/display-1x-v0.1.5.png": "74f0e09aee9d5473d3cf5b1cdb52f9ab825c537998b4063fa7e6f1d5cc96caab",
+    "assets/screenshots/gameplay-v0.1.5.png": "20f1d545487d26015dbadd6ddb37af07be54fd492f743214ebd83552891b2dd0",
+    "assets/screenshots/touch-settings-v0.1.5.png": "b007824054340da292fdc9083f01731312e4d6b92d0185b3a9dbbb25c4ff2ee1",
+    "assets/screenshots/key-picker-v0.1.5.png": "98294b4143f5e0e39e901d4da5f0e04b0e7aef3e8c9bf6e606c39177d652e361",
+    "assets/screenshots/draft-v0.1.5.png": "dbc37f52041ed0a59dbbdde8a85003d06b04d9c7ec91128a8bdb62c85888fb7b",
+    "assets/screenshots/restored-settings-v0.1.5.png": "1f8253fb6026d3b796c2fbba67fe46f3fb200f573346a5cc0ce20a73e50288c6",
+    "assets/screenshots/cancelled-reset-v0.1.5.png": "aa507c62b5070b1a9d0b02120ad5b2fe54c38ead684a264e05923de88da41268",
+    "assets/screenshots/custom-final-v0.1.5.png": "a7553ced09743287fd1729a03763b716de93cf691b3658fd651fe7a60f3a863f",
+    "assets/screenshots/right-alt-v0.1.5.png": "27aa973b92e935688dbf74fb1b2a9751eb82056d0f910f2cd241be39442e4125",
+    "assets/screenshots/left-alt-v0.1.5.png": "abe690ae65b6144700de005045d6b4a18d0d8d9a3888c90d4b2549a8343a48f8",
+    "assets/screenshots/right-v0.1.5.png": "27aa973b92e935688dbf74fb1b2a9751eb82056d0f910f2cd241be39442e4125",
+    "assets/screenshots/left-v0.1.5.png": "abe690ae65b6144700de005045d6b4a18d0d8d9a3888c90d4b2549a8343a48f8",
+    "assets/screenshots/exit-desktop-v0.1.5.png": "cee61e311f47ee38182015219d95c55e8d6c4d0dc7ae24216788f486af07efcd",
+    "docs/evidence/menu-v0.1.5-run.txt": "9d309f6a1280b564e92ccc232774e2c67c5284b2d3f4c9ac9a1e9ec7fe0ecffe",
+    "docs/evidence/touch-v0.1.5-saved.txt": "400e3b1e36612839e85c466867b0997f304eec7f07c3eaeb8af2c8aa3de0be17"
+  },
+  "captures": {
+    "pause": "assets/screenshots/pause-v0.1.5.png",
+    "sound_off": "assets/screenshots/sound-off-v0.1.5.png",
+    "display_1x": "assets/screenshots/display-1x-v0.1.5.png",
+    "gameplay": "assets/screenshots/gameplay-v0.1.5.png",
+    "log": "docs/evidence/menu-v0.1.5-run.txt"
+  },
+  "menu_layout": {
+    "item_count": 6,
+    "row_step": 34,
+    "text_y": 44,
+    "extra_item": "触摸按键设置"
+  },
+  "pause_count": 3,
+  "manual_checked": [
+    "opening and map",
+    "both left/right matrix aliases move",
+    "touch edit slot 1 to a",
+    "save and exit",
+    "reopen restores a",
+    "cancel restored-default draft preserves a",
+    "save restored defaults",
+    "sound OFF and 1x menu",
+    "Back resumes",
+    "Exit restores desktop"
+  ],
+  "native_profile": {
+    "file": "docs/evidence/touch-v0.1.5-saved.txt",
+    "bytes": 109,
+    "slot_1": "a",
+    "extracted_from_owned_nand": true
+  },
+  "audio": {
+    "batches": 15350,
+    "submissions": 3,
+    "nonzero_samples": 2600428,
+    "dropped": 0,
+    "failures": 0,
+    "application_ring_underruns": 0,
+    "sample_rate": 32000,
+    "qemu_output_underruns": 656
+  },
+  "original_dump_modified": false,
+  "hardware_tested": false,
+  "lcd_scan_timing_simulated": false
+}

@@ -42,6 +42,14 @@ def main():
             assert stores['new_lcd_buffer'] == stores['reopened_window'] == 480*272
             assert not rendering['hardware_tested'] and not rendering['lcd_scan_timing_simulated']
             print('PASS exact MIPS renderer evidence and LCD-write regression assertions')
+        if 'input_evidence' in record:
+            inputs = json.loads((ROOT/record['input_evidence']).read_text(encoding='utf-8'))
+            assert inputs['ok'] and inputs['bda_sha256'] == metadata['sha256']
+            assert not inputs['hardware_tested']
+            for check in ['both horizontal matrix IDs', 'hold/repeat/release',
+                          'on-device edit/save/reload', 'failed save keeps active layout', 'UTF-8 Chinese labels']:
+                assert check in inputs['assertions']
+            print('PASS exact MIPS direction and per-game touch profile evidence')
         if 'battle_evidence' in record:
             from PIL import Image
             battle = json.loads((ROOT/record['battle_evidence']).read_text(encoding='utf-8'))

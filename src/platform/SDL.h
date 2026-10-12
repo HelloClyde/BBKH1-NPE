@@ -104,4 +104,5 @@ int SDL_SemPost(SDL_sem *);
 int SDL_SemWaitTimeout(SDL_sem *,Uint32);
 extern char h1_npe_game_path[264];
 void h1_npe_reset(void);
+void h1_npe_load_keys(void);
 #endif

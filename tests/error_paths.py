@@ -29,7 +29,7 @@ def main():
             if self.select_calls:self.rom_path=None
             return super().select_file(*args)
     swap=Switch(bda,files,path,[(10,(9,31)),(2,(10,31)),
-                              (20,(11,0,100,177)),(2,(8,0,100,177))])
+                              (20,(11,0,100,156)),(2,(8,0,100,156))])
     swap.run()
     assert len(swap.select_calls)==2 and swap.gui_opens==swap.gui_closes==3
     cases.append('touch choose another game cleans up then cancellation restores desktop')

@@ -2,6 +2,14 @@
 #define H1_GAME_INPUT_H
 #include "h1_sdk.h"
 
+/* The two horizontal matrix positions share native scancodes 105/106.
+ * Real firmware can enqueue 26/28; the emulator normally sends 40/35. */
+static inline unsigned h1_game_physical_key(unsigned key)
+{
+    return key==H1_KEY_LEFT_ALT?H1_KEY_LEFT:
+           key==H1_KEY_RIGHT_ALT?H1_KEY_RIGHT:key;
+}
+
 /* GUI+0x9D8 is used by BBVM, Mission and Thunder to query simultaneous keys.
  * It accepts the native game scancode, not the 1..42 event matrix identifier.
  * V1.41's own scan table supplies this conversion (Q=16, D=32, K=37). */

@@ -1,0 +1,8 @@
+# H1NPE touch keys v1; UTF-8
+1=a|a
+2=RIGHT|右
+3=UP|上
+4=DOWN|下
+5=ENTER|确认
+6=SPACE|对话
+7=F4|返回

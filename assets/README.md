@@ -9,6 +9,8 @@
 许可证见 `licenses/NotoSansCJK-OFL.txt`。
 
 `src/platform/menu_font.h` 是 18 像素字体的 18×21 单色字形子集，保留实际字宽。
+生成器从 `src/platform/*.c` 收集固定界面的字形。配置文件里的任意短中文名称
+由安装包已有的 `gbk16-native.bin` 动态读取并缓存，来源遵循上游字体说明。
 修改中文文案后，使用固定版本 Pillow 和上述字体执行：
 
 ```powershell

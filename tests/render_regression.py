@@ -29,7 +29,7 @@ class RenderMachine(NpeMachine):
     def __init__(self, bda, link_map):
         super().__init__(bda, files={}, path=None)
         self.symbols = {name: int(address, 16) for address, name in re.findall(
-            r'^\s+(0x[0-9a-fA-F]+)\s+(SDL_\w+)\s*$', link_map.read_text(), re.M)}
+            r'^\s+(0x[0-9a-fA-F]+)\s+((?:SDL_|h1_npe_|h1_touch_)\w+)\s*$', link_map.read_text(), re.M)}
         self.video_address = 0x82000000
         self.expected_pixels = None
         self.lcd_stores = 0
@@ -90,6 +90,7 @@ def main():
     parser.add_argument('--map', type=Path, default=ROOT/'build/release/H1NPE.map')
     args = parser.parse_args()
     machine = RenderMachine(args.bda, args.map)
+    machine.call('h1_npe_reset')
     machine.call('SDL_Init', 0x20)
     window, _ = machine.call('SDL_CreateWindow', 0, 0, 0, 240, 120, 0)
     renderer, _ = machine.call('SDL_CreateRenderer', window, 0, 0)
@@ -97,7 +98,7 @@ def main():
     assert window and renderer and texture
     source = 0x81100000
     toolbar = image_bytes(ROOT/'assets/screenshots/gameplay-v0.1.3.png')[WIDTH*240*4:]
-    pause = image_bytes(ROOT/'assets/screenshots/pause-v0.1.4.png')
+    pause = image_bytes(ROOT/'assets/screenshots/pause-v0.1.5.png')
     machine.call('SDL_RenderCopy', renderer, texture, 0, 0)
     stores = {}
     for name, color in [('first_frame', BLUE), ('changed_frame', GREEN)]:
@@ -117,18 +118,18 @@ def main():
     _, stores['one_pixel_change_2x'] = machine.call('SDL_RenderPresent', renderer, expected=expected)
     assert stores['one_pixel_change_2x'] == 4
     machine.key(31, expected=pause)
-    # Five choices wrap at Exit. Back closes the pause UI; gaps do nothing.
+    # Six distinct choices wrap at Touch Settings. Back resumes; gaps inert.
     last = list(struct.unpack('<130560I', pause))
-    for row, before, after in [(0, 0x38786c, 0x203c45), (4, 0x203c45, 0x38786c)]:
-        for y in range(40+row*40, 74+row*40):
+    for row, before, after in [(0, 0x38786c, 0x203c45), (5, 0x203c45, 0x38786c)]:
+        for y in range(40+row*34, 70+row*34):
             for x in range(24, 456):
                 i = y*WIDTH+x
                 if last[i] == before: last[i] = after
     machine.key(37, expected=struct.pack('<130560I', *last))
     machine.key(27, expected=pause)
-    machine.touch_at(100, 77, expected=pause)
+    machine.touch_at(100, 71, expected=pause)
     machine.touch_at(100, 250, expected=pause)
-    stores['five_menu_choices_and_inert_gaps'] = True
+    stores['six_distinct_menu_choices_and_inert_gaps'] = True
     machine.key(41, expected=expected)
     machine.key(31, expected=pause)
     _, stores['identical_pause'] = machine.call('SDL_RenderPresent', renderer, expected=pause)
@@ -161,7 +162,7 @@ def main():
                   assertions=['only final pixels reach LCD', 'no intermediate background clear',
                               'unchanged game and pause frames make zero LCD writes',
                               'one source pixel changes four 2x LCD pixels', '1x and 2x restoration',
-                              'five-choice wraparound, Back resumes, touch gaps inert',
+                              'six distinct choices, Back resumes, touch gaps inert',
                               'framebuffer change and window reopen repaint', 'no leaked texture/window'],
                   hardware_tested=False, lcd_scan_timing_simulated=False)
     output = ROOT/'build/verification/render-regression.json'

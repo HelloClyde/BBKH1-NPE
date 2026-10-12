@@ -46,7 +46,7 @@ def verify(record_path=None):
         assert picture.size == (480, 272)
         label(picture, '诺亚舟NPE - 已暂停', 24, 8, white, (16, 32, 42))
         names = ['继续游戏', '声音：'+sound, '画面：'+zoom+'倍', '选择其他NPE', '退出程序']
-        if layout['item_count'] == 6: names.append('返回游戏')
+        if layout['item_count'] == 6: names.append(layout.get('extra_item', '返回游戏'))
         assert len(names) == layout['item_count']
         for i, name in enumerate(names):
             label(picture, name, 40, layout['text_y']+i*layout['row_step'], white, (56, 120, 108) if i == selected else (32, 60, 69))

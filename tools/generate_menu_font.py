@@ -14,7 +14,7 @@ def main():
     args = parser.parse_args()
     assert hashlib.sha256(args.font.read_bytes()).hexdigest() == FONT_SHA256, 'Wrong font revision'
     font = ImageFont.truetype(str(args.font), 18)
-    source = (ROOT/'src/platform/sdl_h1.c').read_text(encoding='utf-8')
+    source = ''.join(path.read_text(encoding='utf-8') for path in sorted((ROOT/'src/platform').glob('*.c')))
     chars = sorted(set(map(chr, range(32, 127))) | {c for c in source if ord(c) >= 128})
     out = ['/* Noto Sans CJK SC rendered glyph subset; OFL 1.1.',
            ' * See assets/licenses/NotoSansCJK-OFL.txt and assets/README.md.',

@@ -18,7 +18,7 @@ CORE_SOURCES = ['main.c', 'sound_sdl.c', 'npe.c', 'audio.c', 'audio_decode.c',
                 'world.c', 'save.c', 'gbk.c', 'text.c']
 APP_SOURCES = ['src/runtime/entry.S', 'src/runtime/startup.c', 'src/libc/freestanding.c',
                'src/libc/files.c', 'src/platform/diagnostics.c', 'src/platform/audio.c',
-               'src/platform/sdl_h1.c', 'src/app.c']
+               'src/platform/touch_keys.c', 'src/platform/sdl_h1.c', 'src/app.c']
 
 def run(command, **kwargs):
     return subprocess.run(list(map(str, command)), check=True, **kwargs)
@@ -155,6 +155,7 @@ def main():
         write_package_file(package, UPSTREAM/'NOTICE.md', 'NPE/assets/NPE-ENGINE-NOTICE.md')
         write_package_file(package, ROOT/'assets/README.md', 'NPE/assets/README.md')
         write_package_file(package, ROOT/'docs/verification.md','NPE/verification.md')
+        write_package_file(package, ROOT/'docs/touch-keys.md','NPE/touch-keys.md')
         write_package_file(package, ROOT/'assets/licenses/NotoSansCJK-OFL.txt', 'NPE/assets/NotoSansCJK-OFL.txt')
         write_package_file(package, ROOT/'assets/licenses/GPL-2.0.txt','NPE/assets/GPL-2.0.txt')
     archive = dest/(name+'-install.zip')
