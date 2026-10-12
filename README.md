@@ -10,7 +10,7 @@ H1 桌面和应用列表显示名称为 **诺亚舟NPE**；安装文件名为 `H
 
 适用于步步高 **H1 / Y100 V1.41 原生 BDA 环境**。
 从 [GitHub Releases](https://github.com/HelloClyde/BBKH1-NPE/releases) 下载
-`BBKH1-NPE-v0.1.6-install.zip`，安装包包含程序和所需字体，游戏文件需自行准备。
+`BBKH1-NPE-v0.1.7-install.zip`，安装包包含程序和所需字体，游戏文件需自行准备。
 当前版本为预发布，验证范围见本文下方。
 
 解压 `dist/H1NPE-install.zip`，将 `应用` 和 `NPE` 两个文件夹合并到 H1 的 A 盘：
@@ -35,9 +35,11 @@ A:\NPE\assets\gbk16-native.bin
 
 | 地图与触摸操作栏 | 暂停与显示设置 |
 | --- | --- |
-| ![地图与中文触摸栏](assets/screenshots/gameplay-v0.1.5.png) | ![中文暂停菜单](assets/screenshots/pause-v0.1.6.png) |
+| ![地图与中文触摸栏](assets/screenshots/gameplay-v0.1.5.png) | ![中文暂停菜单](assets/screenshots/pause-v0.1.7.png) |
 
-![关于：作者 HelloClyde](assets/screenshots/about-v0.1.6.png)
+| 音量调节 | 作者与版本 |
+| --- | --- |
+| ![音量调节](assets/screenshots/volume-50-v0.1.7.png) | ![关于：作者 HelloClyde](assets/screenshots/about-v0.1.7.png) |
 
 | 修改当前游戏的触摸按键 | 选择字母和功能键 |
 | --- | --- |
@@ -51,7 +53,7 @@ A:\NPE\assets\gbk16-native.bin
 | --- | --- |
 | ![H1 桌面图标](assets/screenshots/npe-desktop-icon.png) | ![取消选择后返回桌面](assets/screenshots/npe-cancel-key-desktop.png) |
 
-暂停和关于截图来自 v0.1.6 正式 BDA；地图和按键设置截图保留 v0.1.5，
+暂停、音量和关于截图来自 v0.1.7 正式 BDA；地图和按键设置截图保留 v0.1.5，
 战斗截图保留 v0.1.3 从独立测试存档进入的记录。
 桌面与取消截图保留早期采集时的 NPE 名称；
 当前构建显示名称为“诺亚舟NPE”。
@@ -71,9 +73,13 @@ A:\NPE\assets\gbk16-native.bin
 
 问答模式保留字母输入，包括 Z/X/P；Shift 接入大写输入。方向键长按可重复移动。
 默认显示原始 240×120 画面的 2 倍版本 480×240，底部 32 像素为触摸操作栏。
-暂停菜单提供“继续游戏”“声音：开/关”“画面：2倍/1倍”“选择其他NPE”“退出程序”“触摸按键设置”“关于”七项。
+暂停菜单提供“继续游戏”“声音：开/关”“音量”“画面：2倍/1倍”“选择其他NPE”“退出程序”“触摸按键设置”“关于”八项。
 方向键选择，确认键执行，也可直接触摸选项；返回键关闭暂停菜单。
 “关于”页显示“作者：HelloClyde”和当前版本；返回键、确认键或触摸“返回菜单”回到暂停菜单。
+音量范围 0%～100%，每次调节 10%。选中“音量”时用左右键调节，确认键进入带触摸 - / + 的调节页。
+调节页用左右键或触摸 - / + 修改，返回键、确认键或“返回菜单”回到暂停菜单。
+100% 保持原始音量；0% 静音仍推进音频回调。声音开关独立保留，关闭再开启会恢复所选音量。
+音量仅调整本程序 PCM，不修改 H1 系统音量；本次运行换游戏时保留，重新启动默认 100%。
 暂停菜单停止游戏时钟和 PCM，继续后恢复；关闭声音仍推进音频服务的剧情回调。
 中文路径直接使用 H1 的 GBK 字节，目录解析避开 GBK 尾字节中的反斜杠。
 
@@ -126,6 +132,7 @@ python -m pip install -r tests/requirements.txt
 python tests/ci_smoke.py
 python tests/render_regression.py
 python tests/input_regression.py
+python tests/volume_regression.py
 python tests/mips_smoke.py --game '你的游戏.npe'
 python tests/error_paths.py --game '你的游戏.npe'
 python tools/build.py --toolchain .tools/toolchain/bin --test-new-game
@@ -165,7 +172,7 @@ CI 不携带游戏和固件，因此不会把 CI 成功描述为完整固件或�
 
 `v*` 标签触发 Release；标签须匹配 `VERSION`。发布复用同一次 CI 的构建产物，
 下载后校验 `SHA256SUMS.txt`，仅发布 job 具有写入权限。
-`v0.1.6` 使用预发布标记，含 BDA、安装 ZIP、完整源码 ZIP、构建/验证信息和 SHA256 清单。
+`v0.1.7` 使用预发布标记，含 BDA、安装 ZIP、完整源码 ZIP、构建/验证信息和 SHA256 清单。
 维护者在干净提交上执行 `python tools/package_release.py` 可生成 `dist/release/`。
 
 ## 感谢

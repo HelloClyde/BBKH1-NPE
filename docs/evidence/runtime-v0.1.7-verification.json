@@ -1,0 +1,15 @@
+{
+  "bda_sha256": "b89458e030409bb42c40493e671972a01db6ffb2633d8096296ebcefa8a90686",
+  "errors": {
+    "ok": true,
+    "kind": "MIPS BDA with mock H1 services",
+    "cases": [
+      "cancel restores firmware native window",
+      "malformed NPE releases resources and restores window",
+      "missing font tears down PCM and game window",
+      "unsupported PCM stays silent and permits exit",
+      "touch choose another game cleans up then cancellation restores desktop"
+    ]
+  },
+  "hardware_tested": false
+}

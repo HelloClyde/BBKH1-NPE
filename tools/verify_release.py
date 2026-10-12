@@ -50,6 +50,14 @@ def main():
                           'on-device edit/save/reload', 'failed save keeps active layout', 'UTF-8 Chinese labels']:
                 assert check in inputs['assertions']
             print('PASS exact MIPS direction and per-game touch profile evidence')
+        if 'volume_evidence' in record:
+            volume = json.loads((ROOT/record['volume_evidence']).read_text(encoding='utf-8'))
+            assert volume['ok'] and volume['bda_sha256'] == metadata['sha256']
+            assert not volume['hardware_tested']
+            for check in ['default 100% is bit-exact', '50% signed PCM including -32768',
+                          '0% and mute output zero while producer advances', '0..100 clamp']:
+                assert check in volume['assertions']
+            print('PASS exact MIPS volume controls and PCM attenuation evidence')
         if 'battle_evidence' in record:
             from PIL import Image
             battle = json.loads((ROOT/record['battle_evidence']).read_text(encoding='utf-8'))

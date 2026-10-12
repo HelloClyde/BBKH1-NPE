@@ -46,11 +46,13 @@ def verify(record_path=None):
         assert picture.size == (480, 272)
         label(picture, '诺亚舟NPE - 已暂停', 24, 8, white, (16, 32, 42))
         names = ['继续游戏', '声音：'+sound, '画面：'+zoom+'倍', '选择其他NPE', '退出程序']
+        if layout['item_count'] == 8: names.insert(2, '音量：100%')
         if layout['item_count'] >= 6: names.append(layout.get('extra_item', '返回游戏'))
-        if layout['item_count'] == 7: names.append('关于')
+        if layout['item_count'] >= 7: names.append('关于')
         assert len(names) == layout['item_count']
         for i, name in enumerate(names):
-            label(picture, name, 40, layout['text_y']+i*layout['row_step'], white, (56, 120, 108) if i == selected else (32, 60, 69))
+            active=3 if layout['item_count']==8 and selected==2 else selected
+            label(picture, name, 40, layout['text_y']+i*layout['row_step'], white, (56, 120, 108) if i == active else (32, 60, 69))
         label(picture, '退出前请在游戏菜单中保存进度。', 24, 248, (191, 207, 207), (16, 32, 42))
     picture = Image.open(ROOT/captures['gameplay']).convert('RGB')
     for i, name in enumerate(['左', '右', '上', '下', '确认', '对话', '返回', '菜单']):
@@ -61,6 +63,14 @@ def verify(record_path=None):
         label(picture, '作者：HelloClyde', 40, 76, white, (16, 32, 42))
         label(picture, '版本：'+record['version'], 40, 112, (191, 207, 207), (16, 32, 42))
         label(picture, '返回菜单', 40, 207, white, (56, 120, 108))
+    if 'volume_50' in captures:
+        picture = Image.open(ROOT/captures['volume_50']).convert('RGB')
+        label(picture, '音量调节', 24, 8, white, (16, 32, 42))
+        label(picture, '当前音量：50%', 40, 64, white, (16, 32, 42))
+        label(picture, '返回菜单', 40, 215, white, (56, 120, 108))
+        assert picture.getpixel((40, 112)) == (56, 120, 108)
+        assert picture.getpixel((239, 112)) == (56, 120, 108)
+        assert picture.getpixel((240, 112)) == (32, 60, 69)
     log = (ROOT/captures['log']).read_text(encoding='utf-8')
     assert log.count('PAUSE_BEGIN') == log.count('PAUSE_END') == record.get('pause_count', 3)
     assert 'AUDIO_OPEN_END ready=1' in log and 'APP_END result=0' in log

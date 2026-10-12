@@ -42,6 +42,8 @@ jobs:
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python tests/input_regression.py
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python tests/volume_regression.py
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
           $firstBda = (Get-FileHash dist/H1NPE.bda -Algorithm SHA256).Hash
           $firstZip = (Get-FileHash dist/H1NPE-install.zip -Algorithm SHA256).Hash
           python tools/build.py --toolchain .tools/toolchain/bin
