@@ -1,0 +1,20 @@
+{
+  "baseline_version": "0.1.3",
+  "baseline_bda_sha256": "13e94638620ff2dab7e0afeba5125654c226218260a25ed22ec75bc2f3197b08",
+  "kind": "Expected failure of release MIPS renderer against mock H1 LCD buffer",
+  "reproduced": true,
+  "test": "tests/render_regression.py with matching v0.1.3 BDA and linker map",
+  "first_failure": {
+    "pixel": [
+      0,
+      0
+    ],
+    "observed_write": "0x10202a",
+    "expected_final_pixel": "0x224466"
+  },
+  "user_feedback": {
+    "symptom": "Game picture repeatedly flashes black/background on H1",
+    "reported_binary_identity_independently_verified": false
+  },
+  "fix_hardware_retest_confirmed": false
+}

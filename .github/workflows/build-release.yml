@@ -38,6 +38,8 @@ jobs:
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python tests/ci_smoke.py
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python tests/render_regression.py
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
           $firstBda = (Get-FileHash dist/H1NPE.bda -Algorithm SHA256).Hash
           $firstZip = (Get-FileHash dist/H1NPE-install.zip -Algorithm SHA256).Hash
           python tools/build.py --toolchain .tools/toolchain/bin

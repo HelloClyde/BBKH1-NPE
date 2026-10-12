@@ -22,6 +22,11 @@ static SDL_AudioSpec audio;
 static int audio_open,audio_paused=1,audio_lock,audio_busy;
 static int pen_button=-1,scale=1,menu_active,menu_cursor,sound_enabled=1;
 static Uint32 menu_started;
+/* GUI+0x8F4 is the LCD's live scanout buffer. Compose away from it:
+ * clearing it before drawing exposes the blank intermediate frame on H1. */
+static uint32_t composed[480*272],published[480*272];
+static volatile uint32_t *published_buffer;
+static int published_valid;
 static const SDL_Keycode touch_keys[8]={SDLK_LEFT,SDLK_RIGHT,SDLK_UP,SDLK_DOWN,
     SDLK_RETURN,SDLK_SPACE,SDLK_F4,SDLK_UNKNOWN};
 static Uint32 raw_ms(void) { return (Uint32)(((uint64_t)h1_raw_tick_80hz()*1000u)/80u); }
@@ -47,7 +52,7 @@ static volatile uint32_t *framebuffer(void) {
     if(!out || info[1]!=480 || info[2]!=272 || info[3]!=1920 || info[5]!=32) return 0;
     return out;
 }
-static void rect(volatile uint32_t *out,int x,int y,int w,int h,uint32_t c) {
+static void rect(uint32_t *out,int x,int y,int w,int h,uint32_t c) {
     for(int r=y;r<y+h && r<272;++r) for(int col=x;col<x+w && col<480;++col)
         if(r>=0 && col>=0) out[r*480+col]=c;
 }
@@ -67,7 +72,7 @@ static unsigned next_codepoint(const char **text) {
     }
     *text=(const char *)(s+extra);return ch;
 }
-static void label(volatile uint32_t *out,const char *s,int x,int y,uint32_t c) {
+static void label(uint32_t *out,const char *s,int x,int y,uint32_t c) {
     while(*s) {
         unsigned ch=next_codepoint(&s);
         for(unsigned i=0;i<MENU_GLYPH_COUNT;++i) if(menu_glyphs[i].code==ch) {
@@ -77,8 +82,17 @@ static void label(volatile uint32_t *out,const char *s,int x,int y,uint32_t c) {
         }
     }
 }
+static void publish(volatile uint32_t *out) {
+    int repaint=!published_valid || published_buffer!=out;
+    for(unsigned i=0;i<480*272;++i) {
+        uint32_t pixel=composed[i];
+        if(repaint || published[i]!=pixel) { out[i]=pixel;published[i]=pixel; }
+    }
+    published_buffer=out;published_valid=1;
+}
 static void show(void) {
-    volatile uint32_t *out=framebuffer();if(!out) return;
+    volatile uint32_t *live=framebuffer();if(!live) return;
+    uint32_t *out=composed;
     rect(out,0,0,480,272,0x10202a);
     if(menu_active) {
         const char *names[6]={"继续游戏",sound_enabled?"声音：开":"声音：关",
@@ -89,6 +103,7 @@ static void show(void) {
             label(out,names[i],40,44+i*34,0xffffff);
         }
         label(out,"退出前请在游戏菜单中保存进度。",24,248,0xbfcfcf);
+        publish(live);
         return;
     }
     if(display) {
@@ -101,6 +116,7 @@ static void show(void) {
         rect(out,i*60,240,59,32,0x203c45);
         label(out,names[i],i*60+(i<4?21:12),245,0xffffff);
     }
+    publish(live);
 }
 int SDL_PushEvent(SDL_Event *e) {
     unsigned next=(tail+1)%64;if(next==head) return -1;
@@ -233,13 +249,14 @@ SDL_Window *SDL_CreateWindow(const char *t,int x,int y,int w,int h,Uint32 f) {
     (void)t;(void)x;(void)y;(void)w;(void)h;(void)f;
     typedef int (*fn_type)(void);fn_type fn=(fn_type)h1_runtime_entry(h1_runtime_table(H1_RUNTIME_GUI_TABLE_SLOT),0x84c);
     window.active=fn?fn():0;if(!window.active) return 0;
+    published_valid=0;
     if(!framebuffer()) { SDL_DestroyWindow(&window);return 0; }
     h1_diag("VIDEO_OPEN 480x272 bpp=32");return &window;
 }
 void SDL_DestroyWindow(SDL_Window *w) {
     if(w && w->active) { typedef int (*fn_type)(void);fn_type fn=(fn_type)h1_runtime_entry(h1_runtime_table(H1_RUNTIME_GUI_TABLE_SLOT),0x850);
         if(fn) fn();
-        w->active=0; }
+        w->active=0;published_valid=0;published_buffer=0; }
 }
 SDL_Window *SDL_GetKeyboardFocus(void) { return window.active?&window:0; }
 void SDL_SetWindowTitle(SDL_Window *w,const char *t) { (void)w;(void)t; }
@@ -301,4 +318,5 @@ void h1_npe_reset(void) {
     h1_npe_mode=0;h1_npe_choose_again=0;head=tail=0;pen_button=-1;menu_active=0;
     audio_lock=audio_busy=0;memset(held,0,sizeof held);memset(owners,0,sizeof owners);
     memset(repeat_at,0,sizeof repeat_at);last_scan=0;
+    published_valid=0;published_buffer=0;
 }

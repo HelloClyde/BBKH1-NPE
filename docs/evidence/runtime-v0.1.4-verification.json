@@ -1,0 +1,42 @@
+{
+  "mips_gameplay": {
+    "ok": true,
+    "kind": "Actual MIPS BDA with mock firmware services",
+    "seconds": 5.03,
+    "game_bytes": 3751913,
+    "frames": 22,
+    "pcm_submissions": 2,
+    "pcm_nonzero": true,
+    "assertions": [
+      "GBK file path",
+      "NPE parse",
+      "native fonts",
+      "game picture",
+      "input quit",
+      "stack/register preservation",
+      "no leaked allocations/files",
+      "PCM teardown",
+      "physical Back does not quit",
+      "slot 2 saved in GBK directory",
+      "touch display toggle",
+      "pause/resume",
+      "sound OFF emits silence"
+    ],
+    "hardware_tested": false,
+    "gameplay": true
+  },
+  "error_paths": {
+    "ok": true,
+    "kind": "MIPS BDA with mock H1 services",
+    "cases": [
+      "cancel restores firmware native window",
+      "malformed NPE releases resources and restores window",
+      "missing font tears down PCM and game window",
+      "unsupported PCM stays silent and permits exit",
+      "touch choose another game cleans up then cancellation restores desktop"
+    ]
+  },
+  "hardware_tested": false,
+  "release_bda_sha256": "3507c681534168b820149b922027021dcc3ca403f6c576acb581ad5989691cde",
+  "gameplay_test_bda_sha256": "b29eef0526f0cb1f169b5553f4e2c61e4c2e856733020d7b1a4aafefbd2579a7"
+}

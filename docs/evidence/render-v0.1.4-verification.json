@@ -1,0 +1,27 @@
+{
+  "ok": true,
+  "kind": "Release MIPS renderer with mock H1 services; every LCD store checked",
+  "bda_sha256": "3507c681534168b820149b922027021dcc3ca403f6c576acb581ad5989691cde",
+  "lcd_stores": {
+    "first_frame": 130560,
+    "changed_frame": 115200,
+    "identical_frame": 0,
+    "one_pixel_change_2x": 4,
+    "identical_pause": 0,
+    "1x_borders_and_resume": true,
+    "2x_restore_and_resume": true,
+    "new_lcd_buffer": 130560,
+    "reopened_window": 130560
+  },
+  "assertions": [
+    "only final pixels reach LCD",
+    "no intermediate background clear",
+    "unchanged game and pause frames make zero LCD writes",
+    "one source pixel changes four 2x LCD pixels",
+    "1x and 2x restoration",
+    "framebuffer change and window reopen repaint",
+    "no leaked texture/window"
+  ],
+  "hardware_tested": false,
+  "lcd_scan_timing_simulated": false
+}

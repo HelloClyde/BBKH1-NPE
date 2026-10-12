@@ -33,6 +33,15 @@ def main():
         if record.get('menu_language') == 'zh-CN':
             from verify_chinese_menu_evidence import verify
             verify(ROOT/record['menu_evidence'] if 'menu_evidence' in record else None)
+        if 'render_evidence' in record:
+            rendering = json.loads((ROOT/record['render_evidence']).read_text(encoding='utf-8'))
+            assert rendering['bda_sha256'] == metadata['sha256'] and rendering['ok']
+            stores = rendering['lcd_stores']
+            assert stores['identical_frame'] == stores['identical_pause'] == 0
+            assert stores['one_pixel_change_2x'] == 4
+            assert stores['new_lcd_buffer'] == stores['reopened_window'] == 480*272
+            assert not rendering['hardware_tested'] and not rendering['lcd_scan_timing_simulated']
+            print('PASS exact MIPS renderer evidence and LCD-write regression assertions')
         if 'battle_evidence' in record:
             from PIL import Image
             battle = json.loads((ROOT/record['battle_evidence']).read_text(encoding='utf-8'))

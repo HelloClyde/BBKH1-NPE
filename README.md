@@ -10,7 +10,7 @@ H1 桌面和应用列表显示名称为 **诺亚舟NPE**；安装文件名为 `H
 
 适用于步步高 **H1 / Y100 V1.41 原生 BDA 环境**。
 从 [GitHub Releases](https://github.com/HelloClyde/BBKH1-NPE/releases) 下载
-`BBKH1-NPE-v0.1.3-install.zip`，安装包包含程序和所需字体，游戏文件需自行准备。
+`BBKH1-NPE-v0.1.4-install.zip`，安装包包含程序和所需字体，游戏文件需自行准备。
 当前版本为预发布，验证范围见本文下方。
 
 解压 `dist/H1NPE-install.zip`，将 `应用` 和 `NPE` 两个文件夹合并到 H1 的 A 盘：
@@ -35,7 +35,7 @@ A:\NPE\assets\gbk16-native.bin
 
 | 地图与触摸操作栏 | 暂停与显示设置 |
 | --- | --- |
-| ![地图与中文触摸栏](assets/screenshots/gameplay-v0.1.3.png) | ![中文暂停菜单](assets/screenshots/pause-v0.1.3.png) |
+| ![地图与中文触摸栏](assets/screenshots/gameplay-v0.1.4.png) | ![中文暂停菜单](assets/screenshots/pause-v0.1.4.png) |
 
 | 普通攻击姿势 | 伤害数字停留 |
 | --- | --- |
@@ -45,7 +45,7 @@ A:\NPE\assets\gbk16-native.bin
 | --- | --- |
 | ![H1 桌面图标](assets/screenshots/npe-desktop-icon.png) | ![取消选择后返回桌面](assets/screenshots/npe-cancel-key-desktop.png) |
 
-地图、暂停与战斗截图来自 v0.1.3 正式 BDA；战斗从独立测试存档进入。
+地图与暂停截图来自 v0.1.4 正式 BDA；战斗截图保留 v0.1.3 从独立测试存档进入的记录。
 桌面与取消截图保留早期采集时的 NPE 名称；
 当前构建显示名称为“诺亚舟NPE”。
 构建身份及截图摘要见 [验证记录](docs/verification.md) 和 `docs/evidence/`。
@@ -110,6 +110,7 @@ MIPS 自动测试需要 `tests/requirements.txt` 中的依赖和自己提供的 
 ```powershell
 python -m pip install -r tests/requirements.txt
 python tests/ci_smoke.py
+python tests/render_regression.py
 python tests/mips_smoke.py --game '你的游戏.npe'
 python tests/error_paths.py --game '你的游戏.npe'
 python tools/build.py --toolchain .tools/toolchain/bin --test-new-game
@@ -133,7 +134,8 @@ SDL2 本身不参与 H1 编译。`src/platform/SDL.h` 仅实现本引擎所需�
 ## 验证状态
 
 交叉编译、BDA 格式校验和运行测试的结果见 `docs/verification.md`。
-尚未进行 H1 真机验证；模拟服务和完整固件模拟器的证据分别记录。
+用户真机反馈游戏画面反复闪底色。v0.1.4 改为后台合成完整画面，再提交变化像素；
+该修复已通过 MIPS 写屏检查和完整固件模拟器回归，仍待真机复验。各类验证证据分别记录。
 游戏兼容性仍受上游引擎实现范围限制。
 
 v0.1.3 同步上游战斗显示等待修复，普通攻击姿势不再快速闪过，伤害/中毒数字保留原服务等待单位。
@@ -143,11 +145,12 @@ v0.1.3 同步上游战斗显示等待修复，普通攻击姿势不再快速闪�
 
 `main`、PR 和手动运行构建正式 BDA、检查 GBK 名称/图标/校验和，执行真实 MIPS 的
 选择器取消与坏资源路径测试，检查 BDA/安装 ZIP 重复构建一致，并上传临时 artifact。
+另执行不带游戏的 MIPS 显示回归，逐次检查 LCD 写入，避免先清屏再画图的中间状态。
 CI 不携带游戏和固件，因此不会把 CI 成功描述为完整固件或真机测试通过。
 
 `v*` 标签触发 Release；标签须匹配 `VERSION`。发布复用同一次 CI 的构建产物，
 下载后校验 `SHA256SUMS.txt`，仅发布 job 具有写入权限。
-`v0.1.3` 使用预发布标记，含 BDA、安装 ZIP、完整源码 ZIP、构建/验证信息和 SHA256 清单。
+`v0.1.4` 使用预发布标记，含 BDA、安装 ZIP、完整源码 ZIP、构建/验证信息和 SHA256 清单。
 维护者在干净提交上执行 `python tools/package_release.py` 可生成 `dist/release/`。
 
 ## 感谢
