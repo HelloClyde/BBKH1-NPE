@@ -13,7 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SDK = ROOT / 'vendor/h1-sdk'
 UPSTREAM = ROOT / 'third_party/noah-npe-engine'
 SDK_COMMIT = '067fe072477861dfc8949d7b1a55279fb92d2548'
-NPE_COMMIT = '567ae64c1ba67c8a55d0c4fbdf874f9ac58471cf'
+NPE_COMMIT = 'b7568fbf0fbff22e1e8f9761555a0e4a57fc907d'
 CORE_SOURCES = ['main.c', 'sound_sdl.c', 'npe.c', 'audio.c', 'audio_decode.c',
                 'world.c', 'save.c', 'gbk.c', 'text.c']
 APP_SOURCES = ['src/runtime/entry.S', 'src/runtime/startup.c', 'src/libc/freestanding.c',

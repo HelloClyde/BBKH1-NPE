@@ -19,7 +19,7 @@ def main():
     assert metadata['version'] == version and not metadata['test_new_game'] and not metadata['test_storage']
     assert metadata['compiler'].endswith('15.2.0')
     assert metadata['sdk_commit'] == '067fe072477861dfc8949d7b1a55279fb92d2548'
-    assert metadata['npe_commit'] == '567ae64c1ba67c8a55d0c4fbdf874f9ac58471cf'
+    assert metadata['npe_commit'] == 'b7568fbf0fbff22e1e8f9761555a0e4a57fc907d'
     if args.require_verified:
         record = json.loads((ROOT/f'docs/evidence/release-v{version}.json').read_text())
         assert record['bda_sha256'] == metadata['sha256'], 'Release BDA differs from verified build'
@@ -58,6 +58,17 @@ def main():
                           '0% and mute output zero while producer advances', '0..100 clamp']:
                 assert check in volume['assertions']
             print('PASS exact MIPS volume controls and PCM attenuation evidence')
+        if 'walk_evidence' in record:
+            walk = json.loads((ROOT/record['walk_evidence']).read_text(encoding='utf-8'))
+            assert walk['ok'] and walk['bda_sha256'] == metadata['sha256']
+            assert walk['npe_commit'] == metadata['npe_commit'] and not walk['hardware_tested']
+            timing = walk['timing']
+            assert timing['ok'] and timing['bda_sha256'] == metadata['sha256']
+            for check in ['LCD unchanged during wait', 'wait before actual LCD present',
+                          'no fixed 67 ms hold', 'quit aborts unfinished pose and is requeued']:
+                assert check in timing['assertions']
+            assert walk['reference_frames_compared'] == 24 and walk['indexed_pixel_differences'] == 0
+            print('PASS exact MIPS walking timing and original frame/state comparisons')
         if 'battle_evidence' in record:
             from PIL import Image
             battle = json.loads((ROOT/record['battle_evidence']).read_text(encoding='utf-8'))

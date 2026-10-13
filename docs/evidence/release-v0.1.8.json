@@ -1,0 +1,37 @@
+{
+  "version": "0.1.8",
+  "bda_sha256": "af569dc98d4fe08aec7925b83e4f53d253d2ff04e493f84e7da93fd31934974b",
+  "payload_sha256": "0bebe640cf26ffa1ab1b95173958e21056c06abc32290219e701dd355810e764",
+  "sdk_commit": "067fe072477861dfc8949d7b1a55279fb92d2548",
+  "npe_commit": "b7568fbf0fbff22e1e8f9761555a0e4a57fc907d",
+  "menu_language": "zh-CN",
+  "menu_evidence": "docs/evidence/menu-v0.1.8-verification.json",
+  "render_evidence": "docs/evidence/render-v0.1.8-verification.json",
+  "input_evidence": "docs/evidence/input-v0.1.8-verification.json",
+  "volume_evidence": "docs/evidence/volume-v0.1.8-verification.json",
+  "walk_evidence": "docs/evidence/walk-v0.1.8-verification.json",
+  "screenshots": {
+    "assets/screenshots/gameplay-v0.1.8.png": "4af9f1b77916bd9a762c2ae2491f2f4dc9dec0c9be2cf94683fd3838fb5279c0",
+    "assets/screenshots/pause-v0.1.8.png": "1e37c0a58ac74437ef3ef90b79275fa18dbc811870bfb786820c47223465279b",
+    "assets/screenshots/about-v0.1.8.png": "20568cfa9d91e97ebd0a7e011fa2fa4378af814b558dedcccf5141dc39da7e53",
+    "assets/screenshots/volume-50-v0.1.8.png": "6391264129dcef7944268302b41f0c6c3f96566c5a4bd27727cdf8dfbabe0678",
+    "assets/screenshots/sound-off-v0.1.8.png": "ba9bd310b46567322d199fe30b90b7be97c0824d526ed1f0dc12dc7f8f9cca46",
+    "assets/screenshots/display-1x-v0.1.8.png": "8e30fdffe06edd2a22b0ce71356e8bcb75048b6be796dc3d194aebfeef41b3d5",
+    "assets/screenshots/resumed-1x-v0.1.8.png": "07658929dacff915aee9b3cf298aa673426aae0a0a47ff1dae37c6c890a60668",
+    "assets/screenshots/resumed-50-v0.1.8.png": "19bf3d3b3616d5e41ee90289ff030eda00c349b3ef88544370f5bacdd2292565",
+    "assets/screenshots/exit-desktop-v0.1.8.png": "26f4e5f19699dadf1ccb3b4edbc1f8d3a981d153b89d2a30a4ff4ae3643f21e3",
+    "assets/screenshots/walk-before-v0.1.8.png": "0961da3358065fafbdf10510951ec47aff0dde771d6db04b70d870d4fa8095b4",
+    "assets/screenshots/walk-after-v0.1.8.png": "0fcf20aa7f92d69f8c075f6c154fa682b7dbee46d7c0161b6f1738af2dc6a569"
+  },
+  "evidence_sha256": {
+    "docs/evidence/menu-v0.1.8-verification.json": "90863d4dd79d28f1e23aef2198b636b2165e58b7b8feb36da94e38d20a5ae4e1",
+    "docs/evidence/render-v0.1.8-verification.json": "bd58fb5dbfce40fbbf71278efee1e3ddd725143fcc08f3e0b19971dfc3b75244",
+    "docs/evidence/input-v0.1.8-verification.json": "2bf4cb327362fb98569ac873ac24c00c566459b2c5bfc76cd987a75a2484a67f",
+    "docs/evidence/volume-v0.1.8-verification.json": "cf424fa17e464382f7874c0c86d80ef4d3252ff093133845682e51432cfc3bb0",
+    "docs/evidence/walk-v0.1.8-verification.json": "5e20d2b603a36559f73f89e04707dcf76339f459b022c48c51ab19088666beff",
+    "docs/evidence/runtime-v0.1.8-verification.json": "f57e1f4d3e4b78b51e22ff1e2dd868646abff0b4615267c68115253a423baad9"
+  },
+  "hardware_tested": false,
+  "hardware_fix_retest_pending": true,
+  "prior_release_evidence": "docs/evidence/release-v0.1.7.json"
+}

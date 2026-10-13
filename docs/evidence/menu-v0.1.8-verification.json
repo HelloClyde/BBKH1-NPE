@@ -1,0 +1,54 @@
+{
+  "ok": true,
+  "version": "0.1.8",
+  "kind": "Full H1 V1.41 firmware under QEMU bbkh1",
+  "bda_sha256": "af569dc98d4fe08aec7925b83e4f53d253d2ff04e493f84e7da93fd31934974b",
+  "payload_sha256": "0bebe640cf26ffa1ab1b95173958e21056c06abc32290219e701dd355810e764",
+  "kernel_sha256": "d05786e442f9aad62a8d0a0cb4f6d786bdc7c2fa353a7a2b152c9ed9f01b40ef",
+  "menu_language": "zh-CN",
+  "menu_layout": {
+    "item_count": 8,
+    "row_step": 25,
+    "text_y": 41,
+    "extra_item": "触摸按键设置"
+  },
+  "pause_count": 3,
+  "files": {
+    "assets/screenshots/gameplay-v0.1.8.png": "4af9f1b77916bd9a762c2ae2491f2f4dc9dec0c9be2cf94683fd3838fb5279c0",
+    "assets/screenshots/pause-v0.1.8.png": "1e37c0a58ac74437ef3ef90b79275fa18dbc811870bfb786820c47223465279b",
+    "assets/screenshots/about-v0.1.8.png": "20568cfa9d91e97ebd0a7e011fa2fa4378af814b558dedcccf5141dc39da7e53",
+    "assets/screenshots/volume-50-v0.1.8.png": "6391264129dcef7944268302b41f0c6c3f96566c5a4bd27727cdf8dfbabe0678",
+    "assets/screenshots/sound-off-v0.1.8.png": "ba9bd310b46567322d199fe30b90b7be97c0824d526ed1f0dc12dc7f8f9cca46",
+    "assets/screenshots/display-1x-v0.1.8.png": "8e30fdffe06edd2a22b0ce71356e8bcb75048b6be796dc3d194aebfeef41b3d5",
+    "assets/screenshots/resumed-1x-v0.1.8.png": "07658929dacff915aee9b3cf298aa673426aae0a0a47ff1dae37c6c890a60668",
+    "assets/screenshots/resumed-50-v0.1.8.png": "19bf3d3b3616d5e41ee90289ff030eda00c349b3ef88544370f5bacdd2292565",
+    "assets/screenshots/exit-desktop-v0.1.8.png": "26f4e5f19699dadf1ccb3b4edbc1f8d3a981d153b89d2a30a4ff4ae3643f21e3",
+    "docs/evidence/menu-v0.1.8-run.txt": "b6f8e73a13e8d4b9f74e810a9c0b09bd2b72e69e369179e72cd5d1859401494a"
+  },
+  "captures": {
+    "gameplay": "assets/screenshots/gameplay-v0.1.8.png",
+    "pause": "assets/screenshots/pause-v0.1.8.png",
+    "about": "assets/screenshots/about-v0.1.8.png",
+    "sound_off": "assets/screenshots/sound-off-v0.1.8.png",
+    "display_1x": "assets/screenshots/display-1x-v0.1.8.png",
+    "volume_50": "assets/screenshots/volume-50-v0.1.8.png",
+    "log": "docs/evidence/menu-v0.1.8-run.txt"
+  },
+  "manual_checked": [
+    "native NPE picker and actual new-game map",
+    "physical Right and alternate Right",
+    "touch Left",
+    "walking moves/scolls a full tile",
+    "pause and continue",
+    "volume 50% and restoration to 100%",
+    "About author HelloClyde and version 0.1.8",
+    "sound OFF and 1x display",
+    "touch editor opens and cancels",
+    "2x and sound ON restoration",
+    "resume at 50%",
+    "Exit returns to desktop; APP_END result=0"
+  ],
+  "original_dump_modified": false,
+  "hardware_tested": false,
+  "lcd_scan_timing_simulated": false
+}

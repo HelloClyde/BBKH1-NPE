@@ -1,0 +1,563 @@
+{
+  "ok": true,
+  "bda_sha256": "af569dc98d4fe08aec7925b83e4f53d253d2ff04e493f84e7da93fd31934974b",
+  "npe_commit": "b7568fbf0fbff22e1e8f9761555a0e4a57fc907d",
+  "hardware_tested": false,
+  "timing": {
+    "ok": true,
+    "kind": "Actual release MIPS upstream walk callback with mock 80-Hz H1 ABI",
+    "bda_sha256": "af569dc98d4fe08aec7925b83e4f53d253d2ff04e493f84e7da93fd31934974b",
+    "cases": [
+      {
+        "start_tick": 0,
+        "parameter_ms": 10,
+        "native_deadline_ms": 16,
+        "observed_present_ms": [
+          62
+        ],
+        "wait_polls": 1,
+        "interrupted": false
+      },
+      {
+        "start_tick": 1,
+        "parameter_ms": 10,
+        "native_deadline_ms": 16,
+        "observed_present_ms": [
+          25
+        ],
+        "wait_polls": 0,
+        "interrupted": false
+      },
+      {
+        "start_tick": 2,
+        "parameter_ms": 10,
+        "native_deadline_ms": 32,
+        "observed_present_ms": [
+          37
+        ],
+        "wait_polls": 0,
+        "interrupted": false
+      },
+      {
+        "start_tick": 5,
+        "parameter_ms": 10,
+        "native_deadline_ms": 63,
+        "observed_present_ms": [
+          75
+        ],
+        "wait_polls": 0,
+        "interrupted": false
+      },
+      {
+        "start_tick": 6,
+        "parameter_ms": 10,
+        "native_deadline_ms": 79,
+        "observed_present_ms": [
+          87
+        ],
+        "wait_polls": 0,
+        "interrupted": false
+      },
+      {
+        "start_tick": 79,
+        "parameter_ms": 10,
+        "native_deadline_ms": 1000,
+        "observed_present_ms": [
+          1000
+        ],
+        "wait_polls": 0,
+        "interrupted": false
+      },
+      {
+        "start_tick": 80,
+        "parameter_ms": 10,
+        "native_deadline_ms": 1016,
+        "observed_present_ms": [
+          1062
+        ],
+        "wait_polls": 1,
+        "interrupted": false
+      },
+      {
+        "start_tick": 5,
+        "parameter_ms": 0,
+        "native_deadline_ms": 62,
+        "observed_present_ms": [
+          62
+        ],
+        "wait_polls": 0,
+        "interrupted": false
+      },
+      {
+        "start_tick": 0,
+        "parameter_ms": 10,
+        "native_deadline_ms": 16,
+        "observed_present_ms": [],
+        "wait_polls": 2,
+        "interrupted": true
+      }
+    ],
+    "assertions": [
+      "64-Hz phase converted on an 80-Hz host clock",
+      "LCD unchanged during wait",
+      "wait before actual LCD present",
+      "no fixed 67 ms hold",
+      "quit aborts unfinished pose and is requeued",
+      "zero wait commits",
+      "no leaked allocations/files"
+    ],
+    "hardware_tested": false
+  },
+  "reference_frames_compared": 24,
+  "indexed_pixel_differences": 0,
+  "cases": [
+    {
+      "name": "left-scroll",
+      "step": {
+        "before": {
+          "map": 1,
+          "x": 43,
+          "y": 2,
+          "direction": 0,
+          "screen_x": 7,
+          "screen_y": 1,
+          "offset_x": 36,
+          "offset_y": 1,
+          "mode": 1
+        },
+        "direction": 3,
+        "after": {
+          "map": 1,
+          "x": 42,
+          "y": 2,
+          "direction": 3,
+          "screen_x": 7,
+          "screen_y": 1,
+          "offset_x": 35,
+          "offset_y": 1,
+          "mode": 1
+        },
+        "result": 1
+      },
+      "commits": [
+        {
+          "index": 0,
+          "wait_parameter_ms": 10,
+          "indexed_sha256": "82a8bb350915568384fbe4f09e5ba15a8dba10424f587e4a49346a619d6d5510"
+        },
+        {
+          "index": 1,
+          "wait_parameter_ms": 10,
+          "indexed_sha256": "a875a9d540fbe41c5bb39fb32f135611422800231231f784c28d17048deab566"
+        },
+        {
+          "index": 2,
+          "wait_parameter_ms": 10,
+          "indexed_sha256": "843208eb49f8027aa10305eaae420ba018f138708610a0a8b23aff729788696d"
+        },
+        {
+          "index": 3,
+          "wait_parameter_ms": 10,
+          "indexed_sha256": "82a8bb350915568384fbe4f09e5ba15a8dba10424f587e4a49346a619d6d5510"
+        },
+        {
+          "index": 4,
+          "wait_parameter_ms": 0,
+          "indexed_sha256": "b670d68bf283b9ec574f3ae4a1b641a2e4e21e205b30d9f657612b1fbcbc4c8a"
+        }
+      ],
+      "reference_frames": [
+        {
+          "commit": 0,
+          "indexed_pixel_differences": 0,
+          "sha256": "82a8bb350915568384fbe4f09e5ba15a8dba10424f587e4a49346a619d6d5510"
+        },
+        {
+          "commit": 1,
+          "indexed_pixel_differences": 0,
+          "sha256": "a875a9d540fbe41c5bb39fb32f135611422800231231f784c28d17048deab566"
+        },
+        {
+          "commit": 2,
+          "indexed_pixel_differences": 0,
+          "sha256": "843208eb49f8027aa10305eaae420ba018f138708610a0a8b23aff729788696d"
+        },
+        {
+          "commit": 3,
+          "indexed_pixel_differences": 0,
+          "sha256": "82a8bb350915568384fbe4f09e5ba15a8dba10424f587e4a49346a619d6d5510"
+        },
+        {
+          "commit": 4,
+          "indexed_pixel_differences": 0,
+          "sha256": "b670d68bf283b9ec574f3ae4a1b641a2e4e21e205b30d9f657612b1fbcbc4c8a"
+        }
+      ]
+    },
+    {
+      "name": "right-scroll",
+      "step": {
+        "before": {
+          "map": 1,
+          "x": 43,
+          "y": 2,
+          "direction": 0,
+          "screen_x": 7,
+          "screen_y": 1,
+          "offset_x": 36,
+          "offset_y": 1,
+          "mode": 1
+        },
+        "direction": 1,
+        "after": {
+          "map": 1,
+          "x": 44,
+          "y": 2,
+          "direction": 1,
+          "screen_x": 7,
+          "screen_y": 1,
+          "offset_x": 37,
+          "offset_y": 1,
+          "mode": 1
+        },
+        "result": 1
+      },
+      "commits": [
+        {
+          "index": 0,
+          "wait_parameter_ms": 10,
+          "indexed_sha256": "c8db796ec6f476d19b4ed6db5d09f4adb8211b17a31fa0fabc29f225951b8f03"
+        },
+        {
+          "index": 1,
+          "wait_parameter_ms": 10,
+          "indexed_sha256": "b307d6c096add21973f17a585f44c483e69fbe7fa7dba8269198e4f71f14f82f"
+        },
+        {
+          "index": 2,
+          "wait_parameter_ms": 10,
+          "indexed_sha256": "12ca51b01de726416ec14bb355da0864d46fe56eb409584f6b98672608280ab3"
+        },
+        {
+          "index": 3,
+          "wait_parameter_ms": 10,
+          "indexed_sha256": "c8db796ec6f476d19b4ed6db5d09f4adb8211b17a31fa0fabc29f225951b8f03"
+        },
+        {
+          "index": 4,
+          "wait_parameter_ms": 0,
+          "indexed_sha256": "05e7b22e9f7c4615b9a57d05cc8059270f5b3b4611bfe11a1e9db92b461cbf9d"
+        }
+      ],
+      "reference_frames": [
+        {
+          "commit": 0,
+          "indexed_pixel_differences": 0,
+          "sha256": "c8db796ec6f476d19b4ed6db5d09f4adb8211b17a31fa0fabc29f225951b8f03"
+        },
+        {
+          "commit": 1,
+          "indexed_pixel_differences": 0,
+          "sha256": "b307d6c096add21973f17a585f44c483e69fbe7fa7dba8269198e4f71f14f82f"
+        },
+        {
+          "commit": 2,
+          "indexed_pixel_differences": 0,
+          "sha256": "12ca51b01de726416ec14bb355da0864d46fe56eb409584f6b98672608280ab3"
+        },
+        {
+          "commit": 3,
+          "indexed_pixel_differences": 0,
+          "sha256": "c8db796ec6f476d19b4ed6db5d09f4adb8211b17a31fa0fabc29f225951b8f03"
+        },
+        {
+          "commit": 4,
+          "indexed_pixel_differences": 0,
+          "sha256": "05e7b22e9f7c4615b9a57d05cc8059270f5b3b4611bfe11a1e9db92b461cbf9d"
+        }
+      ]
+    },
+    {
+      "name": "down-blocked",
+      "step": {
+        "before": {
+          "map": 1,
+          "x": 43,
+          "y": 2,
+          "direction": 0,
+          "screen_x": 7,
+          "screen_y": 1,
+          "offset_x": 36,
+          "offset_y": 1,
+          "mode": 1
+        },
+        "direction": 0,
+        "after": {
+          "map": 1,
+          "x": 43,
+          "y": 2,
+          "direction": 0,
+          "screen_x": 7,
+          "screen_y": 1,
+          "offset_x": 36,
+          "offset_y": 1,
+          "mode": 1
+        },
+        "result": 0
+      },
+      "commits": [
+        {
+          "index": 0,
+          "wait_parameter_ms": 10,
+          "indexed_sha256": "661812a7670637ca10f38fb06dbc40b0c4d4154ef0ddf57ec98ec6ac6c975f97"
+        },
+        {
+          "index": 1,
+          "wait_parameter_ms": 10,
+          "indexed_sha256": "cccbd5666661d097030611f84b2bae6aebd60a5b9a506355c9a4ed12174a1d8d"
+        },
+        {
+          "index": 2,
+          "wait_parameter_ms": 10,
+          "indexed_sha256": "e307d1bb47aac807e17c3152e33c45ab28dabe44f58cc7e6cecab63c0ea18898"
+        },
+        {
+          "index": 3,
+          "wait_parameter_ms": 10,
+          "indexed_sha256": "661812a7670637ca10f38fb06dbc40b0c4d4154ef0ddf57ec98ec6ac6c975f97"
+        }
+      ],
+      "reference_frames": [
+        {
+          "commit": 0,
+          "indexed_pixel_differences": 0,
+          "sha256": "661812a7670637ca10f38fb06dbc40b0c4d4154ef0ddf57ec98ec6ac6c975f97"
+        },
+        {
+          "commit": 1,
+          "indexed_pixel_differences": 0,
+          "sha256": "cccbd5666661d097030611f84b2bae6aebd60a5b9a506355c9a4ed12174a1d8d"
+        },
+        {
+          "commit": 2,
+          "indexed_pixel_differences": 0,
+          "sha256": "e307d1bb47aac807e17c3152e33c45ab28dabe44f58cc7e6cecab63c0ea18898"
+        },
+        {
+          "commit": 3,
+          "indexed_pixel_differences": 0,
+          "sha256": "661812a7670637ca10f38fb06dbc40b0c4d4154ef0ddf57ec98ec6ac6c975f97"
+        }
+      ]
+    },
+    {
+      "name": "up-screen",
+      "step": {
+        "before": {
+          "map": 1,
+          "x": 48,
+          "y": 6,
+          "direction": 0,
+          "screen_x": 12,
+          "screen_y": 5,
+          "offset_x": 36,
+          "offset_y": 1,
+          "mode": 1
+        },
+        "direction": 2,
+        "after": {
+          "map": 1,
+          "x": 48,
+          "y": 5,
+          "direction": 2,
+          "screen_x": 12,
+          "screen_y": 4,
+          "offset_x": 36,
+          "offset_y": 1,
+          "mode": 1
+        },
+        "result": 1
+      },
+      "commits": [
+        {
+          "index": 0,
+          "wait_parameter_ms": 10,
+          "indexed_sha256": "c28a27dcbededda1ab5260f77a37c546bf82cdad6fad625a74bd79c195422989"
+        },
+        {
+          "index": 1,
+          "wait_parameter_ms": 10,
+          "indexed_sha256": "5989dc3adec40ffcbeeb5500ad4a17b18867e96fba2a1dfe73c3d05d47ac714a"
+        },
+        {
+          "index": 2,
+          "wait_parameter_ms": 10,
+          "indexed_sha256": "675a155f0e90dd3c403ee96d215b56bbc5bb0377b30f9d384d1dbcd503bedea8"
+        },
+        {
+          "index": 3,
+          "wait_parameter_ms": 10,
+          "indexed_sha256": "c28a27dcbededda1ab5260f77a37c546bf82cdad6fad625a74bd79c195422989"
+        },
+        {
+          "index": 4,
+          "wait_parameter_ms": 0,
+          "indexed_sha256": "fbffb3ba267946866a18861d913a923e60c784fb3b4c22872fce549be0772fba"
+        }
+      ],
+      "reference_frames": [
+        {
+          "commit": 0,
+          "indexed_pixel_differences": 0,
+          "sha256": "c28a27dcbededda1ab5260f77a37c546bf82cdad6fad625a74bd79c195422989"
+        },
+        {
+          "commit": 1,
+          "indexed_pixel_differences": 0,
+          "sha256": "5989dc3adec40ffcbeeb5500ad4a17b18867e96fba2a1dfe73c3d05d47ac714a"
+        },
+        {
+          "commit": 2,
+          "indexed_pixel_differences": 0,
+          "sha256": "675a155f0e90dd3c403ee96d215b56bbc5bb0377b30f9d384d1dbcd503bedea8"
+        },
+        {
+          "commit": 3,
+          "indexed_pixel_differences": 0,
+          "sha256": "c28a27dcbededda1ab5260f77a37c546bf82cdad6fad625a74bd79c195422989"
+        },
+        {
+          "commit": 4,
+          "indexed_pixel_differences": 0,
+          "sha256": "fbffb3ba267946866a18861d913a923e60c784fb3b4c22872fce549be0772fba"
+        }
+      ]
+    },
+    {
+      "name": "down-scroll",
+      "step": {
+        "before": {
+          "map": 1,
+          "x": 48,
+          "y": 5,
+          "direction": 0,
+          "screen_x": 12,
+          "screen_y": 4,
+          "offset_x": 36,
+          "offset_y": 1,
+          "mode": 1
+        },
+        "direction": 0,
+        "after": {
+          "map": 1,
+          "x": 48,
+          "y": 6,
+          "direction": 0,
+          "screen_x": 12,
+          "screen_y": 4,
+          "offset_x": 36,
+          "offset_y": 2,
+          "mode": 1
+        },
+        "result": 1
+      },
+      "commits": [
+        {
+          "index": 0,
+          "wait_parameter_ms": 10,
+          "indexed_sha256": "8fdfca535248b9c1ce5df3cc2a086ba5c73dc52fc6f8a4e187741c58c8aac5e5"
+        },
+        {
+          "index": 1,
+          "wait_parameter_ms": 10,
+          "indexed_sha256": "482953336aea665abe66ef5bb161c5e7a16edc8df73bdd1b062e723dc81a1057"
+        },
+        {
+          "index": 2,
+          "wait_parameter_ms": 10,
+          "indexed_sha256": "697353a8f9feba6bc5834efb69dc7411de0f2704e1ab866965c03fea4ce0a2a3"
+        },
+        {
+          "index": 3,
+          "wait_parameter_ms": 10,
+          "indexed_sha256": "8fdfca535248b9c1ce5df3cc2a086ba5c73dc52fc6f8a4e187741c58c8aac5e5"
+        },
+        {
+          "index": 4,
+          "wait_parameter_ms": 0,
+          "indexed_sha256": "b01ff34d2d310cce0ef2b4894002c6aa8d6075cc516124c906e9380d04df21bf"
+        }
+      ],
+      "reference_frames": [
+        {
+          "commit": 0,
+          "indexed_pixel_differences": 0,
+          "sha256": "8fdfca535248b9c1ce5df3cc2a086ba5c73dc52fc6f8a4e187741c58c8aac5e5"
+        },
+        {
+          "commit": 1,
+          "indexed_pixel_differences": 0,
+          "sha256": "482953336aea665abe66ef5bb161c5e7a16edc8df73bdd1b062e723dc81a1057"
+        },
+        {
+          "commit": 2,
+          "indexed_pixel_differences": 0,
+          "sha256": "697353a8f9feba6bc5834efb69dc7411de0f2704e1ab866965c03fea4ce0a2a3"
+        },
+        {
+          "commit": 3,
+          "indexed_pixel_differences": 0,
+          "sha256": "8fdfca535248b9c1ce5df3cc2a086ba5c73dc52fc6f8a4e187741c58c8aac5e5"
+        },
+        {
+          "commit": 4,
+          "indexed_pixel_differences": 0,
+          "sha256": "b01ff34d2d310cce0ef2b4894002c6aa8d6075cc516124c906e9380d04df21bf"
+        }
+      ]
+    }
+  ],
+  "reference_note": "Previously captured original PRG LCD reference; diagnostic walk-preview starting map/viewport and sscanf hooks, same retained before-LCD; no walk logic mocked. Game/reference files are private and excluded.",
+  "native_firmware": {
+    "kernel_sha256": "d05786e442f9aad62a8d0a0cb4f6d786bdc7c2fa353a7a2b152c9ed9f01b40ef",
+    "captures": {
+      "before": {
+        "file": "assets/screenshots/walk-before-v0.1.8.png",
+        "sha256": "0961da3358065fafbdf10510951ec47aff0dde771d6db04b70d870d4fa8095b4"
+      },
+      "after": {
+        "file": "assets/screenshots/walk-after-v0.1.8.png",
+        "sha256": "0fcf20aa7f92d69f8c075f6c154fa682b7dbee46d7c0161b6f1738af2dc6a569"
+      }
+    },
+    "sampling_note": "Host-polled LCD; timestamps are approximate QEMU observations, not exact LCD commits or real hardware timing.",
+    "samples": [
+      {
+        "file": "000.png",
+        "host_seconds": 0.015,
+        "sha256": "ec126a02a1ea084becedff766e4752e2c8ec6c79d3f7c4e7b548d14ab8af0253"
+      },
+      {
+        "file": "001.png",
+        "host_seconds": 0.093,
+        "sha256": "8bc9ca0505124016b13adf96c91e1e11d78c7e763a0971de4aa2e3b1c85acf72"
+      },
+      {
+        "file": "002.png",
+        "host_seconds": 0.109,
+        "sha256": "ec126a02a1ea084becedff766e4752e2c8ec6c79d3f7c4e7b548d14ab8af0253"
+      },
+      {
+        "file": "003.png",
+        "host_seconds": 0.171,
+        "sha256": "cc292d93eb2060d22d1711bd68e53fcc8658f9ed3a37a7d3f1124bd5f3367fee"
+      },
+      {
+        "file": "004.png",
+        "host_seconds": 0.218,
+        "sha256": "8539fa1c3c4df63ddabf7952be5ab8097626405b5a4d6a73e56309f44a56ebc6"
+      }
+    ],
+    "app_exit_result": 0
+  }
+}

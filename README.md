@@ -10,7 +10,7 @@ H1 桌面和应用列表显示名称为 **诺亚舟NPE**；安装文件名为 `H
 
 适用于步步高 **H1 / Y100 V1.41 原生 BDA 环境**。
 从 [GitHub Releases](https://github.com/HelloClyde/BBKH1-NPE/releases) 下载
-`BBKH1-NPE-v0.1.7-install.zip`，安装包包含程序和所需字体，游戏文件需自行准备。
+`BBKH1-NPE-v0.1.8-install.zip`，安装包包含程序和所需字体，游戏文件需自行准备。
 当前版本为预发布，验证范围见本文下方。
 
 解压 `dist/H1NPE-install.zip`，将 `应用` 和 `NPE` 两个文件夹合并到 H1 的 A 盘：
@@ -35,11 +35,11 @@ A:\NPE\assets\gbk16-native.bin
 
 | 地图与触摸操作栏 | 暂停与显示设置 |
 | --- | --- |
-| ![地图与中文触摸栏](assets/screenshots/gameplay-v0.1.5.png) | ![中文暂停菜单](assets/screenshots/pause-v0.1.7.png) |
+| ![地图与中文触摸栏](assets/screenshots/gameplay-v0.1.8.png) | ![中文暂停菜单](assets/screenshots/pause-v0.1.8.png) |
 
 | 音量调节 | 作者与版本 |
 | --- | --- |
-| ![音量调节](assets/screenshots/volume-50-v0.1.7.png) | ![关于：作者 HelloClyde](assets/screenshots/about-v0.1.7.png) |
+| ![音量调节](assets/screenshots/volume-50-v0.1.8.png) | ![关于：作者 HelloClyde](assets/screenshots/about-v0.1.8.png) |
 
 | 修改当前游戏的触摸按键 | 选择字母和功能键 |
 | --- | --- |
@@ -53,7 +53,7 @@ A:\NPE\assets\gbk16-native.bin
 | --- | --- |
 | ![H1 桌面图标](assets/screenshots/npe-desktop-icon.png) | ![取消选择后返回桌面](assets/screenshots/npe-cancel-key-desktop.png) |
 
-暂停、音量和关于截图来自 v0.1.7 正式 BDA；地图和按键设置截图保留 v0.1.5，
+地图、暂停、音量和关于截图来自 v0.1.8 正式 BDA；按键设置截图保留 v0.1.5，
 战斗截图保留 v0.1.3 从独立测试存档进入的记录。
 桌面与取消截图保留早期采集时的 NPE 名称；
 当前构建显示名称为“诺亚舟NPE”。
@@ -97,7 +97,7 @@ v0.1.5 同时兼容固件两组左右方向键编号，修复其中一组没有�
 | 开发依赖 | 固定版本与用途 |
 | --- | --- |
 | [H1 BDA SDK](https://github.com/MrDefinition1999/bbk-h1-bda-sdk) | `vendor/h1-sdk`，提交 `067fe072477861dfc8949d7b1a55279fb92d2548`；H1 接口、打包和校验 |
-| [NPE 引擎](https://github.com/HelloClyde/noah-npe-engine) | `third_party/noah-npe-engine`，上游 v0.1.3，提交 `567ae64c1ba67c8a55d0c4fbdf874f9ac58471cf`；GPL-2.0 源码及单独记录来源的原生字体 |
+| [NPE 引擎](https://github.com/HelloClyde/noah-npe-engine) | `third_party/noah-npe-engine`，上游 v0.1.4，提交 `b7568fbf0fbff22e1e8f9761555a0e4a57fc907d`；GPL-2.0 源码及单独记录来源的原生字体 |
 | Windows GNU MIPS 工具链 | GCC 15.2.0；安装器验证归档 SHA256，工具前缀 `mipsel-none-elf-` |
 | Python / Git | Python 3.10+；CI 使用 Python 3.12 和 Windows runner，Git 用于固定依赖和源码打包 |
 | Pillow | 12.3.0，生成 H1 四份图标资源，锁定于 `requirements.txt` |
@@ -158,6 +158,8 @@ SDL2 本身不参与 H1 编译。`src/platform/SDL.h` 仅实现本引擎所需�
 交叉编译、BDA 格式校验和运行测试的结果见 `docs/verification.md`。
 用户真机反馈游戏画面反复闪底色。v0.1.4 改为后台合成完整画面，再提交变化像素；
 该修复已通过 MIPS 写屏检查和完整固件模拟器回归，仍待真机复验。各类验证证据分别记录。
+v0.1.8 按原NP560固件修正走路等待及提交顺序，移除每姿态固定67毫秒停顿。
+四帧动作后再移动一格/滚屏；固件依据与验证边界见[行走修复](docs/walking.md)。
 游戏兼容性仍受上游引擎实现范围限制。
 
 v0.1.3 同步上游战斗显示等待修复，普通攻击姿势不再快速闪过，伤害/中毒数字保留原服务等待单位。
@@ -172,7 +174,7 @@ CI 不携带游戏和固件，因此不会把 CI 成功描述为完整固件或�
 
 `v*` 标签触发 Release；标签须匹配 `VERSION`。发布复用同一次 CI 的构建产物，
 下载后校验 `SHA256SUMS.txt`，仅发布 job 具有写入权限。
-`v0.1.7` 使用预发布标记，含 BDA、安装 ZIP、完整源码 ZIP、构建/验证信息和 SHA256 清单。
+`v0.1.8` 使用预发布标记，含 BDA、安装 ZIP、完整源码 ZIP、构建/验证信息和 SHA256 清单。
 维护者在干净提交上执行 `python tools/package_release.py` 可生成 `dist/release/`。
 
 ## 感谢

@@ -1,0 +1,18 @@
+{
+  "ok": true,
+  "kind": "Actual MIPS menu and PCM path with mock H1 services/audio producer",
+  "bda_sha256": "af569dc98d4fe08aec7925b83e4f53d253d2ff04e493f84e7da93fd31934974b",
+  "assertions": [
+    "default 100% is bit-exact",
+    "50% signed PCM including -32768",
+    "0% and mute output zero while producer advances",
+    "mute preserves chosen level",
+    "0..100 clamp",
+    "physical arrows and aliases",
+    "touch +/- and Return",
+    "root row Left/Right",
+    "game clock stays paused",
+    "PCM/window cleanup"
+  ],
+  "hardware_tested": false
+}

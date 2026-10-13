@@ -98,7 +98,8 @@ def main():
     assert window and renderer and texture
     source = 0x81100000
     toolbar = image_bytes(ROOT/'assets/screenshots/gameplay-v0.1.3.png')[WIDTH*240*4:]
-    pause = image_bytes(ROOT/'assets/screenshots/pause-v0.1.7.png')
+    version = (ROOT/'VERSION').read_text().strip()
+    pause = image_bytes(ROOT/f'assets/screenshots/pause-v{version}.png')
     machine.call('SDL_RenderCopy', renderer, texture, 0, 0)
     stores = {}
     for name, color in [('first_frame', BLUE), ('changed_frame', GREEN)]:
@@ -126,7 +127,7 @@ def main():
                 i = y*WIDTH+x
                 if last[i] == before: last[i] = after
     machine.key(37, expected=struct.pack('<130560I', *last))
-    about = image_bytes(ROOT/'assets/screenshots/about-v0.1.7.png')
+    about = image_bytes(ROOT/f'assets/screenshots/about-v{version}.png')
     machine.key(39, expected=about)
     frozen, _ = machine.call('SDL_GetTicks')
     _, stores['identical_about'] = machine.call('SDL_RenderPresent', renderer, expected=about)
@@ -154,7 +155,7 @@ def main():
     machine.key(31, expected=pause)
     machine.key(27);machine.key(27);machine.key(39)
     for _ in range(4): machine.key(26)
-    volume = image_bytes(ROOT/'assets/screenshots/volume-50-v0.1.7.png')
+    volume = image_bytes(ROOT/f'assets/screenshots/volume-50-v{version}.png')
     machine.key(26, expected=volume)
     _, stores['identical_volume'] = machine.call('SDL_RenderPresent', renderer, expected=volume)
     assert stores['identical_volume'] == 0
